@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Polymer Platform tests</title>
+    <meta charset="utf-8">
+    <script src="polymer_platform.js"></script>
+    <link rel="import" href="b-dialog.html">
+    <link rel="import" href="b-selectable.html">
+    <link rel="import" href="b-autocomplete.html">
+    <link rel="import" href="b-flash-message.html">
+    <link rel="import" href="b-collapsible.html">
+    <link rel="import" href="b-accordion.html">
+    <link rel="import" href="b-draggable.html">
+    <link rel="import" href="b-sortable.html">
+    <link rel="import" href="b-tooltip.html">
+</head>
+<body>
+    <button id="foo-btn">Button</button>
+
+    <div class="bosonic-sample">
+        <h2>Flash message</h2>
+        <p>Display an info message that automatically disappears after 2 secs: <a href="#" id="show-message">Show message</a></p>
+        <b-flash-message id="myMessage" type="info" closeable="true" duration="2000">
+            <strong>Hello, World!</strong> Foo Bar
+        </b-flash-message>
+
+        <script type="text/javascript">
+            window.addEventListener('WebComponentsReady', function() {
+                var showInfoFlashMessageButton = document.getElementById('show-message');
+                showInfoFlashMessageButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('#myMessage').show();
+                }, false);
+            });
+        </script>
+    </div>
+
+    <div class="bosonic-sample">
+        <h2>Modal</h2>
+
+        <button id="show-modal">Show modal</button>
+        <p>(Close with ESC)</p>
+
+        <style>
+            b-dialog {
+                padding: 0 20px;
+            }
+        </style>
+
+        <b-dialog>
+            <h3>Test</h3>
+            <p>Hello world</p>
+        </b-dialog>
+
+        <script type="text/javascript">
+            window.addEventListener('WebComponentsReady', function() {
+                var showModalButton = document.getElementById('show-modal');
+                showModalButton.addEventListener('click', function() {
+                    document.querySelector('b-dialog').showModal();
+                }, false);
+            });
+        </script>
+    </div>
+
+    <div class="bosonic-sample">
+        <h2>Selectable</h2>
+        <p>Generic element for selectability in a list. Click on the list below and use arrow keys to change selection.</p>
+        <style>
+            .b-selectable-selected {
+                border: 1px solid black;
+            }
+        </style>
+        <b-selectable target="li">
+            <ul>
+                <li>item 1</li>
+                <li>item 2</li>
+                <li>item 3</li>
+                <li>item 4</li>
+                <li>item 5</li>
+                <li>item 6</li>
+                <li>item 7</li>
+            </ul>
+        </b-selectable>
+    </div>
+
+    <div class="bosonic-sample">
+        <style>
+            b-collapsible {
+                margin-bottom: 15px;
+            }
+            b-collapsible div {
+                border: 1px solid #ccc;
+            }
+            b-collapsible .b-collapsible-header {
+                border-bottom: 1px solid #ccc;
+            }
+        </style>
+        <b-collapsible active>
+            <div class="b-collapsible-header">
+                Header (cancelable show)
+            </div>
+            <div class="body">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+            </div>
+        </b-collapsible>
+        <b-collapsible>
+            <div class="b-collapsible-header">
+                <span>Header</span>
+            </div>
+            <div class="b-collapsible-body">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+            </div>
+        </b-collapsible>
+        <script type="text/javascript">
+            window.addEventListener('WebComponentsReady', function() {
+                document.querySelector('b-collapsible').addEventListener('b-collapsible-show', function(e) {
+                    if (!confirm('Are you sure ?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        </script>
+    </div>
+
+    <div class="bosonic-sample">
+        <style>
+            b-accordion b-collapsible {
+                margin-bottom: 0;
+            }
+        </style>
+        <b-accordion selected="1">
+            <b-collapsible>
+                <div class="b-collapsible-header">
+                    Header
+                </div>
+                <div class="body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                </div>
+            </b-collapsible>
+            <b-collapsible>
+                <div class="b-collapsible-header">
+                    Header
+                </div>
+                <div class="body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                </div>
+            </b-collapsible>
+            <b-collapsible>
+                <div class="b-collapsible-header">
+                    Header
+                </div>
+                <div class="body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                </div>
+            </b-collapsible>
+        </b-accordion>
+    </div>
+
+    <div class="bosonic-sample">
+        <h2>Autocomplete</h2>
+        <datalist id="data">
+            <option value="Alabama"></option>
+            <option value="Alaska"></option>
+            <option value="Arizona"></option>
+            <option value="Arkansas"></option>
+            <option value="California"></option>
+            <option value="Colorado"></option>
+            <option value="Connecticut"></option>
+            <option value="Delaware"></option>
+            <option value="Florida"></option>
+            <option value="Georgia"></option>
+            <option value="Hawaii"></option>
+            <option value="Idaho"></option>
+            <option value="Illinois"></option>
+            <option value="Indiana"></option>
+            <option value="Iowa"></option>
+            <option value="Kansas"></option>
+            <option value="Kentucky"></option>
+            <option value="Louisiana"></option>
+            <option value="Maine"></option>
+            <option value="Maryland"></option>
+            <option value="Massachusetts"></option>
+            <option value="Michigan"></option>
+            <option value="Minnesota"></option>
+            <option value="Mississippi"></option>
+            <option value="Missouri"></option>
+            <option value="Montana"></option>
+            <option value="Nebraska"></option>
+            <option value="Nevada"></option>
+            <option value="New Hampshire"></option>
+            <option value="New Jersey"></option>
+            <option value="New Mexico"></option>
+            <option value="New York"></option>
+            <option value="North Carolina"></option>
+            <option value="North Dakota"></option>
+            <option value="Ohio"></option>
+            <option value="Oklahoma"></option>
+            <option value="Oregon"></option>
+            <option value="Pennsylvania"></option>
+            <option value="Rhode Island"></option>
+            <option value="South Carolina"></option>
+            <option value="South Dakota"></option>
+            <option value="Tennessee"></option>
+            <option value="Texas"></option>
+            <option value="Utah"></option>
+            <option value="Vermont"></option>
+            <option value="Virginia"></option>
+            <option value="Washington"></option>
+            <option value="West Virginia"></option>
+            <option value="Wisconsin"></option>
+            <option value="Wyoming"></option>
+        </datalist>
+        <b-autocomplete list="data"></b-autocomplete>
+    </div>
+
+    <div class="bosonic-sample">
+        <style>
+            .draggable {
+                height: 100px;
+                width: 150px;
+                border: 1px solid black;
+                background: lightblue;
+            }
+            .fixed-draggable {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+            }
+            .draggable-container {
+                position: relative;
+                height: 300px;
+                width: 250px;
+                background: #ccc;
+            }
+            .draggable-container .draggable {
+                position: absolute;
+                margin: 10px;
+                top: 10px;
+                left: 20px;
+            }
+            .handle {
+                background: gray;
+            }
+        </style>
+        <div class="draggable-container">
+            <b-draggable target=".draggable" containment="parent">
+                <div class="draggable">
+                    Contained
+                </div>
+            </b-draggable>
+        </div>
+        <b-draggable>
+            <div class="draggable">
+                Fully draggable
+            </div>
+        </b-draggable>
+        <b-draggable axis="y">
+            <div class="draggable">
+                Vertically draggable
+            </div>
+        </b-draggable>
+        <b-draggable axis="x">
+            <div class="draggable">
+                Horizontally draggable
+            </div>
+        </b-draggable>
+        <b-draggable handle=".handle">
+            <div class="draggable">
+                <div class="handle">
+                    Handle
+                </div>
+            </div>
+        </b-draggable>
+        <b-draggable target=".fixed-draggable">
+            <div class="draggable fixed-draggable">
+                Fixed
+            </div>
+        </b-draggable>
+    </div>
+
+    <div class="bosonic-sample">
+        <style>
+            b-sortable ul {
+                list-style-type: none;
+                width: 150px;
+            }
+            b-sortable li {
+                border: 1px solid #ccc;
+                background-color: #ddd;
+                margin: 5px;
+            }
+            b-sortable li.sortable-ghost {
+               opacity: .25;
+                -webkit-transition: -webkit-transform 0.2s ease-out;
+                -moz-transition: -moz-transform 0.2s ease-out;
+               -webkit-transform: scale(0.8);
+               -moz-transform: scale(0.8);
+            }
+            b-sortable li.sortable-over {
+               opacity: .25;
+            }
+
+            b-sortable span.handle {
+                cursor: move;
+                width: 20px;
+            }
+        </style>
+        <b-sortable id="foo">
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+                <li>Item 4</li>
+                <li>Item 5</li>
+                <li>Item 6</li>
+            </ul>
+        </b-sortable>
+        <b-sortable id="bar" handle=".handle">
+            <ul>
+                <li><span class="handle">::</span>Item 1</li>
+                <li><span class="handle">::</span>Item 2</li>
+                <li><span class="handle">::</span>Item 3</li>
+                <li><span class="handle">::</span>Item 4</li>
+                <li><span class="handle">::</span>Item 5</li>
+                <li><span class="handle">::</span>Item 6</li>
+            </ul>
+        </b-sortable>
+    </div>
+
+    <div class="bosonic-sample">
+        <b-tooltip target="#foo-btn">
+            <span>Lorem ipsum</span>
+        </b-tooltip>
+    </div>
+    
+</body>

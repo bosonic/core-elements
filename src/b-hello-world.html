@@ -1,0 +1,19 @@
+<element name="b-hello-world">
+    <style>
+        :host {
+            text-align: center;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+    <template>
+        <p>Hello world!</p>
+    </template>
+    <script>
+        ({
+            createdCallback: function() {
+                console.log('Hello world !');
+            }
+        });
+    </script>
+</element>

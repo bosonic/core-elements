@@ -1,0 +1,29 @@
+<element name="b-hello-world">
+    <style>
+b-hello-world {
+  text-align: center;
+  font-weight: bold;
+  color: red;
+}
+</style>
+    <template>
+        <p>Hello world!</p>
+    </template>
+    <script>
+(function () {
+    var template = document._currentScript.parentNode.querySelector('template');
+    window.BHelloWorld = document.registerElement('b-hello-world', {
+        prototype: Object.create(HTMLElement.prototype, {
+            createdCallback: {
+                enumerable: true,
+                value: function () {
+                    this.createShadowRoot();
+                    this.shadowRoot.appendChild(template.content.cloneNode(true));
+                    console.log('Hello world !');
+                }
+            }
+        })
+    });
+}());
+</script>
+</element>

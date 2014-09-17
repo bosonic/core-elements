@@ -1,0 +1,30 @@
+<element name="b-tether">
+    <style>
+        
+    </style>
+    <script>
+        ({
+            get position() {
+                return this.getAttribute('position') || 'top left';
+            },
+
+            get target() {
+                return this.hasAttribute('target') 
+                    ? document.querySelector(this.getAttribute('target'))
+                    : null;
+            },
+
+            createdCallback: function() {
+                
+            },
+
+            setPosition: function() {
+                var target = this.target.getBoundingClientRect(),
+                    tip = this.tooltip;
+                
+                tip.style.left = target.left + 'px';
+                tip.style.top = target.top + 'px';
+            }
+        });
+    </script>
+</element>

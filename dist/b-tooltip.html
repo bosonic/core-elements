@@ -1,0 +1,85 @@
+<element name="b-tooltip">
+    <style>
+b-tooltip {
+  display: none;
+}
+
+b-tooltip[show] {
+  display: block;
+}
+
+.b-tooltip {
+  position: absolute;
+  padding: 8px;
+  color: white;
+  background-color: rgba(0,0,0,0.8);
+  box-sizing: border-box;
+  border-radius: 3px;
+  white-space: nowrap;
+  line-height: 6px;
+  z-index: 1002;
+  -webkit-user-select: none;
+  user-select: none;
+}
+</style>
+    <template>
+        <div class="b-tooltip">
+            <content/>
+        </div>
+    </template>
+    <script>
+(function () {
+    var template = document._currentScript.parentNode.querySelector('template');
+    window.BTooltip = document.registerElement('b-tooltip', {
+        prototype: Object.create(HTMLElement.prototype, {
+            position: {
+                enumerable: true,
+                get: function () {
+                    return this.getAttribute('position') || 'top left';
+                }
+            },
+            target: {
+                enumerable: true,
+                get: function () {
+                    return this.hasAttribute('target') ? document.querySelector(this.getAttribute('target')) : null;
+                }
+            },
+            tooltip: {
+                enumerable: true,
+                get: function () {
+                    return this.shadowRoot.querySelector('.b-tooltip');
+                }
+            },
+            createdCallback: {
+                enumerable: true,
+                value: function () {
+                    this.createShadowRoot();
+                    this.shadowRoot.appendChild(template.content.cloneNode(true));
+                    this.enterListener = this.onEnterTarget.bind(this);
+                    this.leaveListener = this.onLeaveTarget.bind(this);
+                    this.target.addEventListener('mouseenter', this.enterListener, false);
+                    this.target.addEventListener('mouseleave', this.leaveListener, false);
+                }
+            },
+            attachedCallback: {
+                enumerable: true,
+                value: function () {
+                }
+            },
+            onEnterTarget: {
+                enumerable: true,
+                value: function (evt) {
+                    this.setAttribute('show', '');
+                }
+            },
+            onLeaveTarget: {
+                enumerable: true,
+                value: function (evt) {
+                    this.removeAttribute('show');
+                }
+            }
+        })
+    });
+}());
+</script>
+</element>
