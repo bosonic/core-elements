@@ -40,6 +40,64 @@ module.exports = function(grunt) {
       });
   });
 
+  var customLaunchers = {
+    desktop: {
+      sl_chrome: {
+        base: 'SauceLabs',
+        browserName: 'chrome',
+        platform: 'Windows 7',
+        version: '35'
+      },
+      sl_firefox: {
+        base: 'SauceLabs',
+        browserName: 'firefox',
+        version: '30'
+      }
+    },
+    android: {
+      sl_android_44: {
+        base: 'SauceLabs',
+        browserName: 'android',
+        platform: 'Linux',
+        version: '4.4'
+      }
+    },
+    safari: {
+      sl_osx_safari: {
+        base: 'SauceLabs',
+        browserName: 'safari',
+        platform: 'OS X 10.9',
+        version: '7'
+      },
+      sl_ios_safari: {
+        base: 'SauceLabs',
+        browserName: 'iphone',
+        platform: 'OS X 10.9',
+        version: '7.1'
+      }
+    },
+    ie: {
+      sl_ie_9: {
+        base: 'SauceLabs',
+        browserName: 'internet explorer',
+        platform: 'Windows 7',
+        version: '9'
+      },
+      sl_ie_10: {
+        base: 'SauceLabs',
+        browserName: 'internet explorer',
+        platform: 'Windows 8',
+        version: '10'
+      },
+      sl_ie_11: {
+        base: 'SauceLabs',
+        browserName: 'internet explorer',
+        platform: 'Windows 8.1',
+        version: '11'
+      }
+    }
+  };
+
   grunt.initConfig({
 
     connect: {
@@ -53,11 +111,39 @@ module.exports = function(grunt) {
     },
 
     karma: {
-      local: {
-        configFile: 'karma.conf.js'
+      options: {
+        configFile: 'karma.conf.js',
+        sauceLabs: {
+            testName: 'Bosonic Core Elements Unit Tests',
+            recordScreenshots: true
+        },
+        reporters: ['dots', 'saucelabs'],
+        singleRun: true,
+        files: [
+          'node_modules/native-promise-only/npo.js',
+
+          'node_modules/bosonic-platform/dist/bosonic-platform.js',
+          'dist/b-selectable.js',
+          'dist/*.js',
+          'test/**/*.js'
+        ],
       },
-      saucelabs: {
-        configFile: 'karma.conf.sauce.js'
+      local: {
+        browsers: ['Chrome', 'Firefox'],
+        reporters: ['progress'],
+        singleRun: false
+      },
+      ie: {
+        customLaunchers: customLaunchers.ie,
+        browsers: Object.keys(customLaunchers.ie),
+      },
+      safari: {
+        customLaunchers: customLaunchers.safari,
+        browsers: Object.keys(customLaunchers.safari),
+      },
+      android: {
+        customLaunchers: customLaunchers.android,
+        browsers: Object.keys(customLaunchers.android),
       }
     },
 

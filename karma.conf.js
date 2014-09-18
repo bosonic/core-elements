@@ -5,32 +5,6 @@ module.exports = function(config) {
     process.exit(1);
   }
 
-  var customLaunchers = {
-    sl_chrome: {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      platform: 'Windows 7',
-      version: '35'
-    },
-    sl_firefox: {
-      base: 'SauceLabs',
-      browserName: 'firefox',
-      version: '30'
-    },
-    sl_ios_safari: {
-      base: 'SauceLabs',
-      browserName: 'iphone',
-      platform: 'OS X 10.9',
-      version: '7.1'
-    },
-    sl_ie_11: {
-      base: 'SauceLabs',
-      browserName: 'internet explorer',
-      platform: 'Windows 8.1',
-      version: '11'
-    }
-  };
-
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -44,12 +18,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/native-promise-only/npo.js',
-
-      'node_modules/bosonic-platform/dist/bosonic-platform.js',
-      'dist/b-selectable.js',
-      'dist/*.js',
-      'test/**/*.js'
     ],
 
 
