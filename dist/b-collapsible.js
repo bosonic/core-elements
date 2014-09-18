@@ -12,14 +12,6 @@
                     value ? this.setAttribute('active', '') : this.removeAttribute('active');
                 }
             },
-            createdCallback: {
-                enumerable: true,
-                value: function () {
-                    if (this.parentElement) {
-                        this.init();
-                    }
-                }
-            },
             attachedCallback: {
                 enumerable: true,
                 value: function () {

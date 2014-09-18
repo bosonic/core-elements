@@ -22,6 +22,15 @@ function toggle(elt, attribute) {
     });
 }
 
+function click(elt, selector) {
+    selector ? effroi.mouse.click(elt.querySelector(selector)) : effroi.mouse.click(elt);
+    return new Promise(function(resolve,reject) {
+        setTimeout(function() {
+            resolve(elt);
+        }, 50);
+    });
+}
+
 function createCollapsible() {
     return createCustomElement('b-collapsible', '<div class="b-collapsible-header">Header</div><div>Lorem ipsum</div>');
 }
@@ -39,14 +48,17 @@ describe("b-collapsible", function() {
         return createCollapsible().then(function(collapsible) {
             return toggle(collapsible, 'active');
         }).then(function(collapsible) {
+            expect(collapsible.active).to.be.true;
             expect(collapsible.body.classList.contains('b-collapsible-closed')).to.be.false;
         });
     });
 
     it("should get an `active` attribute when its header is clicked", function() {
         return createCollapsible().then(function(collapsible) {
-            expect(collapsible.hasAttribute('active')).to.be.false;
-            effroi.mouse.click(collapsible.querySelector('.b-collapsible-header'));
+            expect(collapsible.active).to.be.false;
+            return click(collapsible, '.b-collapsible-header');
+        }).then(function(collapsible) {
+            expect(collapsible.active).to.be.true; 
             expect(collapsible.hasAttribute('active')).to.be.true;
         });
     });
@@ -55,7 +67,9 @@ describe("b-collapsible", function() {
         return createCollapsible().then(function(collapsible) {
             return toggle(collapsible, 'active');
         }).then(function(collapsible) {
-            effroi.mouse.click(collapsible.querySelector('.b-collapsible-header'));
+            return click(collapsible, '.b-collapsible-header');
+        }).then(function(collapsible) {
+            expect(collapsible.active).to.be.false;
             expect(collapsible.hasAttribute('active')).to.be.false;
         });
     });
