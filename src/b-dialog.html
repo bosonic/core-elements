@@ -1,19 +1,6 @@
-<style>
-    .b-overlay {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: black;
-        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
-        opacity: 0.5;
-        display: block;
-    }
-</style>
 <element name="b-dialog">
     <style>
-        :host {
+        b-dialog {
             display: none;
             position: fixed;
             top: 50%;
@@ -36,7 +23,19 @@
             transform: translate(-50%, -50%);
         }
 
-        :host[visible] {
+        b-dialog[visible] {
+            display: block;
+        }
+
+        .b-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: black;
+            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+            opacity: 0.5;
             display: block;
         }
     </style>
@@ -57,7 +56,7 @@
             return container.querySelector(focusableElementsSelector);
         }
 
-        ({
+        Bosonic.register({
             attachedCallback: function() {
                 this.tabIndex = -1;
                 this.setAttribute('role', 'dialog');

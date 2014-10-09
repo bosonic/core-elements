@@ -11,7 +11,7 @@
             attributeChangedCallback: {
                 enumerable: true,
                 value: function (name, oldValue, newValue) {
-                    if (['selected'].indexOf(name) !== -1) {
+                    if (['selected'].indexOf(name) !== -1 && this[name + 'Changed']) {
                         this[name + 'Changed'].call(this, oldValue, newValue);
                     }
                 }
@@ -99,6 +99,7 @@
             keydownHandler: {
                 enumerable: true,
                 value: function (e) {
+                    e.preventDefault();
                     switch (e.keyCode) {
                     case KEY.ENTER: {
                             this.activate();
@@ -202,4 +203,5 @@
             }
         })
     });
+    ;
 }());

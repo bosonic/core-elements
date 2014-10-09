@@ -1,3 +1,59 @@
+<element name="b-autocomplete">
+    <template>
+        <style>
+            :host {
+                position: relative;
+                display: inline-block;
+                margin: 2px;
+            }
+            input {
+                border: 1px solid #acacac;
+                padding: 2px;
+                margin: 0;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+            }
+            b-selectable {
+                position: absolute;
+                top: 100%;
+                width: 100%;
+                left: 0px;
+                z-index: 100;
+                display: none;
+                right: auto;
+            }
+            b-selectable[visible] {
+                display: block;
+            }
+            b-selectable:focus {
+                outline: none;
+            }
+            ul {
+                max-width: 200px;
+                border: 1px solid #acacac;
+                margin: 0;
+                padding: 0;
+                max-height: 150px;
+                overflow: auto;
+                background-color: #fff;
+            }
+            li {
+                list-style-type: none;
+            }
+            li:hover, b-combo-box li:hover {
+                background-color: #ddd;
+            }
+            .b-selectable-selected {
+                background-color: #ccc;
+            }
+        </style>
+        <input type="text" autocomplete="off" role="textbox" value=""/>
+        <b-selectable target="li">
+            <ul/>
+        </b-selectable>
+    </template>
+    <script>
 (function () {
     var KEY = {
             ENTER: 13,
@@ -85,21 +141,7 @@
             return a - b;
         }
     }
-    var template = function () {
-            var df0 = document.createDocumentFragment();
-            var el0 = document.createElement('input');
-            el0.setAttribute('type', 'text');
-            el0.setAttribute('autocomplete', 'off');
-            el0.setAttribute('role', 'textbox');
-            el0.setAttribute('value', '');
-            df0.appendChild(el0);
-            var el0 = document.createElement('b-selectable');
-            el0.setAttribute('target', 'li');
-            var el1 = document.createElement('ul');
-            el0.appendChild(el1);
-            df0.appendChild(el0);
-            return { content: df0 };
-        }();
+    var template = document.currentScript.parentNode.querySelector('template');
     window.BAutocomplete = document.registerElement('b-autocomplete', {
         prototype: Object.create(HTMLElement.prototype, {
             createdCallback: {
@@ -333,3 +375,5 @@
     });
     ;
 }());
+</script>
+</element>

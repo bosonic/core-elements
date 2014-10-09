@@ -1,6 +1,6 @@
 <element name="b-collapsible">
     <style>
-        :host {
+        b-collapsible {
             display: block;
         }
 
@@ -24,7 +24,7 @@
             BODY_CLASS = 'b-collapsible-body',
             CLOSED_CLASS = 'b-collapsible-closed';
 
-        ({
+        Bosonic.register({
             get active() {
                 return this.hasAttribute('active');
             },

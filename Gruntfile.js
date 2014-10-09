@@ -22,13 +22,19 @@ module.exports = function(grunt) {
               var basename = path.basename(filepath, '.html'),
                   src = grunt.file.read(filepath),
                   dest = {
+                      native: f.dest + basename + '.native.html',
                       html: f.dest + basename + '.html',
                       js: f.dest + basename + '.js',
                       css: f.dest + basename + '.css'
                   },
-                  transpiled = transpiler.transpile(src, { automaticTemplating: true, wrap: true });
+                  nativeElement = transpiler.transpileToNativeElement(src),
+                  polymer = transpiler.transpileForPolymerPlatform(src),
+                  transpiled = transpiler.transpileForBosonicPlatform(src);
 
-              grunt.file.write(dest.html, transpiled.html);
+              grunt.file.write(dest.native, nativeElement);
+              grunt.log.writeln('File ' + dest.native + ' created.');
+
+              grunt.file.write(dest.html, polymer);
               grunt.log.writeln('File ' + dest.html + ' created.');
 
               grunt.file.write(dest.js, transpiled.js);
@@ -104,7 +110,7 @@ module.exports = function(grunt) {
       test: {
         options: {
           port: 8020,
-          base: ['dist', 'node_modules', 'demo'],
+          base: ['.', 'demo'],
           hostname: '*'
         }
       }
@@ -154,6 +160,75 @@ module.exports = function(grunt) {
       }
     },
 
+    htmlbuild: {
+      bosonic: {
+        src: 'demo/src/demo_page.html',
+        dest: 'demo/bosonic_platform.html',
+        options: {
+          beautify: true,
+          relative: false,
+          scripts: {
+            platform: 'node_modules/bosonic-platform/dist/bosonic-platform.js',
+            elements: ['dist/b-selectable.js', 'dist/*.js']
+          },
+          styles: {
+            elements: ['dist/*.css']
+          },
+          sections: {
+            imports: []
+          },
+          data: {
+            platform: 'Bosonic platform'
+          },
+        }
+      },
+      polymer: {
+        src: 'demo/src/demo_page.html',
+        dest: 'demo/polymer_platform.html',
+        options: {
+          beautify: true,
+          relative: false,
+          scripts: {
+            platform: 'demo/polymer_platform.js',
+            elements: []
+          },
+          styles: {
+            elements: []
+          },
+          sections: {
+            imports: 'demo/src/polymer_imports.html'
+          },
+          data: {
+            platform: 'Polymer platform'
+          },
+        }
+      },
+      runtime: {
+        src: 'demo/src/demo_page.html',
+        dest: 'demo/bosonic_runtime.html',
+        options: {
+          beautify: true,
+          relative: false,
+          scripts: {
+            platform: [
+              'node_modules/bosonic-platform/dist/bosonic-platform.js', 
+              'node_modules/bosonic-runtime/dist/bosonic-runtime.js'
+            ],
+            elements: []
+          },
+          styles: {
+            elements: []
+          },
+          sections: {
+            imports: 'demo/src/bosonic_runtime_imports.html'
+          },
+          data: {
+            platform: 'Bosonic runtime'
+          },
+        }
+      }
+    },
+
     watch: {
       elements: {
         files: ['src/*.html'],
@@ -166,9 +241,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-html-build');
   //grunt.loadNpmTasks('grunt-bosonic');
 
-  grunt.registerTask('default', ['bosonic', 'connect', 'watch']);
+  grunt.registerTask('demo', ['bosonic', 'htmlbuild', 'connect', 'watch']);
   grunt.registerTask('test', ['bosonic', 'karma:local']);
+  grunt.registerTask('default', ['demo']);
 
 };

@@ -1,17 +1,6 @@
 (function () {
     window.BFlashMessage = document.registerElement('b-flash-message', {
         prototype: Object.create(HTMLElement.prototype, {
-            attributeChangedCallback: {
-                enumerable: true,
-                value: function (name, oldValue, newValue) {
-                    if ([
-                            'closeable',
-                            'duration'
-                        ].indexOf(name) !== -1) {
-                        this[name + 'Changed'].call(this, oldValue, newValue);
-                    }
-                }
-            },
             attachedCallback: {
                 enumerable: true,
                 value: function () {
@@ -77,4 +66,5 @@
             }
         })
     });
+    ;
 }());

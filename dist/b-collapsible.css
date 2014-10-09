@@ -1,15 +1,17 @@
-b-collapsible {
-  display: block;
-}
 
-.b-collapsible-header {
-  cursor: pointer;
-}
+        b-collapsible {
+            display: block;
+        }
 
-.b-collapsible-closed {
-  display: none;
-}
+        .b-collapsible-header {
+            cursor: pointer;
+        }
+        
+        .b-collapsible-closed {
+            display: none;
+        }
 
-.b-collapsible-body {
-  height: 0px;
-}
+        .b-collapsible-body {
+            height: 0px;
+        }
+    

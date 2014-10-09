@@ -1,13 +1,35 @@
+<element name="b-tooltip">
+    <style>
+        :host {
+            display: none;
+        }
+
+        :host[show] {
+            display: block;
+        }
+
+        .b-tooltip {
+            position: absolute;
+            padding: 8px;
+            color: white;
+            background-color: rgba(0,0,0,0.8);
+            box-sizing: border-box;
+            border-radius: 3px;
+            white-space: nowrap;
+            line-height: 6px;
+            z-index: 1002;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    </style>
+    <template>
+        <div class="b-tooltip">
+            <content/>
+        </div>
+    </template>
+    <script>
 (function () {
-    var template = function () {
-            var df0 = document.createDocumentFragment();
-            var el0 = document.createElement('div');
-            el0.setAttribute('class', 'b-tooltip');
-            var el1 = document.createElement('content');
-            el0.appendChild(el1);
-            df0.appendChild(el0);
-            return { content: df0 };
-        }();
+    var template = document.currentScript.parentNode.querySelector('template');
     window.BTooltip = document.registerElement('b-tooltip', {
         prototype: Object.create(HTMLElement.prototype, {
             position: {
@@ -60,3 +82,5 @@
     });
     ;
 }());
+</script>
+</element>

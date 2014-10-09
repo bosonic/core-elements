@@ -1,11 +1,11 @@
 <element name="b-hello-world">
     <style>
-b-hello-world {
-  text-align: center;
-  font-weight: bold;
-  color: red;
-}
-</style>
+        :host {
+            text-align: center;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
     <template>
         <p>Hello world!</p>
     </template>
@@ -18,12 +18,13 @@ b-hello-world {
                 enumerable: true,
                 value: function () {
                     this.createShadowRoot();
-                    this.shadowRoot.appendChild(template.content.cloneNode(true));
+                    this.shadowRoot.appendChild(document.importNode(template.content, true));
                     console.log('Hello world !');
                 }
             }
         })
     });
+    ;
 }());
 </script>
 </element>

@@ -49,7 +49,7 @@
 
             isIE = !!document.createElement('div').dragDrop;
 
-        ({
+        Bosonic.register({
             get handle() {
                 return this.hasAttribute('handle') ? this.getAttribute('handle') : null;
             },

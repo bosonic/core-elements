@@ -2,18 +2,18 @@
     <script>
         var PANEL_HEADER_CLASS = '.b-collapsible-header';
 
-        ({
+        Bosonic.register({
             elementRole: 'tablist',
             elementLabel: 'Accordion',
             itemsRole: 'tabpanel',
             headersRole: 'tab',
 
             createdCallback: function() {
-                super.createdCallback();
+                BSelectable.prototype.createdCallback.call(this);
             },
 
             handleAria: function() {
-                super.handleAria();
+                BSelectable.prototype.handleAria.call(this);
                 this.getItems().forEach(function(panel) {
                     panel.setAttribute('aria-expanded', 'false');
                     panel.setAttribute('aria-hidden', 'true');
@@ -26,11 +26,11 @@
                 if (e.target.nodeName !== 'B-COLLAPSIBLE') {
                     e = { target: e.target.parentElement };
                 }
-                super.clickHandler(e);
+                BSelectable.prototype.clickHandler.call(this, e);
             },
 
             selectedChanged: function (oldValue, newValue) {
-                super.selectedChanged(oldValue, newValue);
+                BSelectable.prototype.selectedChanged.call(this, oldValue, newValue);
                 var oldItem = this.getItem(oldValue), 
                     newItem = this.getItem(newValue);
                 

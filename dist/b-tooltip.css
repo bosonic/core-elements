@@ -1,21 +1,23 @@
-b-tooltip {
-  display: none;
-}
 
-b-tooltip[show] {
-  display: block;
-}
+        :host {
+            display: none;
+        }
 
-.b-tooltip {
-  position: absolute;
-  padding: 8px;
-  color: white;
-  background-color: rgba(0,0,0,0.8);
-  box-sizing: border-box;
-  border-radius: 3px;
-  white-space: nowrap;
-  line-height: 6px;
-  z-index: 1002;
-  -webkit-user-select: none;
-  user-select: none;
-}
+        :host[show] {
+            display: block;
+        }
+
+        .b-tooltip {
+            position: absolute;
+            padding: 8px;
+            color: white;
+            background-color: rgba(0,0,0,0.8);
+            box-sizing: border-box;
+            border-radius: 3px;
+            white-space: nowrap;
+            line-height: 6px;
+            z-index: 1002;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    

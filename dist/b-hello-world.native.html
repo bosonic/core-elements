@@ -1,11 +1,17 @@
+<element name="b-hello-world">
+    <style>
+        :host {
+            text-align: center;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+    <template>
+        <p>Hello world!</p>
+    </template>
+    <script>
 (function () {
-    var template = function () {
-            var df0 = document.createDocumentFragment();
-            var el0 = document.createElement('p');
-            el0.appendChild(document.createTextNode('Hello world!'));
-            df0.appendChild(el0);
-            return { content: df0 };
-        }();
+    var template = document.currentScript.parentNode.querySelector('template');
     window.BHelloWorld = document.registerElement('b-hello-world', {
         prototype: Object.create(HTMLElement.prototype, {
             createdCallback: {
@@ -20,3 +26,5 @@
     });
     ;
 }());
+</script>
+</element>

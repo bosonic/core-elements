@@ -1,53 +1,116 @@
+<element name="b-autocomplete">
 <style>
-b-autocomplete, b-combo-box {
-    position: relative;
-    display: inline-block;
-    margin: 2px;
+b-autocomplete {
+  position: relative;
+  display: inline-block;
+  margin: 2px;
 }
-b-autocomplete input, b-combo-box input {
-    border: 1px solid #acacac;
-    padding: 2px;
-    margin: 0;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+
+b-autocomplete input {
+  border: 1px solid #acacac;
+  padding: 2px;
+  margin: 0;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
-b-autocomplete b-selectable, b-combo-box b-selectable {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    left: 0px;
-    z-index: 100;
-    display: none;
-    right: auto;
+
+b-autocomplete b-selectable {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0px;
+  z-index: 100;
+  display: none;
+  right: auto;
 }
-b-autocomplete b-selectable[visible], b-combo-box b-selectable[visible] {
-    display: block;
+
+b-autocomplete b-selectable[visible] {
+  display: block;
 }
-b-autocomplete b-selectable:focus, b-combo-box b-selectable:focus {
-    outline: none;
+
+b-autocomplete b-selectable:focus {
+  outline: none;
 }
-b-autocomplete ul, b-combo-box ul {
-    max-width: 200px;
-    border: 1px solid #acacac;
-    margin: 0;
-    padding: 0;
-    max-height: 150px;
-    overflow: auto;
-    background-color: #fff;
+
+b-autocomplete ul {
+  max-width: 200px;
+  border: 1px solid #acacac;
+  margin: 0;
+  padding: 0;
+  max-height: 150px;
+  overflow: auto;
+  background-color: #fff;
 }
-b-autocomplete li, b-combo-box li {
-    list-style-type: none;
+
+b-autocomplete li {
+  list-style-type: none;
 }
-b-autocomplete li:hover, b-combo-box li:hover {
-    background-color: #ddd;
+
+b-autocomplete li:hover,
+b-autocomplete b-combo-box li:hover {
+  background-color: #ddd;
 }
-b-autocomplete .b-selectable-selected, b-combo-box .b-selectable-selected {
-    background-color: #ccc;
+
+b-autocomplete .b-selectable-selected {
+  background-color: #ccc;
+}
+
+b-autocomplete::shadow input {
+  border: 1px solid #acacac;
+  padding: 2px;
+  margin: 0;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+b-autocomplete::shadow b-selectable {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0px;
+  z-index: 100;
+  display: none;
+  right: auto;
+}
+
+b-autocomplete::shadow b-selectable[visible] {
+  display: block;
+}
+
+b-autocomplete::shadow b-selectable:focus {
+  outline: none;
+}
+
+b-autocomplete::shadow ul {
+  max-width: 200px;
+  border: 1px solid #acacac;
+  margin: 0;
+  padding: 0;
+  max-height: 150px;
+  overflow: auto;
+  background-color: #fff;
+}
+
+b-autocomplete::shadow li {
+  list-style-type: none;
+}
+
+b-autocomplete::shadow li:hover {
+  background-color: #ddd;
+}
+
+b-autocomplete::shadow b-combo-box li:hover {
+  background-color: #ddd;
+}
+
+b-autocomplete::shadow .b-selectable-selected {
+  background-color: #ccc;
 }
 </style>
-<element name="b-autocomplete" attributes="options">
     <template>
+        
         <input type="text" autocomplete="off" role="textbox" value=""/>
         <b-selectable target="li">
             <ul/>
@@ -148,15 +211,7 @@ b-autocomplete .b-selectable-selected, b-combo-box .b-selectable-selected {
                 enumerable: true,
                 value: function () {
                     this.createShadowRoot();
-                    this.shadowRoot.appendChild(template.content.cloneNode(true));
-                }
-            },
-            attributeChangedCallback: {
-                enumerable: true,
-                value: function (name, oldValue, newValue) {
-                    if (['options'].indexOf(name) !== -1) {
-                        this[name + 'Changed'].call(this, oldValue, newValue);
-                    }
+                    this.shadowRoot.appendChild(document.importNode(template.content, true));
                 }
             },
             data: {
@@ -381,6 +436,7 @@ b-autocomplete .b-selectable-selected, b-combo-box .b-selectable-selected {
             }
         })
     });
+    ;
 }());
 </script>
 </element>

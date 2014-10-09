@@ -11,7 +11,7 @@
             DOWN: 40,
         };
 
-        ({
+        Bosonic.register({
             elementRole: 'listbox',
             elementLabel: 'Selectable list',
             itemsRole: 'option',
@@ -73,6 +73,7 @@
             },
 
             keydownHandler: function(e) {
+                e.preventDefault();
                 switch(e.keyCode) {
                     case KEY.ENTER: {
                         this.activate();

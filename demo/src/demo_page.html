@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Bosonic Platform tests</title>
     <meta charset="utf-8">
@@ -13,38 +12,17 @@
             window.shadowDOMImpl = 'not implemented';
         }
     </script>
-    <script type="text/javascript" src="node_modules/bosonic-platform/dist/bosonic-platform.js"></script>
-    <script type="text/javascript" src="dist/b-selectable.js"></script>
-    <script type="text/javascript" src="dist/b-accordion.js"></script>
-    <script type="text/javascript" src="dist/b-autocomplete.js"></script>
-    <script type="text/javascript" src="dist/b-collapsible.js"></script>
-    <script type="text/javascript" src="dist/b-dialog.js"></script>
-    <script type="text/javascript" src="dist/b-draggable.js"></script>
-    <script type="text/javascript" src="dist/b-flash-message.js"></script>
-    <script type="text/javascript" src="dist/b-hello-world.js"></script>
-    <script type="text/javascript" src="dist/b-sortable.js"></script>
-    <script type="text/javascript" src="dist/b-tether.js"></script>
-    <script type="text/javascript" src="dist/b-tooltip.js"></script>
-    <link type="text/css" rel="stylesheet" href="dist/b-accordion.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-autocomplete.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-collapsible.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-dialog.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-draggable.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-flash-message.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-hello-world.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-selectable.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-sortable.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-tether.css" />
-    <link type="text/css" rel="stylesheet" href="dist/b-tooltip.css" />
-
+    <!-- build:script platform --><!-- /build -->
+    <!-- build:script elements --><!-- /build -->
+    <!-- build:style elements --><!-- /build -->
+    <!-- build:section imports --><!-- /build -->
 </head>
-
 <body>
     <div class="page-header">
         <h1>Bosonic core elements</h1>
-
-        <h3>Platform: Bosonic platform</h3>
-
+        <!-- build:process -->
+        <h3>Platform: <%= platform %></h3>
+        <!-- /build -->
         <script type="text/javascript">
             function addInfo(str, bad) {
                 var h = document.createElement('h3');
@@ -58,20 +36,19 @@
 
     <div class="bosonic-sample">
         <h2>Flash message</h2>
-        <p>Display an info message that automatically disappears after 2 secs: <a href="#" id="show-message">Show message</a>
-        </p>
+        <p>Display an info message that automatically disappears after 2 secs: <a href="#" id="show-message">Show message</a></p>
         <b-flash-message id="myMessage" type="info" closeable="true" duration="2000">
             <strong>Hello, World!</strong> Foo Bar
         </b-flash-message>
 
         <script type="text/javascript">
             //window.addEventListener('WebComponentsReady', function() {
-            var showInfoFlashMessageButton = document.getElementById('show-message');
-            showInfoFlashMessageButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector('#myMessage').show();
-            }, false);
-             //});
+                var showInfoFlashMessageButton = document.getElementById('show-message');
+                showInfoFlashMessageButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('#myMessage').show();
+                }, false);
+            //});
         </script>
     </div>
 
@@ -151,11 +128,11 @@
 
         <script type="text/javascript">
             //window.addEventListener('WebComponentsReady', function() {
-            var showModalButton = document.getElementById('show-modal');
-            showModalButton.addEventListener('click', function() {
-                document.querySelector('b-dialog').showModal();
-            }, false);
-             //});
+                var showModalButton = document.getElementById('show-modal');
+                showModalButton.addEventListener('click', function() {
+                    document.querySelector('b-dialog').showModal();
+                }, false);
+            //});
         </script>
     </div>
 
@@ -197,9 +174,7 @@
                 Header (cancelable show)
             </div>
             <div class="body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere
-                diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque
-                nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
             </div>
         </b-collapsible>
         <b-collapsible>
@@ -207,19 +182,17 @@
                 <span>Header</span>
             </div>
             <div class="b-collapsible-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere
-                diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque
-                nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
             </div>
         </b-collapsible>
         <script type="text/javascript">
             //window.addEventListener('WebComponentsReady', function() {
-            document.querySelector('b-collapsible').addEventListener('b-collapsible-show', function(e) {
-                if (!confirm('Are you sure ?')) {
-                    e.preventDefault();
-                }
-            });
-             //});
+                document.querySelector('b-collapsible').addEventListener('b-collapsible-show', function(e) {
+                    if (!confirm('Are you sure ?')) {
+                        e.preventDefault();
+                    }
+                });
+            //});
         </script>
     </div>
 
@@ -235,9 +208,7 @@
                     Header
                 </div>
                 <div class="body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere
-                    diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in
-                    pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
                 </div>
             </b-collapsible>
             <b-collapsible>
@@ -245,9 +216,7 @@
                     Header
                 </div>
                 <div class="body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere
-                    diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in
-                    pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
                 </div>
             </b-collapsible>
             <b-collapsible>
@@ -255,9 +224,7 @@
                     Header
                 </div>
                 <div class="body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere
-                    diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in
-                    pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor felis eget auctor aliquam. Sed sit amet est lectus. Duis posuere diam ac tellus facilisis interdum. Integer mattis euismod justo, ac facilisis elit bibendum vitae. Nulla fermentum aliquet elit, id auctor est viverra a. Duis semper nisl nulla. In venenatis dolor ut scelerisque dapibus. Quisque in pellentesque nibh. Proin consectetur in ligula nec auctor. Donec tincidunt est eget metus adipiscing viverra. Nulla ultricies et orci pharetra condimentum.
                 </div>
             </b-collapsible>
         </b-accordion>
@@ -327,5 +294,5 @@
             </div>
         </b-draggable>
     </div>
-
+    
 </body>
