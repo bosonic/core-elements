@@ -17,178 +17,180 @@
         }
     </style>
     <script>
-        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+        (function(){
+            window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-        var HEADER_CLASS = 'b-collapsible-header',
-            BODY_CLASS = 'b-collapsible-body',
-            CLOSED_CLASS = 'b-collapsible-closed';
+            var HEADER_CLASS = 'b-collapsible-header',
+                BODY_CLASS = 'b-collapsible-body',
+                CLOSED_CLASS = 'b-collapsible-closed';
 
-        Bosonic.register({
-            get active() {
-                return this.hasAttribute('active');
-            },
+            Bosonic.register({
+                get active() {
+                    return this.hasAttribute('active');
+                },
 
-            set active(value) {
-                value ? this.setAttribute('active', '') : this.removeAttribute('active');
-            },
+                set active(value) {
+                    value ? this.setAttribute('active', '') : this.removeAttribute('active');
+                },
 
-            attachedCallback: function() {
-                this.init();
-            },
+                attachedCallback: function() {
+                    this.init();
+                },
 
-            init: function() {
-                this.duration = this.hasAttribute('duration') ? parseFloat(this.getAttribute('duration')) : 0.33;
-                this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
-                this.header = this.querySelector('.' + HEADER_CLASS);
-                this.body = this.querySelector('.' + BODY_CLASS) || this.header.nextElementSibling;
+                init: function() {
+                    this.duration = this.hasAttribute('duration') ? parseFloat(this.getAttribute('duration')) : 0.33;
+                    this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
+                    this.header = this.querySelector('.' + HEADER_CLASS);
+                    this.body = this.querySelector('.' + BODY_CLASS) || this.header.nextElementSibling;
 
-                if (this.body) {
-                    this.body.style.overflow = 'hidden';
-                    if (this.supportsTransitions()) {
-                        this.body.classList.add(BODY_CLASS);
-                        if (this.active) {
-                            this.setSize('auto');
+                    if (this.body) {
+                        this.body.style.overflow = 'hidden';
+                        if (this.supportsTransitions()) {
+                            this.body.classList.add(BODY_CLASS);
+                            if (this.active) {
+                                this.setSize('auto');
+                            }
                         }
+                        this.addListeners();
+                        this.toggleClosedClass(!this.active);
                     }
-                    this.addListeners();
+                },
+
+                detachedCallback: function() {
+                    this.removeListeners();
+                },
+
+                addListeners: function() {
+                    if (this.header) {
+                        this.toggleListener = this.toggle.bind(this);
+                        this.header.addEventListener('click', this.toggleListener, false);
+                    }
+                    if (this.supportsTransitions()) {
+                        this.transitionEndListener = this.transitionEnd.bind(this);
+                        this.body.addEventListener('webkitTransitionEnd', this.transitionEndListener);
+                        this.body.addEventListener('transitionend', this.transitionEndListener);
+                    }
+                },
+
+                removeListeners: function() {
+                    if (this.toggleListener) {
+                        this.header.removeEventListener('click', this.toggleListener, false);
+                    }
+                    if (this.supportsTransitions()) {
+                        this.body.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
+                        this.body.removeEventListener('transitionend', this.transitionEndListener);
+                    }
+                },
+
+                attributeChangedCallback: function(name, oldValue, newValue) {
+                    if (name === 'active') this.activeChanged(oldValue, newValue);
+                },
+
+                toggle: function() {
+                    if (!this.dispatchEvent(new CustomEvent('b-collapsible-toggle', { cancelable: true }))) return;
+                    this.active = !this.active;
+                },
+
+                activeChanged: function(oldValue, newValue) {
+                    this.update();
+                },
+
+                update: function() {
+                    if (!this.body) return;
+                    this.active ? this.show() : this.hide();
+                },
+
+                show: function() {
+                    if (!this.dispatchEvent(new CustomEvent('b-collapsible-show', { cancelable: true }))) return;
+
+                    this.toggleClosedClass(false);
+                    if (this.supportsTransitions()) {
+                        this.updateSize('auto', null);
+                        var s = this.computeSize();
+                        this.updateSize(0, null);
+                        var that = this;
+                        window.requestAnimationFrame(function() {
+                            that.updateSize(that.size || s, that.duration, true);
+                        });
+                    }
+                },
+
+                hide: function() {
+                    if (!this.dispatchEvent(new CustomEvent('b-collapsible-hide', { cancelable: true }))) return;
+
+                    if (!this.supportsTransitions()) {
+                        this.toggleClosedClass(true);
+                        return;
+                    }
+                    this.updateSize(this.computeSize(), null);
+                    var that = this;
+                    window.requestAnimationFrame(function() {
+                        that.updateSize(0, that.duration);
+                    });
+                },
+
+                updateSize: function(size, duration, forceEnd) {
+                    if (duration) {
+                        this.computeSize();
+                    }
+                    this.setTransitionDuration(duration);
+                    var s = this.body.style;
+                    var nochange = s[this.dimension] === size;
+                    s[this.dimension] = size;
+                    // transitionEnd will not be called if the size has not changed
+                    // if (forceEnd && nochange) {
+                    //     this.transitionEnd();
+                    // }
+                },
+
+                computeSize: function() {
+                    return this.body.getBoundingClientRect()[this.dimension] + 'px';
+                    var size = parseInt(this.body.getBoundingClientRect()[this.dimension]);
+                    return (size - this.getBorderWidth()) + 'px';
+                },
+
+                getBorderWidth: function() {
+                    return this.dimension === 'width' 
+                            ? this.computeWidth('borderLeftWidth') + this.computeWidth('borderRightWidth')
+                            : this.computeWidth('borderTopWidth') + this.computeWidth('borderBottomWidth');
+                },
+
+                computeWidth: function(property) {
+                    return parseInt(getComputedStyle(this.body)[property].replace('px', ''));
+                },
+
+                setSize: function(size) {
+                    this.body.style[this.dimension] = size;
+                },
+
+                setTransitionDuration: function(duration) {
+                    var s = this.body.style;
+                    s.webkitTransition = s.transition = duration ? (this.dimension + ' ' + duration + 's') : null;
+                    if (duration === 0) {
+                        var that = this;
+                        window.requestAnimationFrame(function() {
+                            that.transitionEnd();
+                        });
+                    }
+                },
+
+                toggleClosedClass: function(closed) {
+                    closed ? this.body.classList.add(CLOSED_CLASS) : this.body.classList.remove(CLOSED_CLASS);
+                },
+
+                transitionEnd: function() {
+                    if (this.active) {
+                        this.updateSize('auto', null);
+                    }
+                    this.setTransitionDuration(null);
                     this.toggleClosedClass(!this.active);
+                },
+
+                supportsTransitions: function() {
+                    return window.requestAnimationFrame !== undefined;
                 }
-            },
-
-            detachedCallback: function() {
-                this.removeListeners();
-            },
-
-            addListeners: function() {
-                if (this.header) {
-                    this.toggleListener = this.toggle.bind(this);
-                    this.header.addEventListener('click', this.toggleListener, false);
-                }
-                if (this.supportsTransitions()) {
-                    this.transitionEndListener = this.transitionEnd.bind(this);
-                    this.body.addEventListener('webkitTransitionEnd', this.transitionEndListener);
-                    this.body.addEventListener('transitionend', this.transitionEndListener);
-                }
-            },
-
-            removeListeners: function() {
-                if (this.toggleListener) {
-                    this.header.removeEventListener('click', this.toggleListener, false);
-                }
-                if (this.supportsTransitions()) {
-                    this.body.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
-                    this.body.removeEventListener('transitionend', this.transitionEndListener);
-                }
-            },
-
-            attributeChangedCallback: function(name, oldValue, newValue) {
-                if (name === 'active') this.activeChanged(oldValue, newValue);
-            },
-
-            toggle: function() {
-                if (!this.dispatchEvent(new CustomEvent('b-collapsible-toggle', { cancelable: true }))) return;
-                this.active = !this.active;
-            },
-
-            activeChanged: function(oldValue, newValue) {
-                this.update();
-            },
-
-            update: function() {
-                if (!this.body) return;
-                this.active ? this.show() : this.hide();
-            },
-
-            show: function() {
-                if (!this.dispatchEvent(new CustomEvent('b-collapsible-show', { cancelable: true }))) return;
-
-                this.toggleClosedClass(false);
-                if (this.supportsTransitions()) {
-                    this.updateSize('auto', null);
-                    var s = this.computeSize();
-                    this.updateSize(0, null);
-                    var that = this;
-                    window.requestAnimationFrame(function() {
-                        that.updateSize(that.size || s, that.duration, true);
-                    });
-                }
-            },
-
-            hide: function() {
-                if (!this.dispatchEvent(new CustomEvent('b-collapsible-hide', { cancelable: true }))) return;
-
-                if (!this.supportsTransitions()) {
-                    this.toggleClosedClass(true);
-                    return;
-                }
-                this.updateSize(this.computeSize(), null);
-                var that = this;
-                window.requestAnimationFrame(function() {
-                    that.updateSize(0, that.duration);
-                });
-            },
-
-            updateSize: function(size, duration, forceEnd) {
-                if (duration) {
-                    this.computeSize();
-                }
-                this.setTransitionDuration(duration);
-                var s = this.body.style;
-                var nochange = s[this.dimension] === size;
-                s[this.dimension] = size;
-                // transitionEnd will not be called if the size has not changed
-                // if (forceEnd && nochange) {
-                //     this.transitionEnd();
-                // }
-            },
-
-            computeSize: function() {
-                return this.body.getBoundingClientRect()[this.dimension] + 'px';
-                var size = parseInt(this.body.getBoundingClientRect()[this.dimension]);
-                return (size - this.getBorderWidth()) + 'px';
-            },
-
-            getBorderWidth: function() {
-                return this.dimension === 'width' 
-                        ? this.computeWidth('borderLeftWidth') + this.computeWidth('borderRightWidth')
-                        : this.computeWidth('borderTopWidth') + this.computeWidth('borderBottomWidth');
-            },
-
-            computeWidth: function(property) {
-                return parseInt(getComputedStyle(this.body)[property].replace('px', ''));
-            },
-
-            setSize: function(size) {
-                this.body.style[this.dimension] = size;
-            },
-
-            setTransitionDuration: function(duration) {
-                var s = this.body.style;
-                s.webkitTransition = s.transition = duration ? (this.dimension + ' ' + duration + 's') : null;
-                if (duration === 0) {
-                    var that = this;
-                    window.requestAnimationFrame(function() {
-                        that.transitionEnd();
-                    });
-                }
-            },
-
-            toggleClosedClass: function(closed) {
-                closed ? this.body.classList.add(CLOSED_CLASS) : this.body.classList.remove(CLOSED_CLASS);
-            },
-
-            transitionEnd: function() {
-                if (this.active) {
-                    this.updateSize('auto', null);
-                }
-                this.setTransitionDuration(null);
-                this.toggleClosedClass(!this.active);
-            },
-
-            supportsTransitions: function() {
-                return window.requestAnimationFrame !== undefined;
-            }
-        });
+            });
+        })();
     </script>
 </element>

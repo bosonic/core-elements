@@ -22,7 +22,7 @@
     function buildIndex(options) {
         var index = newIndexNode();
         options.forEach(function (option, id) {
-            var tokens = normalizeTokens(option.split(/\s+/));
+            var tokens = typeof option === 'string' ? normalizeTokens(option.split(/\s+/)) : normalizeTokens(option.name.split(/\s+/));
             tokens.forEach(function (token) {
                 var ch, chars = token.split(''), node = index;
                 while (ch = chars.shift()) {
@@ -85,7 +85,7 @@
             return a - b;
         }
     }
-    var template = function () {
+    var __bosonic__template__b_autocomplete__ = function () {
             var df0 = document.createDocumentFragment();
             var el0 = document.createElement('input');
             el0.setAttribute('type', 'text');
@@ -106,12 +106,14 @@
                 enumerable: true,
                 value: function () {
                     this.createShadowRoot();
-                    this.shadowRoot.appendChild(document.importNode(template.content, true));
+                    this.shadowRoot.appendChild(document.importNode(__bosonic__template__b_autocomplete__.content, true));
                 }
             },
             data: {
                 enumerable: true,
                 get: function () {
+                    if (this.__data !== undefined)
+                        return this.__data;
                     if (this.hasAttribute('list')) {
                         var list = document.querySelector('#' + this.getAttribute('list'));
                         if (list && list.options) {
@@ -127,6 +129,9 @@
                         return options;
                     }
                     return [];
+                },
+                set: function (data) {
+                    this.__data = data;
                 }
             },
             index: {
@@ -267,9 +272,9 @@
                     }
                     this.filterOptions().forEach(function (val) {
                         var tag = document.createElement('li');
-                        tag.innerHTML = val;
+                        tag.innerHTML = this.template ? this.template(val) : val;
                         sugList.appendChild(tag);
-                    });
+                    }, this);
                 }
             },
             refreshSuggestionList: {

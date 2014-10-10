@@ -1,50 +1,52 @@
 <element name="b-accordion" extends="b-selectable">
     <script>
-        var PANEL_HEADER_CLASS = '.b-collapsible-header';
+        (function(){
+            var PANEL_HEADER_CLASS = '.b-collapsible-header';
 
-        Bosonic.register({
-            elementRole: 'tablist',
-            elementLabel: 'Accordion',
-            itemsRole: 'tabpanel',
-            headersRole: 'tab',
+            Bosonic.register({
+                elementRole: 'tablist',
+                elementLabel: 'Accordion',
+                itemsRole: 'tabpanel',
+                headersRole: 'tab',
 
-            createdCallback: function() {
-                BSelectable.prototype.createdCallback.call(this);
-            },
+                createdCallback: function() {
+                    BSelectable.prototype.createdCallback.call(this);
+                },
 
-            handleAria: function() {
-                BSelectable.prototype.handleAria.call(this);
-                this.getItems().forEach(function(panel) {
-                    panel.setAttribute('aria-expanded', 'false');
-                    panel.setAttribute('aria-hidden', 'true');
-                    panel.querySelector(PANEL_HEADER_CLASS).setAttribute('role', this.headersRole);
-                }, this);
-            },
+                handleAria: function() {
+                    BSelectable.prototype.handleAria.call(this);
+                    this.getItems().forEach(function(panel) {
+                        panel.setAttribute('aria-expanded', 'false');
+                        panel.setAttribute('aria-hidden', 'true');
+                        panel.querySelector(PANEL_HEADER_CLASS).setAttribute('role', this.headersRole);
+                    }, this);
+                },
 
-            clickHandler: function (e) {
-                e.stopPropagation();
-                if (e.target.nodeName !== 'B-COLLAPSIBLE') {
-                    e = { target: e.target.parentElement };
+                clickHandler: function (e) {
+                    e.stopPropagation();
+                    if (e.target.nodeName !== 'B-COLLAPSIBLE') {
+                        e = { target: e.target.parentElement };
+                    }
+                    BSelectable.prototype.clickHandler.call(this, e);
+                },
+
+                selectedChanged: function (oldValue, newValue) {
+                    BSelectable.prototype.selectedChanged.call(this, oldValue, newValue);
+                    var oldItem = this.getItem(oldValue), 
+                        newItem = this.getItem(newValue);
+                    
+                    if (oldItem !== null) {
+                        oldItem.removeAttribute('active');
+                        oldItem.setAttribute('aria-expanded', 'false');
+                        oldItem.setAttribute('aria-hidden', 'true');
+                    }
+                    if (newItem !== null) {
+                        newItem.setAttribute('active', '');
+                        newItem.setAttribute('aria-expanded', 'true');
+                        newItem.setAttribute('aria-hidden', 'false');
+                    }
                 }
-                BSelectable.prototype.clickHandler.call(this, e);
-            },
-
-            selectedChanged: function (oldValue, newValue) {
-                BSelectable.prototype.selectedChanged.call(this, oldValue, newValue);
-                var oldItem = this.getItem(oldValue), 
-                    newItem = this.getItem(newValue);
-                
-                if (oldItem !== null) {
-                    oldItem.removeAttribute('active');
-                    oldItem.setAttribute('aria-expanded', 'false');
-                    oldItem.setAttribute('aria-hidden', 'true');
-                }
-                if (newItem !== null) {
-                    newItem.setAttribute('active', '');
-                    newItem.setAttribute('aria-expanded', 'true');
-                    newItem.setAttribute('aria-hidden', 'false');
-                }
-            }
-        });
+            });
+        })();
     </script>
 </element>

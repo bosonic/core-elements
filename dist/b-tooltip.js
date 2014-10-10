@@ -1,5 +1,5 @@
 (function () {
-    var template = function () {
+    var __bosonic__template__b_tooltip__ = function () {
             var df0 = document.createDocumentFragment();
             var el0 = document.createElement('div');
             el0.setAttribute('class', 'b-tooltip');
@@ -32,7 +32,7 @@
                 enumerable: true,
                 value: function () {
                     this.createShadowRoot();
-                    this.shadowRoot.appendChild(document.importNode(template.content, true));
+                    this.shadowRoot.appendChild(document.importNode(__bosonic__template__b_tooltip__.content, true));
                     this.enterListener = this.onEnterTarget.bind(this);
                     this.leaveListener = this.onLeaveTarget.bind(this);
                     this.target.addEventListener('mouseenter', this.enterListener, false);

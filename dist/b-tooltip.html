@@ -29,7 +29,7 @@
     </template>
     <script>
 (function () {
-    var template = document._currentScript.parentNode.querySelector('template');
+    var __bosonic__template__b_tooltip__ = document._currentScript.parentNode.querySelector('template');
     window.BTooltip = document.registerElement('b-tooltip', {
         prototype: Object.create(HTMLElement.prototype, {
             position: {
@@ -54,7 +54,7 @@
                 enumerable: true,
                 value: function () {
                     this.createShadowRoot();
-                    this.shadowRoot.appendChild(document.importNode(template.content, true));
+                    this.shadowRoot.appendChild(document.importNode(__bosonic__template__b_tooltip__.content, true));
                     this.enterListener = this.onEnterTarget.bind(this);
                     this.leaveListener = this.onLeaveTarget.bind(this);
                     this.target.addEventListener('mouseenter', this.enterListener, false);

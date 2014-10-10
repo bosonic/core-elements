@@ -3,7 +3,7 @@
 module.exports = function(grunt) {
   
   var path = require('path'),
-      transpiler = require('bosonic-transpiler');
+      transpiler = require('bosonic');
 
   grunt.registerMultiTask('bosonic', 'A Grunt task that transpiles to-the-spec Web Components into polyfilled JavaScript', function() {
         
@@ -119,6 +119,7 @@ module.exports = function(grunt) {
     karma: {
       options: {
         configFile: 'karma.conf.js',
+        environment: 'saucelabs',
         sauceLabs: {
             testName: 'Bosonic Core Elements Unit Tests',
             recordScreenshots: true
@@ -128,13 +129,14 @@ module.exports = function(grunt) {
         files: [
           'node_modules/native-promise-only/npo.js',
 
-          'node_modules/bosonic-platform/dist/bosonic-platform.js',
+          'node_modules/bosonic/dist/bosonic-platform.js',
           'dist/b-selectable.js',
           'dist/*.js',
           'test/**/*.js'
         ],
       },
       local: {
+        environment: 'local',
         browsers: ['Chrome', 'Firefox'],
         reporters: ['progress'],
         singleRun: false
@@ -168,7 +170,7 @@ module.exports = function(grunt) {
           beautify: true,
           relative: false,
           scripts: {
-            platform: 'node_modules/bosonic-platform/dist/bosonic-platform.js',
+            platform: 'node_modules/bosonic/dist/bosonic-platform.js',
             elements: ['dist/b-selectable.js', 'dist/*.js']
           },
           styles: {
@@ -211,8 +213,8 @@ module.exports = function(grunt) {
           relative: false,
           scripts: {
             platform: [
-              'node_modules/bosonic-platform/dist/bosonic-platform.js', 
-              'node_modules/bosonic-runtime/dist/bosonic-runtime.js'
+              'node_modules/bosonic/dist/bosonic-platform.js', 
+              'node_modules/bosonic/dist/bosonic-runtime.js'
             ],
             elements: []
           },
