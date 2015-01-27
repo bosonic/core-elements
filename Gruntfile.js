@@ -49,9 +49,16 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     connect: {
-      test: {
+      test_platforms: {
         options: {
           port: 8020,
+          base: ['.', 'test/platforms'],
+          hostname: '*'
+        }
+      },
+      demos: {
+        options: {
+          port: 8021,
           base: ['.', 'demo'],
           hostname: '*'
         }
@@ -84,8 +91,8 @@ module.exports = function(grunt) {
 
     htmlbuild: {
       bosonic: {
-        src: 'demo/src/demo_page.html',
-        dest: 'demo/bosonic_platform.html',
+        src: 'test/platforms/src/demo_page.html',
+        dest: 'test/platforms/bosonic_platform.html',
         options: {
           beautify: true,
           relative: false,
@@ -105,20 +112,20 @@ module.exports = function(grunt) {
         }
       },
       polymer: {
-        src: 'demo/src/demo_page.html',
-        dest: 'demo/polymer_platform.html',
+        src: 'test/platforms/src/demo_page.html',
+        dest: 'test/platforms/polymer_platform.html',
         options: {
           beautify: true,
           relative: false,
           scripts: {
-            platform: 'demo/polymer_platform.js',
+            platform: 'test/platforms/polymer_platform.js',
             elements: []
           },
           styles: {
             elements: []
           },
           sections: {
-            imports: 'demo/src/polymer_imports.html'
+            imports: 'test/platforms/src/polymer_imports.html'
           },
           data: {
             platform: 'Polymer platform'
@@ -126,8 +133,8 @@ module.exports = function(grunt) {
         }
       },
       runtime: {
-        src: 'demo/src/demo_page.html',
-        dest: 'demo/bosonic_runtime.html',
+        src: 'test/platforms/src/demo_page.html',
+        dest: 'test/platforms/bosonic_runtime.html',
         options: {
           beautify: true,
           relative: false,
@@ -142,7 +149,7 @@ module.exports = function(grunt) {
             elements: []
           },
           sections: {
-            imports: 'demo/src/bosonic_runtime_imports.html'
+            imports: 'test/platforms/src/bosonic_runtime_imports.html'
           },
           data: {
             platform: 'Bosonic runtime'

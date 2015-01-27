@@ -2,21 +2,12 @@
 <html>
 
 <head>
-    <title>Bosonic Platform tests</title>
+    <title>Autocomplete</title>
     <meta charset="utf-8">
-    <script type="text/javascript">
-        if (HTMLElement.prototype.createShadowRoot) {
-            window.shadowDOMImpl = 'native';
-        } else if (HTMLElement.prototype.webkitCreateShadowRoot && !HTMLElement.prototype.createShadowRoot) {
-            window.shadowDOMImpl = 'webkit prefixed (~ obsolete impl)';
-        } else {
-            window.shadowDOMImpl = 'not implemented';
-        }
-    </script>
     <script type="text/javascript" src="node_modules/bosonic/dist/bosonic-platform.js"></script>
     <script type="text/javascript" src="node_modules/bosonic/dist/bosonic-runtime.js"></script>
 
-    <script type="text/javascript" src="handlebars-v2.0.0.js"></script>
+    <script type="text/javascript" src="lib/handlebars-v2.0.0.js"></script>
 
     <link rel="import" href="src/b-selectable.html">
     <link rel="import" href="src/b-autocomplete.html">
@@ -24,83 +15,65 @@
 </head>
 
 <body>
-    <div class="page-header">
-        <h1>Bosonic core elements</h1>
+    <h1>Autocomplete</h1>
 
-        <h3>Platform: Bosonic runtime</h3>
+    <h2>Autocomplete with &lt;datalist&gt;</h2>
+    <datalist id="data">
+        <option value="Alabama"></option>
+        <option value="Alaska"></option>
+        <option value="Arizona"></option>
+        <option value="Arkansas"></option>
+        <option value="California"></option>
+        <option value="Colorado"></option>
+        <option value="Connecticut"></option>
+        <option value="Delaware"></option>
+        <option value="Florida"></option>
+        <option value="Georgia"></option>
+        <option value="Hawaii"></option>
+        <option value="Idaho"></option>
+        <option value="Illinois"></option>
+        <option value="Indiana"></option>
+        <option value="Iowa"></option>
+        <option value="Kansas"></option>
+        <option value="Kentucky"></option>
+        <option value="Louisiana"></option>
+        <option value="Maine"></option>
+        <option value="Maryland"></option>
+        <option value="Massachusetts"></option>
+        <option value="Michigan"></option>
+        <option value="Minnesota"></option>
+        <option value="Mississippi"></option>
+        <option value="Missouri"></option>
+        <option value="Montana"></option>
+        <option value="Nebraska"></option>
+        <option value="Nevada"></option>
+        <option value="New Hampshire"></option>
+        <option value="New Jersey"></option>
+        <option value="New Mexico"></option>
+        <option value="New York"></option>
+        <option value="North Carolina"></option>
+        <option value="North Dakota"></option>
+        <option value="Ohio"></option>
+        <option value="Oklahoma"></option>
+        <option value="Oregon"></option>
+        <option value="Pennsylvania"></option>
+        <option value="Rhode Island"></option>
+        <option value="South Carolina"></option>
+        <option value="South Dakota"></option>
+        <option value="Tennessee"></option>
+        <option value="Texas"></option>
+        <option value="Utah"></option>
+        <option value="Vermont"></option>
+        <option value="Virginia"></option>
+        <option value="Washington"></option>
+        <option value="West Virginia"></option>
+        <option value="Wisconsin"></option>
+        <option value="Wyoming"></option>
+    </datalist>
+    <b-autocomplete list="data"></b-autocomplete>
 
-        <script type="text/javascript">
-            function addInfo(str, bad) {
-                var h = document.createElement('h3');
-                h.textContent = str;
-                h.style.color = bad ? 'red' : 'green';
-                document.querySelector('.page-header').appendChild(h);
-            }
-            addInfo('ShadowDOM: ' + window.shadowDOMImpl, window.shadowDOMImpl !== 'native');
-        </script>
-    </div>
-
-    <div class="bosonic-sample">
-        <h2>Autocomplete with &lt;datalist&gt;</h2>
-        <datalist id="data">
-            <option value="Alabama"></option>
-            <option value="Alaska"></option>
-            <option value="Arizona"></option>
-            <option value="Arkansas"></option>
-            <option value="California"></option>
-            <option value="Colorado"></option>
-            <option value="Connecticut"></option>
-            <option value="Delaware"></option>
-            <option value="Florida"></option>
-            <option value="Georgia"></option>
-            <option value="Hawaii"></option>
-            <option value="Idaho"></option>
-            <option value="Illinois"></option>
-            <option value="Indiana"></option>
-            <option value="Iowa"></option>
-            <option value="Kansas"></option>
-            <option value="Kentucky"></option>
-            <option value="Louisiana"></option>
-            <option value="Maine"></option>
-            <option value="Maryland"></option>
-            <option value="Massachusetts"></option>
-            <option value="Michigan"></option>
-            <option value="Minnesota"></option>
-            <option value="Mississippi"></option>
-            <option value="Missouri"></option>
-            <option value="Montana"></option>
-            <option value="Nebraska"></option>
-            <option value="Nevada"></option>
-            <option value="New Hampshire"></option>
-            <option value="New Jersey"></option>
-            <option value="New Mexico"></option>
-            <option value="New York"></option>
-            <option value="North Carolina"></option>
-            <option value="North Dakota"></option>
-            <option value="Ohio"></option>
-            <option value="Oklahoma"></option>
-            <option value="Oregon"></option>
-            <option value="Pennsylvania"></option>
-            <option value="Rhode Island"></option>
-            <option value="South Carolina"></option>
-            <option value="South Dakota"></option>
-            <option value="Tennessee"></option>
-            <option value="Texas"></option>
-            <option value="Utah"></option>
-            <option value="Vermont"></option>
-            <option value="Virginia"></option>
-            <option value="Washington"></option>
-            <option value="West Virginia"></option>
-            <option value="Wisconsin"></option>
-            <option value="Wyoming"></option>
-        </datalist>
-        <b-autocomplete list="data"></b-autocomplete>
-    </div>
-
-    <div class="bosonic-sample">
-        <h2>Autocomplete with JSON data & Handlebars template</h2>
-        <b-autocomplete id="autocomplete2"></b-autocomplete>
-    </div>
+    <h2>Autocomplete with JSON data & Handlebars template</h2>
+    <b-autocomplete id="autocomplete2"></b-autocomplete>
 
     <script>
         var ac2 = document.getElementById('autocomplete2');
