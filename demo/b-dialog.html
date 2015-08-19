@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-dialog</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="lib/webcomponents.js"></script>
+        <script type="text/javascript" src="lib/bosonic-runtime.js"></script>
+
+        <link rel="import" href="lib/b-dialog.html">
+
+        <link rel="stylesheet" href="styles.css">
+        <style>
+            b-dialog[visible].slide-in-right {
+                -webkit-transform: translateX(0);
+                -moz-transform: translateX(0);
+                -ms-transform: translateX(0);
+                transform: translateX(0);
+                opacity: 1;
+            }
+            b-dialog.slide-in-right {
+                -webkit-transform: translateX(20%);
+                -moz-transform: translateX(20%);
+                -ms-transform: translateX(20%);
+                transform: translateX(20%);
+                opacity: 0;
+                -webkit-transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+                -moz-transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+                transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Modals & dialogs</h1>
+        <button id="show-dialog">Show dialog</button>
+        <button id="show-modal">Show modal</button>
+        <b-dialog id="simple-dialog">
+            <h3>Test</h3>
+            <p>Hello world!</p>
+            <button data-dialog-dismiss>Close</button>
+        </b-dialog>
+        <script type="text/javascript">
+            window.addEventListener("WebComponentsReady", function() {
+                var dialogBtn = document.getElementById('show-dialog'),
+                    modalBtn = document.getElementById('show-modal'),
+                    dialog = document.getElementById('simple-dialog');
+                
+                dialogBtn.addEventListener('click', function() {
+                    dialog.show();
+                }, false);
+                modalBtn.addEventListener('click', function() {
+                    dialog.showModal();
+                }, false);
+            });
+        </script>
+
+        <h2>With transitions</h2>
+        <button id="anim-dialog">Show dialog</button>
+        <button id="anim-modal">Show modal</button>
+        <b-dialog id="animated-dialog" class="slide-in-right">
+            <h3>Test</h3>
+            <p>Hello world!</p>
+            <button dialog-dismiss>Close</button>
+        </b-dialog>
+        <script type="text/javascript">
+            window.addEventListener("WebComponentsReady", function() {
+                var dialogBtn = document.getElementById('anim-dialog'),
+                    modalBtn = document.getElementById('anim-modal'),
+                    dialog = document.getElementById('animated-dialog');
+                
+                dialogBtn.addEventListener('click', function() {
+                    dialog.show();
+                }, false);
+                modalBtn.addEventListener('click', function() {
+                    dialog.showModal();
+                }, false);
+            });
+        </script>
+    </body>
+</html>

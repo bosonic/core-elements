@@ -1,0 +1,68 @@
+<element name="b-tooltip">
+    <style>
+        :host {
+            display: none;
+        }
+
+        :host[show] {
+            display: block;
+        }
+
+        .b-tooltip {
+            position: absolute;
+            padding: 8px;
+            color: white;
+            background-color: rgba(0,0,0,0.8);
+            box-sizing: border-box;
+            border-radius: 3px;
+            white-space: nowrap;
+            line-height: 6px;
+            z-index: 1002;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    </style>
+    <template>
+        <div class="b-tooltip">
+            <content></content>
+        </div>
+    </template>
+    <script>
+        (function(){
+            Bosonic.register({
+                get position() {
+                    return this.getAttribute('position') || 'top left';
+                },
+
+                get target() {
+                    return this.hasAttribute('target') 
+                        ? document.querySelector(this.getAttribute('target'))
+                        : null;
+                },
+
+                get tooltip() {
+                    return this.shadowRoot.querySelector('.b-tooltip');
+                },
+
+                createdCallback: function() {
+                    this.enterListener = this.onEnterTarget.bind(this);
+                    this.leaveListener = this.onLeaveTarget.bind(this);
+                    this.target.addEventListener('mouseenter', this.enterListener, false);
+                    this.target.addEventListener('mouseleave', this.leaveListener, false);
+                },
+
+                attachedCallback: function() {
+                    
+                },
+
+                onEnterTarget: function(evt) {
+                    this.setAttribute('show', '');
+                },
+
+                onLeaveTarget: function(evt) {
+                    this.removeAttribute('show');
+                }
+            });
+        })();
+    </script>
+</element>

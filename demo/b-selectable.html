@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-selectable</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="lib/webcomponents.js"></script>
+        <script type="text/javascript" src="lib/bosonic-runtime.js"></script>
+
+        <link rel="import" href="lib/b-selectable.html">
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <h1>Selectable</h1>
+
+        <style>
+            .b-selectable-selected {
+                background-color: red;
+            }
+        </style>
+        <b-selectable target="li">
+            <ul>
+                <li>item 1</li>
+                <li>item 2</li>
+                <li>item 3</li>
+                <li>item 4</li>
+                <li>item 5</li>
+                <li>item 6</li>
+                <li>item 7</li>
+            </ul>
+        </b-selectable>
+    </body>
+</html>

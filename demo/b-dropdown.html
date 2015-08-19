@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-dropdown</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="lib/webcomponents.js"></script>
+        <script type="text/javascript" src="lib/bosonic-runtime.js"></script>
+
+        <link rel="import" href="lib/b-dropdown.html">
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <h1>Dropdowns</h1>
+        <style>
+            b-dropdown {
+                float: left;
+                margin-left: 2px;
+            }
+            b-dropdown button {
+                margin: 0;
+                padding-right: 5px;
+            }
+            b-dropdown button:after {
+                padding-left: 10px;
+                content:'\25BE';
+            }
+        </style>
+
+        <b-dropdown id="first">
+            <button>Dropdown 1</button>
+            <ul>
+                <li>plain text</li>
+                <li><a href="#">link item</a></li>
+                <hr />
+                <li><a href="#">separated link</a></li>
+            </ul>
+        </b-dropdown>
+        
+        <b-dropdown id="second">
+            <button>Dropdown 2</button>
+            <ul>
+                <li>plain text</li>
+                <li><a href="#">link item</a></li>
+                <hr />
+                <li><a href="#">separated link</a></li>
+            </ul>
+        </b-dropdown>
+    </body>
+</html>
