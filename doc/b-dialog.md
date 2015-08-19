@@ -9,13 +9,15 @@ You may not love them, but modals are sometimes requested by customers...
 ## Usage
 
 ``` html
-<button id="show-modal">Show modal</button>
-
 <b-dialog>
-    <h3>Test</h3>
-    <p>Hello world!</p>
-    <button data-dialog-dismiss>Close</button>
+    <b-dialog-content>
+        <h3>Test</h3>
+        <p>Hello world!</p>
+        <button data-dialog-dismiss>Close</button>
+    </b-dialog-content>
 </b-dialog>
+
+<button id="show-modal">Show modal</button>
 
 <script type="text/javascript">
     window.addEventListener("WebComponentsReady", function() {
@@ -26,6 +28,7 @@ You may not love them, but modals are sometimes requested by customers...
     });
 </script>
 ```
+As you can see, you must wrap your dialog content with a `<b-dialog-content>`. This is sadly necessary to enable classy dialog appearances using CSS transform transitions instead of dirty JS hacks.
 
 A `<b-dialog>` is hidden by default, you must open it by calling its `show()` or `showModal()` method. But you can make it dismissable without any JS by adding a `dialog-dismiss` or `data-dialog-dismiss` attribute to any link or button inside the dialog content.
 

@@ -1,32 +1,27 @@
 <element name="b-dialog">
     <style>
         b-dialog {
+            display: block;
             position: fixed;
-            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-            opacity: 0;
             top: 50%;
             left: 50%;
-            max-width: 100%;
-            max-height: 100%;
-            overflow: auto;
-            background: white;
-            border: 1px solid #333;
-            z-index: 1;
+            height: auto;
+            z-index: 2000;
+            visibility: hidden;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-            -o-box-sizing: border-box;
             box-sizing: border-box;
-            -webkit-transform: translate(-50%, -50%);
-            -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            -o-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
         }
 
         b-dialog[visible] {
-            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-            opacity: 1;
+            visibility: visible;
         }
 
         .b-overlay {
@@ -47,9 +42,6 @@
             opacity: 0.5;
         }
     </style>
-    <template>
-        <content></content>
-    </template>
     <script>
         (function(){
             var KEY = {
@@ -186,6 +178,28 @@
                     }
                 }
             });
+        })();
+    </script>
+</element>
+
+<element name="b-dialog-content">
+    <style>
+        b-dialog-content {
+            display: block;
+            position: relative;
+            margin: 0 auto;
+            color: #000;
+            background: white;
+            border: 1px solid #333;
+            border-radius: 3px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        (function(){
+            Bosonic.register({});
         })();
     </script>
 </element>

@@ -10,14 +10,14 @@
 
         <link rel="stylesheet" href="styles.css">
         <style>
-            b-dialog[visible].slide-in-right {
+            b-dialog[visible].slide-in-right b-dialog-content {
                 -webkit-transform: translateX(0);
                 -moz-transform: translateX(0);
                 -ms-transform: translateX(0);
                 transform: translateX(0);
                 opacity: 1;
             }
-            b-dialog.slide-in-right {
+            b-dialog.slide-in-right b-dialog-content {
                 -webkit-transform: translateX(20%);
                 -moz-transform: translateX(20%);
                 -ms-transform: translateX(20%);
@@ -35,9 +35,11 @@
         <button id="show-dialog">Show dialog</button>
         <button id="show-modal">Show modal</button>
         <b-dialog id="simple-dialog">
-            <h3>Test</h3>
-            <p>Hello world!</p>
-            <button data-dialog-dismiss>Close</button>
+            <b-dialog-content>
+                <h3>Test</h3>
+                <p>Hello world!</p>
+                <button data-dialog-dismiss>Close</button>
+            </b-dialog-content>
         </b-dialog>
         <script type="text/javascript">
             window.addEventListener("WebComponentsReady", function() {
@@ -58,9 +60,11 @@
         <button id="anim-dialog">Show dialog</button>
         <button id="anim-modal">Show modal</button>
         <b-dialog id="animated-dialog" class="slide-in-right">
-            <h3>Test</h3>
-            <p>Hello world!</p>
-            <button dialog-dismiss>Close</button>
+            <b-dialog-content>
+                <h3>Test</h3>
+                <p>Hello world!</p>
+                <button dialog-dismiss>Close</button>
+            </b-dialog-content>
         </b-dialog>
         <script type="text/javascript">
             window.addEventListener("WebComponentsReady", function() {
