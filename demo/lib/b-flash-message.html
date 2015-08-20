@@ -43,24 +43,50 @@
             transition: opacity 0.5s ease-in-out;
         }
 
-        b-flash-message .b-flash-message-close {
-            float:right;
-            opacity:.4;
-            filter:alpha(opacity=40);
-            cursor: pointer;
+        b-flash-message[position], b-flash-message[data-position] {
+            position: fixed;
+            z-index: 1000;
+            margin: 0 auto;
+            width: 33.3%;
+        }
+
+        b-flash-message[visible][position], b-flash-message[visible][data-position] {
+            display: inline-block;
+        }
+
+        b-flash-message[position=top], b-flash-message[data-position=top] {
+            top: 20px;
+            left: 0;
+            right: 0;
+        }
+        b-flash-message[position=bottom], b-flash-message[data-position=bottom] {
+            bottom: 20px;
+            left: 0;
+            right: 0;
+        }
+        b-flash-message[position=top-left], b-flash-message[data-position=top-left] {
+            top: 20px;
+            left: 20px;
+        }
+        b-flash-message[position=top-right], b-flash-message[data-position=top-right] {
+            top: 20px;
+            right: 20px;
+        }
+        b-flash-message[position=bottom-left], b-flash-message[data-position=bottom-left] {
+            bottom: 20px;
+            left: 20px;
+        }
+        b-flash-message[position=bottom-right], b-flash-message[data-position=bottom-right] {
+            bottom: 20px;
+            right: 20px;
         }
     </style>
     <script>
         (function(){
             Bosonic.register({
                 attachedCallback: function() {
-                    if (this.getAttribute('closeable') === 'true') {
-                        var btn = document.createElement('button');
-                        btn.classList.add('b-flash-message-close');
-                        btn.textContent = 'x';
-                        this.appendChild(btn);
-                        btn.addEventListener('click', this.close.bind(this), false);
-                    }
+                    this.clickListener = this.onMessageClick.bind(this);
+                    this.addEventListener('click', this.clickListener);
 
                     var type = this.getAttribute('type');
                     this.setAttribute('type', type || 'info');
@@ -106,7 +132,17 @@
 
                 supportsTransitions: function() {
                     return window.requestAnimationFrame !== undefined;
-                }
+                },
+
+                onMessageClick: function(e) {
+                    var target = e.target;
+                    while (target && target !== this) {
+                        if (target.hasAttribute && (target.hasAttribute('data-flash-message-dismiss') || target.hasAttribute('flash-message-dismiss'))) {
+                            this.close();
+                        }
+                        target = target.parentNode;
+                    }
+                },
             });
         })();
     </script>

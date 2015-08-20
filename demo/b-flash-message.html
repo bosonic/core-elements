@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-flash-message</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="lib/webcomponents.js"></script>
+        <script type="text/javascript" src="lib/bosonic-runtime.js"></script>
+
+        <link rel="import" href="lib/b-flash-message.html">
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <h1>Flash messages</h1>
+        <h2>In place</h2>
+        <div id="basic-demos">
+            <button class="info">Show info</button>
+            <button class="success">Show success msg</button>
+            <button class="warning">Show warning</button>
+            <button class="error">Show error msg</button>
+            <style>
+                #basic-flash {
+                    margin-top: 20px;
+                }
+            </style>
+            <script type="text/javascript">
+                window.addEventListener('WebComponentsReady', function() {
+                    var flash = document.getElementById('basic-flash'),
+                        btns = document.querySelectorAll('#basic-demos button');
+                    
+                    [].forEach.call(btns, function(btn) {
+                        btn.addEventListener('click', function(e) {
+                            flash.setAttribute('type', btn.className);
+                            flash.show();
+                        }, false);
+                    });
+                });
+            </script>
+        </div>
+        <b-flash-message id="basic-flash" type="info" duration="2000">
+            <strong>Hello, World!</strong> Not again...
+            <button flash-message-dismiss class="b-flash-message-close">x</button>
+        </b-flash-message>
+        
+        <h2>Positioned</h2>
+        <div id="position-demos">
+            <button class="top">Top</button>
+            <button class="top-left">Top left</button>
+            <button class="top-right">Top right</button>
+            <button class="bottom">Bottom</button>
+            <button class="bottom-left">Bottom left</button>
+            <button class="bottom-right">Bottom right</button>
+            <script type="text/javascript">
+                window.addEventListener('WebComponentsReady', function() {
+                    var flash = document.getElementById('positioned-flash'),
+                        btns = document.querySelectorAll('#position-demos button');
+                    
+                    [].forEach.call(btns, function(btn) {
+                        btn.addEventListener('click', function(e) {
+                            flash.setAttribute('position', btn.className);
+                            flash.show();
+                        }, false);
+                    });
+                });
+            </script>
+        </div>
+        <b-flash-message id="positioned-flash" type="success" position="top" duration="2000">
+            Happiness shared sucessfully.
+            <button flash-message-dismiss class="b-flash-message-close">x</button>
+        </b-flash-message>
+    </body>
+</html>
