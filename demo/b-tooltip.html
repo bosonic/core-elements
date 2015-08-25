@@ -13,9 +13,15 @@
 
     <body>
         <h1>Tooltips</h1>
-        <button id="btn1">Click me!</button>
-        <b-tooltip for="btn1">Tooltip text</b-tooltip>
-        <button id="btn">Click me!</button>
-        <b-tooltip for="btn">Tooltip text</b-tooltip>
+        <div style="text-align: center">
+            <button id="btn1">Tooltip on left</button>
+            <b-tooltip for="btn1" position="left">Tooltip text</b-tooltip>
+            <button id="btn2">Tooltip on bottom</button>
+            <b-tooltip for="btn2">Tooltip text</b-tooltip>
+            <button id="btn3">Tooltip on top</button>
+            <b-tooltip for="btn3" position="top">Tooltip text</b-tooltip>
+            <button id="btn4">Tooltip on right</button>
+            <b-tooltip for="btn4" position="right">Tooltip text</b-tooltip>
+        </div>
     </body>
 </html>

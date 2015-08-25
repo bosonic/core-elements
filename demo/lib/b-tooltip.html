@@ -30,10 +30,10 @@
     <script>
         (function(){
             Bosonic.register({
-                spacing: 20,
+                spacing: 15,
 
                 get position() {
-                    return this.getAttribute('position') || 'top left';
+                    return this.getAttribute('position') || 'bottom';
                 },
 
                 get target() {
@@ -59,15 +59,34 @@
                 },
 
                 setPosition: function() {
-                    var parentRect = this.offsetParent.getBoundingClientRect(),
+                    var targetDim = this.getOuterDimensions(this.target),
+                        tipDim = this.getOuterDimensions(this),
+                        targetOffset = this.getOffset(this.target),
                         targetRect = this.target.getBoundingClientRect(),
                         tipRect = this.getBoundingClientRect();
 
-                    var centerOffset = (targetRect.width - tipRect.width) / 2;
-                    centerOffset += this.getComputedDimension('marginLeft');
+                    var centeringOffset = {
+                        width: (targetRect.width - tipRect.width) / 2,
+                        height: (targetRect.height - tipRect.height) / 2
+                    };
 
-                    this.style.left = targetRect.left - parentRect.left + centerOffset + 'px';
-                    this.style.top = targetRect.top - parentRect.top + targetRect.height + this.spacing + 'px';
+                    switch(this.position) {
+                        case 'left':
+                            this.style.top = targetOffset.top + centeringOffset.height + 'px';
+                            this.style.left = targetOffset.left - tipDim.width - this.spacing + 'px';
+                            break;
+                        case 'right':
+                            this.style.top = targetOffset.top + centeringOffset.height + 'px';
+                            this.style.left = targetOffset.left + targetRect.width + this.spacing + 'px';
+                            break;
+                        case 'top':
+                            this.style.top = targetOffset.top - tipDim.height - this.spacing + 'px';
+                            this.style.left = targetOffset.left + centeringOffset.width + 'px';
+                            break;
+                        default:
+                            this.style.top = targetOffset.top + targetDim.height + this.spacing + 'px';
+                            this.style.left = targetOffset.left + centeringOffset.width + 'px';
+                    }
                 },
 
                 show: function() {
@@ -108,7 +127,25 @@
 
                 // get the coordinates of the element relative to the parent element
                 getPosition: function(elt) {
+                    throw "Not implemented yet.";
+                },
 
+                // get the current computed width & height of an element, including padding, borders and (optionally) margins
+                getOuterDimensions: function(elt, includeMargins) {
+                    var dim = this.getComputedDimension.bind(elt),
+                        rect = elt.getBoundingClientRect();
+
+                    var outer = {
+                        width: rect.width + dim('paddingLeft') + dim('paddingRight') 
+                                          + dim('borderLeftWidth') + dim('borderRightWidth'),
+                        height: rect.height + dim('paddingTop') + dim('paddingBottom') 
+                                            + dim('borderTopWidth') + dim('borderBottomWidth')
+                    };
+                    if (includeMargins === true) {
+                        outer.width = outer.width + dim('marginLeft') + dim('marginRight');
+                        outer.height = outer.height + dim('marginTop') + dim('marginBottom');
+                    }
+                    return outer;
                 }
             });
         })();
