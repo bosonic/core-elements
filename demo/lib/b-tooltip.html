@@ -1,28 +1,28 @@
 <element name="b-tooltip">
-    <style>
-        :host {
-            display: none;
-        }
-
-        :host[show] {
-            display: block;
-        }
-
-        .b-tooltip {
-            position: absolute;
-            padding: 8px;
-            color: white;
-            background-color: rgba(0,0,0,0.8);
-            box-sizing: border-box;
-            border-radius: 3px;
-            white-space: nowrap;
-            line-height: 6px;
-            z-index: 1002;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-    </style>
     <template>
+        <style>
+            :host {
+                display: none;
+                position: absolute;
+                z-index: 1002;
+            }
+
+            :host([show]) {
+                display: block;
+            }
+
+            .b-tooltip {
+                padding: 8px;
+                color: white;
+                background-color: rgba(0,0,0,0.8);
+                box-sizing: border-box;
+                border-radius: 3px;
+                white-space: nowrap;
+                line-height: 6px;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        </style>
         <div class="b-tooltip">
             <content></content>
         </div>
@@ -30,14 +30,16 @@
     <script>
         (function(){
             Bosonic.register({
+                spacing: 20,
+
                 get position() {
                     return this.getAttribute('position') || 'top left';
                 },
 
                 get target() {
-                    return this.hasAttribute('target') 
-                        ? document.querySelector(this.getAttribute('target'))
-                        : null;
+                    return this.hasAttribute('for') 
+                        ? document.getElementById(this.getAttribute('for'))
+                        : this.parentNode;
                 },
 
                 get tooltip() {
@@ -45,22 +47,68 @@
                 },
 
                 createdCallback: function() {
+                    this.setAttribute('role', 'tooltip');
+                    this.setAttribute('tabindex', '-1');
+
                     this.enterListener = this.onEnterTarget.bind(this);
                     this.leaveListener = this.onLeaveTarget.bind(this);
                     this.target.addEventListener('mouseenter', this.enterListener, false);
+                    this.target.addEventListener('focus', this.enterListener, false);
                     this.target.addEventListener('mouseleave', this.leaveListener, false);
+                    this.target.addEventListener('blur', this.leaveListener, false);
                 },
 
-                attachedCallback: function() {
-                    
+                setPosition: function() {
+                    var parentRect = this.offsetParent.getBoundingClientRect(),
+                        targetRect = this.target.getBoundingClientRect(),
+                        tipRect = this.getBoundingClientRect();
+
+                    var centerOffset = (targetRect.width - tipRect.width) / 2;
+                    centerOffset += this.getComputedDimension('marginLeft');
+
+                    this.style.left = targetRect.left - parentRect.left + centerOffset + 'px';
+                    this.style.top = targetRect.top - parentRect.top + targetRect.height + this.spacing + 'px';
+                },
+
+                show: function() {
+                    this.setAttribute('show', '');
+                    this.setPosition();
+                },
+
+                hide: function() {
+                    this.removeAttribute('show');
                 },
 
                 onEnterTarget: function(evt) {
-                    this.setAttribute('show', '');
+                    this.show();
                 },
 
                 onLeaveTarget: function(evt) {
-                    this.removeAttribute('show');
+                    this.hide();
+                },
+
+                getComputedDimension: function(dim) {
+                    var computed = window.getComputedStyle(this),
+                        raw = computed[dim],
+                        value = parseInt(raw.replace('px', ''), 10);
+                    // NaN checking for IE9
+                    return isNaN(value) ? 0 : value;
+                },
+
+                // get the coordinates of the element relative to the document
+                getOffset: function(elt) {
+                    var elt = elt || this,
+                        rect = elt.getBoundingClientRect();
+
+                    return {
+                        top: rect.top + window.pageYOffset - document.documentElement.clientTop,
+                        left: rect.left + window.pageXOffset - document.documentElement.clientLeft
+                    };
+                },
+
+                // get the coordinates of the element relative to the parent element
+                getPosition: function(elt) {
+
                 }
             });
         })();
