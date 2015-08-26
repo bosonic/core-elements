@@ -32,17 +32,14 @@
                 init: function() {
                     this.duration = this.hasAttribute('duration') ? parseFloat(this.getAttribute('duration')) : 0.33;
                     this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
-                    this.body = this;
-
-                    if (this.body) {
-                        if (this.supportsTransitions()) {
-                            if (this.active) {
-                                this.setSize('auto');
-                            }
+                    
+                    if (this.supportsTransitions()) {
+                        if (this.active) {
+                            this.setSize('auto');
                         }
-                        this.addListeners();
-                        this.toggleClosedClass(!this.active);
                     }
+                    this.addListeners();
+                    this.toggleClosedClass(!this.active);
                 },
 
                 detachedCallback: function() {
@@ -52,15 +49,15 @@
                 addListeners: function() {
                     if (this.supportsTransitions()) {
                         this.transitionEndListener = this.transitionEnd.bind(this);
-                        this.body.addEventListener('webkitTransitionEnd', this.transitionEndListener);
-                        this.body.addEventListener('transitionend', this.transitionEndListener);
+                        this.addEventListener('webkitTransitionEnd', this.transitionEndListener);
+                        this.addEventListener('transitionend', this.transitionEndListener);
                     }
                 },
 
                 removeListeners: function() {
                     if (this.supportsTransitions()) {
-                        this.body.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
-                        this.body.removeEventListener('transitionend', this.transitionEndListener);
+                        this.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
+                        this.removeEventListener('transitionend', this.transitionEndListener);
                     }
                 },
 
@@ -78,7 +75,6 @@
                 },
 
                 update: function() {
-                    if (!this.body) return;
                     this.active ? this.show() : this.hide();
                 },
 
@@ -116,9 +112,8 @@
                         this.computeSize();
                     }
                     this.setTransitionDuration(duration);
-                    var s = this.body.style;
-                    var nochange = s[this.dimension] === size;
-                    s[this.dimension] = size;
+                    var nochange = this.style[this.dimension] === size;
+                    this.style[this.dimension] = size;
                     // transitionEnd will not be called if the size has not changed
                     // if (forceEnd && nochange) {
                     //     this.transitionEnd();
@@ -126,16 +121,15 @@
                 },
 
                 computeSize: function() {
-                    return this.body.getBoundingClientRect()[this.dimension] + 'px';
+                    return this.getBoundingClientRect()[this.dimension] + 'px';
                 },
 
                 setSize: function(size) {
-                    this.body.style[this.dimension] = size;
+                    this.style[this.dimension] = size;
                 },
 
                 setTransitionDuration: function(duration) {
-                    var s = this.body.style;
-                    s.webkitTransition = s.transition = duration ? (this.dimension + ' ' + duration + 's') : null;
+                    this.style.webkitTransition = this.style.transition = duration ? (this.dimension + ' ' + duration + 's') : null;
                     if (duration === 0) {
                         var that = this;
                         window.requestAnimationFrame(function() {
@@ -145,7 +139,7 @@
                 },
 
                 toggleClosedClass: function(closed) {
-                    closed ? this.body.classList.add(CLOSED_CLASS) : this.body.classList.remove(CLOSED_CLASS);
+                    closed ? this.classList.add(CLOSED_CLASS) : this.classList.remove(CLOSED_CLASS);
                 },
 
                 transitionEnd: function() {
