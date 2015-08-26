@@ -17,12 +17,12 @@
             var CLOSED_CLASS = 'b-collapsible-closed';
 
             Bosonic.register({
-                get active() {
-                    return this.hasAttribute('active');
+                get opened() {
+                    return this.hasAttribute('opened');
                 },
 
-                set active(value) {
-                    value ? this.setAttribute('active', '') : this.removeAttribute('active');
+                set opened(value) {
+                    value ? this.setAttribute('opened', '') : this.removeAttribute('opened');
                 },
 
                 createdCallback: function() {
@@ -34,12 +34,12 @@
                     this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
                     
                     if (this.supportsTransitions()) {
-                        if (this.active) {
+                        if (this.opened) {
                             this.setSize('auto');
                         }
                     }
                     this.addListeners();
-                    this.toggleClosedClass(!this.active);
+                    this.toggleClosedClass(!this.opened);
                 },
 
                 detachedCallback: function() {
@@ -62,20 +62,16 @@
                 },
 
                 attributeChangedCallback: function(name, oldValue, newValue) {
-                    if (name === 'active') this.activeChanged(oldValue, newValue);
+                    if (name === 'opened') this.update();
                 },
 
                 toggle: function() {
                     if (!this.dispatchEvent(new CustomEvent('b-collapsible-toggle', { cancelable: true }))) return;
-                    this.active = !this.active;
-                },
-
-                activeChanged: function(oldValue, newValue) {
-                    this.update();
+                    this.opened = !this.opened;
                 },
 
                 update: function() {
-                    this.active ? this.show() : this.hide();
+                    this.opened ? this.show() : this.hide();
                 },
 
                 show: function() {
@@ -141,11 +137,11 @@
                 },
 
                 transitionEnd: function() {
-                    if (this.active) {
+                    if (this.opened) {
                         this.updateSize('auto', null);
                     }
                     this.setTransitionDuration(null);
-                    this.toggleClosedClass(!this.active);
+                    this.toggleClosedClass(!this.opened);
                 },
 
                 supportsTransitions: function() {
