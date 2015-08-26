@@ -79,9 +79,10 @@
         (function(){
             Bosonic.register({
                 spacing: 0,
+                defaultPosition: 'bottom',
 
                 get position() {
-                    return this.getAttribute('position') || 'bottom';
+                    return this.getAttribute('position') || this.getAttribute('data-position');
                 },
 
                 get target() {
@@ -97,6 +98,9 @@
                 createdCallback: function() {
                     this.setAttribute('role', 'tooltip');
                     this.setAttribute('tabindex', '-1');
+                    if (!this.hasAttribute('position') && !this.hasAttribute('data-position')) {
+                        this.setAttribute('position', this.defaultPosition);
+                    }
 
                     this.enterListener = this.onEnterTarget.bind(this);
                     this.leaveListener = this.onLeaveTarget.bind(this);
@@ -106,7 +110,7 @@
                     this.target.addEventListener('blur', this.leaveListener, false);
                 },
 
-                setPosition: function() {
+                applyPlacement: function() {
                     var targetDim = this.getOuterDimensions(this.target),
                         tipDim = this.getOuterDimensions(this),
                         targetOffset = this.getOffset(this.target),
@@ -139,7 +143,7 @@
 
                 show: function() {
                     this.setAttribute('show', '');
-                    this.setPosition();
+                    this.applyPlacement();
                 },
 
                 hide: function() {
