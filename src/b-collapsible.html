@@ -2,6 +2,7 @@
     <style>
         b-collapsible {
             display: block;
+            overflow: hidden;
         }
         
         b-collapsible.b-collapsible-closed {
@@ -34,7 +35,6 @@
                     this.body = this;
 
                     if (this.body) {
-                        this.body.style.overflow = 'hidden';
                         if (this.supportsTransitions()) {
                             if (this.active) {
                                 this.setSize('auto');
