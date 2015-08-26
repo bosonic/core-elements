@@ -23,3 +23,29 @@ b-dialog-content {
     opacity:.4;
     cursor: pointer;
 }
+
+#toggle-collapsible:hover {
+    background-color: #c0392b;
+}
+#toggle-collapsible {
+    width: 100%;
+    border: none;
+    text-align: left;
+    font-weight: 700;
+    padding: 1em;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #e74c3c;
+    border-bottom: 1px solid #c0392b;
+    -moz-transition: background-color 0.5s ease-in-out;
+    -o-transition: background-color 0.5s ease-in-out;
+    -webkit-transition: background-color 0.5s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
+}
+#collapsible div {
+    background-color: #eee;
+    font-size: 1em;
+    line-height: 1.5em;
+    padding: 1em 2em;
+}

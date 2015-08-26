@@ -3,10 +3,6 @@
         b-collapsible {
             display: block;
         }
-
-        .b-collapsible-header {
-            cursor: pointer;
-        }
         
         .b-collapsible-closed {
             display: none;
@@ -21,8 +17,7 @@
             window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-            var HEADER_CLASS = 'b-collapsible-header',
-                BODY_CLASS = 'b-collapsible-body',
+            var BODY_CLASS = 'b-collapsible-body',
                 CLOSED_CLASS = 'b-collapsible-closed';
 
             Bosonic.register({
@@ -41,8 +36,7 @@
                 init: function() {
                     this.duration = this.hasAttribute('duration') ? parseFloat(this.getAttribute('duration')) : 0.33;
                     this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
-                    this.header = this.querySelector('.' + HEADER_CLASS);
-                    this.body = this.querySelector('.' + BODY_CLASS) || this.header.nextElementSibling;
+                    this.body = this;
 
                     if (this.body) {
                         this.body.style.overflow = 'hidden';
@@ -62,10 +56,6 @@
                 },
 
                 addListeners: function() {
-                    if (this.header) {
-                        this.toggleListener = this.toggle.bind(this);
-                        this.header.addEventListener('click', this.toggleListener, false);
-                    }
                     if (this.supportsTransitions()) {
                         this.transitionEndListener = this.transitionEnd.bind(this);
                         this.body.addEventListener('webkitTransitionEnd', this.transitionEndListener);
@@ -74,9 +64,6 @@
                 },
 
                 removeListeners: function() {
-                    if (this.toggleListener) {
-                        this.header.removeEventListener('click', this.toggleListener, false);
-                    }
                     if (this.supportsTransitions()) {
                         this.body.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
                         this.body.removeEventListener('transitionend', this.transitionEndListener);

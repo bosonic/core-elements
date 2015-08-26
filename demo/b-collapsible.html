@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-collapsible</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="lib/webcomponents.js"></script>
+        <script type="text/javascript" src="lib/bosonic-runtime.js"></script>
+
+        <link rel="import" href="lib/b-collapsible.html">
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <h1>Collapsible</h1>
+        <button id="toggle-collapsible">Toogle collapsible</button>
+        <b-collapsible id="collapsible">
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra eros id vehicula tempor. Nulla laoreet, ex malesuada tempus consequat, tortor mauris lacinia tellus, et eleifend augue quam in felis. Vestibulum vitae turpis iaculis, sollicitudin sapien vitae, fringilla sapien. Quisque interdum, diam eu molestie tempus, ante magna ornare mauris, sed aliquam quam nisi vitae diam. Pellentesque congue hendrerit ligula sit amet blandit. Integer dui enim, pretium consequat consectetur laoreet, hendrerit sed ipsum. Vestibulum et hendrerit orci. Aliquam tristique, tellus in vulputate lobortis, metus lacus sagittis metus, eu accumsan sem dolor quis sapien.
+            </div>
+        </b-collapsible>
+        <script type="text/javascript">
+            window.addEventListener("WebComponentsReady", function() {
+                var btn = document.getElementById('toggle-collapsible'),
+                    collapsible = document.getElementById('collapsible');
+                
+                btn.addEventListener('click', function() {
+                    collapsible.toggle();
+                }, false);
+            });
+        </script>
+    </body>
+</html>
