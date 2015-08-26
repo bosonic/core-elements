@@ -86,10 +86,9 @@
                         this.updateSize('auto', null);
                         var s = this.computeSize();
                         this.updateSize(0, null);
-                        var that = this;
                         window.requestAnimationFrame(function() {
-                            that.updateSize(that.size || s, that.duration, true);
-                        });
+                            this.updateSize(this.size || s, this.duration, true);
+                        }.bind(this));
                     }
                 },
 
@@ -101,10 +100,9 @@
                         return;
                     }
                     this.updateSize(this.computeSize(), null);
-                    var that = this;
                     window.requestAnimationFrame(function() {
-                        that.updateSize(0, that.duration);
-                    });
+                        this.updateSize(0, this.duration);
+                    }.bind(this));
                 },
 
                 updateSize: function(size, duration, forceEnd) {
@@ -133,8 +131,8 @@
                     if (duration === 0) {
                         var that = this;
                         window.requestAnimationFrame(function() {
-                            that.transitionEnd();
-                        });
+                            this.transitionEnd();
+                        }.bind(this));
                     }
                 },
 
