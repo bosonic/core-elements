@@ -4,12 +4,8 @@
             display: block;
         }
         
-        .b-collapsible-closed {
+        b-collapsible.b-collapsible-closed {
             display: none;
-        }
-
-        .b-collapsible-body {
-            height: 0px;
         }
     </style>
     <script>
@@ -17,8 +13,7 @@
             window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-            var BODY_CLASS = 'b-collapsible-body',
-                CLOSED_CLASS = 'b-collapsible-closed';
+            var CLOSED_CLASS = 'b-collapsible-closed';
 
             Bosonic.register({
                 get active() {
@@ -29,7 +24,7 @@
                     value ? this.setAttribute('active', '') : this.removeAttribute('active');
                 },
 
-                attachedCallback: function() {
+                createdCallback: function() {
                     this.init();
                 },
 
@@ -41,7 +36,6 @@
                     if (this.body) {
                         this.body.style.overflow = 'hidden';
                         if (this.supportsTransitions()) {
-                            this.body.classList.add(BODY_CLASS);
                             if (this.active) {
                                 this.setSize('auto');
                             }
