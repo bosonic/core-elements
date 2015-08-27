@@ -30,7 +30,7 @@
                 },
 
                 init: function() {
-                    this.duration = this.hasAttribute('duration') ? parseFloat(this.getAttribute('duration')) : 0.33;
+                    this.duration = this.hasAttribute('duration') ? this.getAttribute('duration') : 300;
                     this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
                     
                     if (this.supportsTransitions()) {
@@ -123,7 +123,7 @@
                 },
 
                 setTransitionDuration: function(duration) {
-                    this.style.webkitTransition = this.style.transition = duration ? (this.dimension + ' ' + duration + 's') : null;
+                    this.style.webkitTransition = this.style.transition = duration ? (this.dimension + ' ' + duration + 'ms') : null;
                     if (duration === 0) {
                         var that = this;
                         window.requestAnimationFrame(function() {
