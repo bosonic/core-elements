@@ -34,7 +34,6 @@
                 },
 
                 createdCallback: function() {
-                    this.setAttribute('role', 'group');
                     if (this.supportsTransitions()) {
                         if (this.opened) {
                             this.setSize('auto');
@@ -136,7 +135,6 @@
 
                 toggleClosedAttributes: function(closed) {
                     closed ? this.classList.add(CLOSED_CLASS) : this.classList.remove(CLOSED_CLASS);
-                    this.setAttribute('aria-expanded', closed ? 'false' : 'true');
                 },
 
                 transitionEnd: function() {
