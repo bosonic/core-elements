@@ -25,14 +25,19 @@
                     value ? this.setAttribute('opened', '') : this.removeAttribute('opened');
                 },
 
+                get duration() {
+                    return this.hasAttribute('duration') ? this.getAttribute('duration') : 300;
+                },
+
+                get dimension() {
+                    return this.hasAttribute('horizontal') ? 'width' : 'height';
+                },
+
                 createdCallback: function() {
                     this.init();
                 },
 
                 init: function() {
-                    this.duration = this.hasAttribute('duration') ? this.getAttribute('duration') : 300;
-                    this.dimension = this.hasAttribute('horizontal') ? 'width' : 'height';
-                    
                     if (this.supportsTransitions()) {
                         if (this.opened) {
                             this.setSize('auto');
