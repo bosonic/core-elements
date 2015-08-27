@@ -34,13 +34,14 @@
                 },
 
                 createdCallback: function() {
+                    this.setAttribute('role', 'group');
                     if (this.supportsTransitions()) {
                         if (this.opened) {
                             this.setSize('auto');
                         }
                     }
                     this.addListeners();
-                    this.toggleClosedClass(!this.opened);
+                    this.toggleClosedAttributes(!this.opened);
                 },
 
                 detachedCallback: function() {
@@ -78,7 +79,7 @@
                 show: function() {
                     if (!this.dispatchEvent(new CustomEvent('b-collapsible-show', { cancelable: true }))) return;
 
-                    this.toggleClosedClass(false);
+                    this.toggleClosedAttributes(false);
                     if (this.supportsTransitions()) {
                         this.updateSize('auto', null);
                         var s = this.computeSize();
@@ -93,7 +94,7 @@
                     if (!this.dispatchEvent(new CustomEvent('b-collapsible-hide', { cancelable: true }))) return;
 
                     if (!this.supportsTransitions()) {
-                        this.toggleClosedClass(true);
+                        this.toggleClosedAttributes(true);
                         return;
                     }
                     this.updateSize(this.computeSize(), null);
@@ -133,8 +134,9 @@
                     }
                 },
 
-                toggleClosedClass: function(closed) {
+                toggleClosedAttributes: function(closed) {
                     closed ? this.classList.add(CLOSED_CLASS) : this.classList.remove(CLOSED_CLASS);
+                    this.setAttribute('aria-expanded', closed ? 'false' : 'true');
                 },
 
                 transitionEnd: function() {
@@ -142,7 +144,7 @@
                         this.updateSize('auto', null);
                     }
                     this.setTransitionDuration(null);
-                    this.toggleClosedClass(!this.opened);
+                    this.toggleClosedAttributes(!this.opened);
                 },
 
                 supportsTransitions: function() {
