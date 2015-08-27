@@ -1,12 +1,13 @@
+<link rel="import" href="./b-selectable.html">
+<link rel="import" href="./b-collapsible.html">
+
 <element name="b-accordion" extends="b-selectable">
     <script>
         (function(){
-            var PANEL_HEADER_CLASS = '.b-collapsible-header';
-
             Bosonic.register({
                 elementRole: 'tablist',
                 elementLabel: 'Accordion',
-                itemsRole: 'tabpanel',
+                panelsRole: 'tabpanel',
                 headersRole: 'tab',
 
                 createdCallback: function() {
@@ -14,37 +15,50 @@
                 },
 
                 handleAria: function() {
-                    BSelectable.prototype.handleAria.call(this);
-                    this.getItems().forEach(function(panel) {
-                        panel.setAttribute('aria-expanded', 'false');
+                    this.tabIndex = 0;
+                    this.setAttribute('role', this.elementRole);
+                    this.setAttribute('aria-label', this.elementLabel);
+                    this.setAttribute('aria-multiselectable', 'true');
+
+                    this.getHeaders().forEach(function(header, index) {
+                        header.setAttribute('role', this.headersRole);
+                        header.setAttribute('aria-expanded', 'false');
+                        if (!header.id) header.id = 'accordion-header-' + index;
+                        var panel = this.getPanel(index);
+                        panel.setAttribute('role', this.panelsRole);
+                        panel.setAttribute('aria-labelledby', header.id);
                         panel.setAttribute('aria-hidden', 'true');
-                        panel.querySelector(PANEL_HEADER_CLASS).setAttribute('role', this.headersRole);
                     }, this);
                 },
 
-                clickHandler: function (e) {
-                    e.stopPropagation();
-                    if (e.target.nodeName !== 'B-COLLAPSIBLE') {
-                        e = { target: e.target.parentElement };
+                selectedChanged: function (oldValue, newValue) {
+                    var oldHeader = this.getHeader(oldValue), 
+                        newHeader = this.getHeader(newValue);
+                    
+                    if (oldHeader !== null) {
+                        oldHeader.setAttribute('aria-expanded', 'false');
+                        var oldPanel = oldHeader.nextElementSibling;
+                        oldPanel.removeAttribute('opened');
+                        oldPanel.setAttribute('aria-hidden', 'true');
                     }
-                    BSelectable.prototype.clickHandler.call(this, e);
+                    if (newHeader !== null) {
+                        newHeader.setAttribute('aria-expanded', 'true');
+                        var newPanel = newHeader.nextElementSibling;
+                        newPanel.setAttribute('opened', '');
+                        newPanel.setAttribute('aria-hidden', 'false');
+                    }
                 },
 
-                selectedChanged: function (oldValue, newValue) {
-                    BSelectable.prototype.selectedChanged.call(this, oldValue, newValue);
-                    var oldItem = this.getItem(oldValue), 
-                        newItem = this.getItem(newValue);
-                    
-                    if (oldItem !== null) {
-                        oldItem.removeAttribute('active');
-                        oldItem.setAttribute('aria-expanded', 'false');
-                        oldItem.setAttribute('aria-hidden', 'true');
-                    }
-                    if (newItem !== null) {
-                        newItem.setAttribute('active', '');
-                        newItem.setAttribute('aria-expanded', 'true');
-                        newItem.setAttribute('aria-hidden', 'false');
-                    }
+                getHeaders: function() {
+                    return this.getItems();
+                },
+
+                getHeader: function(index) {
+                    return this.getItem(index);
+                },
+
+                getPanel: function(index) {
+                    return this.getHeader(index).nextElementSibling;
                 }
             });
         })();

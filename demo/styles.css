@@ -24,10 +24,10 @@ b-dialog-content {
     cursor: pointer;
 }
 
-.toggle-collapsible:hover {
+.collapsible-toggle:hover {
     background-color: #c0392b;
 }
-.toggle-collapsible {
+.collapsible-toggle {
     width: 100%;
     border: none;
     text-align: left;
@@ -43,7 +43,7 @@ b-dialog-content {
     -webkit-transition: background-color 0.5s ease-in-out;
     transition: background-color 0.5s ease-in-out;
 }
-b-collapsible div {
+.collapsible-content {
     background-color: #eee;
     font-size: 1em;
     line-height: 1.5em;
