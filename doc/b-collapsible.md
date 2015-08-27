@@ -9,8 +9,8 @@ You guessed it, `<b-collapsible>` creates a collapsible block of content, collap
 ## Usage
 
 ``` html
-<button id="toggle-collapsible">Toogle collapsible</button>
-<b-collapsible id="collapsible" duration="100">
+<button id="toggle-collapsible" aria-controls="collapsible" aria-expanded="false">Toogle collapsible</button>
+<b-collapsible id="collapsible" aria-labelledby="toggle-collapsible" duration="100">
     <div>
         Lorem ipsum...
     </div>
@@ -22,6 +22,7 @@ You guessed it, `<b-collapsible>` creates a collapsible block of content, collap
         
         btn.addEventListener('click', function() {
             collapsible.toggle();
+            btn.setAttribute('aria-expanded', collapsible.opened ? 'true' : 'false');
         }, false);
     });
 </script>
@@ -30,6 +31,10 @@ You guessed it, `<b-collapsible>` creates a collapsible block of content, collap
 ## Styling
 
 Don't style `<b-collapsible>` directly (in particular, avoid padding/margin/border as it will ruin the transition effect), style its content instead.
+
+## Accessibility
+
+A11y attributes to be used are shown in the sample above.
 
 ## API
 
