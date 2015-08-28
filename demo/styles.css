@@ -43,9 +43,18 @@ b-dialog-content {
     -webkit-transition: background-color 0.5s ease-in-out;
     transition: background-color 0.5s ease-in-out;
 }
-.collapsible-content {
+.collapsible-content, .tab-content {
     background-color: #eee;
     font-size: 1em;
     line-height: 1.5em;
     padding: 1em 2em;
+}
+.tab-content {
+    border-left: 1px solid #ccc;
+}
+b-tab {
+    border-radius: 4px 4px 0 0;
+}
+b-tab.active {
+    background-color: #eee;
 }
