@@ -43,23 +43,6 @@ module.exports = function(grunt) {
       }
     }
 
-    // karma: require('bosonic-tools/test/config/grunt-karma')({
-    //   options: {
-    //     sauceLabs: {
-    //       testName: 'Bosonic Core Elements Unit Tests',
-    //       recordScreenshots: true
-    //     },
-    //     files: [
-    //       'node_modules/bosonic-tools/test/helpers/npo.js',
-    //       'node_modules/bosonic-tools/test/helpers/karma.js',
-    //       'node_modules/bosonic/dist/bosonic-platform.js',
-    //       'dist/b-selectable.js',
-    //       'dist/*.js',
-    //       'test/**/*.js'
-    //     ]
-    //   }
-    // }),
-
   });
 
   grunt.registerTask('demo', ['copy', 'connect', 'watch']);
