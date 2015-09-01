@@ -58,3 +58,33 @@ b-tab {
 b-tab.active {
     background-color: #eee;
 }
+
+.draggable {
+    height: 100px;
+    width: 150px;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+    background: #fff;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.draggable-container {
+    position: relative;
+    height: 300px;
+    width: 250px;
+    background: #eee;
+}
+
+.draggable-handle {
+    background: #e74c3c;
+    cursor: move;
+    color: #fff;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.draggable-content {
+    padding: 10px;
+}

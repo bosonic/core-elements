@@ -60,6 +60,15 @@
                 },
 
                 createdCallback: function() {
+                    this.startListener = this.start.bind(this);
+                    this.handle.addEventListener('mousedown', this.startListener, false);
+                },
+
+                detachedCallback: function() {
+                    this.handle.removeEventListener('mousedown', this.startListener, false);
+                },
+
+                initContainment: function() {
                     if (this.contained) {
                         var contain = getComputedDimensions(this.containment),
                             target = getComputedDimensions(this.target);
@@ -74,16 +83,13 @@
                             }
                         }
                     }
-                    this.startListener = this.start.bind(this);
-                    this.handle.addEventListener('mousedown', this.startListener, false);
-                },
-
-                detachedCallback: function() {
-                    this.handle.removeEventListener('mousedown', this.startListener, false);
+                    this.initiated = true;
                 },
 
                 start: function(e) {
                     e.preventDefault();
+                    // We must defer the constraints calculus to the first drag to be sure the CSS is applied to the container & target
+                    if (!this.initiated) this.initContainment();
                     this.refreshPreviousPosition(e);
                     var targetPositioning = window.getComputedStyle(this.target).position;
                     if (!targetPositioning.match(/^(?:r|a|f)/)) {
