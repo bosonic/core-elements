@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-dialog</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="../demo/lib/webcomponents.js"></script>
+        <script type="text/javascript" src="../demo/lib/bosonic-runtime.js"></script>
+
+        <script src="../node_modules/web-component-tester/browser.js"></script>
+        <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
+        <script src="../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+        <link rel="import" href="../bower_components/test-fixture/test-fixture.html">
+
+        <link rel="import" href="../src/b-collapsible.html">
+    </head>
+
+    <body>
+        <test-fixture id="collapsible">
+            <template>
+                <b-collapsible>
+                    <div class="collapsible-content">
+                        Lorem ipsum...
+                    </div>
+                </b-collapsible>
+            </template>
+        </test-fixture>
+        
+        <script type="text/javascript">
+            describe("Collapsible component", function() {
+                var collapsible;
+
+                beforeEach(function() {
+                    collapsible = fixture('collapsible');
+                });
+
+                it("should be collapsed by default", function() {
+                    expect(collapsible.style.height).to.equal('');
+                    expect(collapsible.classList.contains('b-collapsible-closed')).to.be.true;
+                });
+
+                it("should expand when set as opened", function(done) {
+                    collapsible.opened = true;
+                    setTimeout(function() {
+                        expect(collapsible.style.height).to.not.equal('');
+                        expect(collapsible.classList.contains('b-collapsible-closed')).to.be.false;
+                        done();
+                    }, 500);
+                });
+            });
+        </script>
+    </body>
+</html>
