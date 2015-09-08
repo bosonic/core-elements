@@ -1,5 +1,7 @@
 {
-  title: 'Flash messages'
+  title: 'Flash messages',
+  category: "elements",
+  section: "core"
 }
 
 # b-flash-message

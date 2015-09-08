@@ -1,5 +1,7 @@
 {
-  title: 'Selectable'
+  title: 'Selectable',
+  category: "elements",
+  section: "core"
 }
 
 # b-selectable

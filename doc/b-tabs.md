@@ -1,5 +1,7 @@
 {
-  title: 'Tabs'
+  title: 'Tabs',
+  category: "elements",
+  section: "core"
 }
 
 # b-tabs

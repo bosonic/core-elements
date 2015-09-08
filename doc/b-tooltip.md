@@ -1,5 +1,7 @@
 {
-  title: 'Tooltips'
+  title: 'Tooltips',
+  category: "elements",
+  section: "core"
 }
 
 # b-tooltip

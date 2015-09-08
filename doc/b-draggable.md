@@ -1,5 +1,7 @@
 {
-  title: 'Draggable'
+  title: 'Draggable',
+  category: "elements",
+  section: "core"
 }
 
 # b-draggable

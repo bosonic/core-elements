@@ -1,5 +1,7 @@
 {
-  title: 'Collapsible'
+  title: 'Collapsible',
+  category: "elements",
+  section: "core"
 }
 
 # b-collapsible

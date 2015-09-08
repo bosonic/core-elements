@@ -1,5 +1,7 @@
 {
-  title: 'Accordion'
+  title: "Accordion",
+  category: "elements",
+  section: "core"
 }
 
 # b-accordion

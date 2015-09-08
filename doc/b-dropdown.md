@@ -1,5 +1,7 @@
 {
-  title: 'Dropdowns'
+  title: 'Dropdowns',
+  category: "elements",
+  section: "core"
 }
 
 # b-dropdown
