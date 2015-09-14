@@ -1,0 +1,20 @@
+{
+  "name": "bosonic-core-elements",
+  "version": "1.0.0",
+  "homepage": "https://github.com/bosonic/core-elements",
+  "authors": [
+    "Raphaël Rougeron <goldoraf@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "test-fixture": "PolymerElements/test-fixture#~1.0.0",
+    "iron-test-helpers": "polymerelements/iron-test-helpers#~1.0.3"
+  }
+}
