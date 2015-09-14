@@ -1,7 +1,9 @@
 {
   title: 'Collapsible',
+  element: 'b-collapsible',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 5
 }
 
 # b-collapsible

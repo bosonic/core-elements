@@ -1,7 +1,9 @@
 {
   title: 'Flash messages',
+  element: 'b-flash-message',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 7
 }
 
 # b-flash-message

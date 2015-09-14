@@ -1,7 +1,9 @@
 {
   title: 'Tooltips',
+  element: 'b-tooltip',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 4
 }
 
 # b-tooltip

@@ -1,7 +1,9 @@
 {
   title: 'Dialogs & modals',
+  element: 'b-dialog',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 1
 }
 
 # b-dialog

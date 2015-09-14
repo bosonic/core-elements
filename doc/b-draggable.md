@@ -1,7 +1,9 @@
 {
   title: 'Draggable',
+  element: 'b-draggable',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 9
 }
 
 # b-draggable

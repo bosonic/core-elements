@@ -1,7 +1,9 @@
 {
   title: 'Selectable',
+  element: 'b-selectable',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 8
 }
 
 # b-selectable

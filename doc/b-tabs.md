@@ -1,7 +1,9 @@
 {
   title: 'Tabs',
+  element: 'b-tabs',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 3
 }
 
 # b-tabs

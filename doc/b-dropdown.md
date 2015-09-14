@@ -1,7 +1,9 @@
 {
   title: 'Dropdowns',
+  element: 'b-dropdown',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 2
 }
 
 # b-dropdown

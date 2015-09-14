@@ -1,7 +1,9 @@
 {
   title: "Accordion",
+  element: 'b-accordion',
   category: "elements",
-  section: "core"
+  section: "core",
+  order: 6
 }
 
 # b-accordion
