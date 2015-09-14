@@ -1,4 +1,4 @@
-<element name="b-collapsible">
+<element name="b-collapsible" attributes="opened">
     <style>
         b-collapsible {
             display: block;
@@ -17,20 +17,26 @@
             var CLOSED_CLASS = 'b-collapsible-closed';
 
             Bosonic.register({
+                mixins: [Bosonic.CustomAttributes],
+
                 get opened() {
-                    return this.hasAttribute('opened');
+                    return this.hasCustomAttribute('opened');
                 },
 
                 set opened(value) {
-                    value ? this.setAttribute('opened', '') : this.removeAttribute('opened');
+                    value ? this.setCustomAttribute('opened', '') : this.removeCustomAttribute('opened');
                 },
 
                 get duration() {
-                    return this.hasAttribute('duration') ? this.getAttribute('duration') : 300;
+                    return this.hasCustomAttribute('duration') ? this.getCustomAttribute('duration') : 300;
                 },
 
                 get dimension() {
-                    return this.hasAttribute('horizontal') ? 'width' : 'height';
+                    return this.hasCustomAttribute('horizontal') ? 'width' : 'height';
+                },
+
+                openedChanged: function() {
+                    this.update();
                 },
 
                 createdCallback: function() {
@@ -60,10 +66,6 @@
                         this.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
                         this.removeEventListener('transitionend', this.transitionEndListener);
                     }
-                },
-
-                attributeChangedCallback: function(name, oldValue, newValue) {
-                    if (name === 'opened') this.update();
                 },
 
                 toggle: function() {

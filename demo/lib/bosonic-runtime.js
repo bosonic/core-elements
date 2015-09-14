@@ -149,13 +149,25 @@
             prototype.attributeChangedCallback = {
                 enumerable: true,
                 writable: true,
-                value: function(name, oldValue, newValue) {
+                value: function(name, oldValue, newValue) {console.log('test', name);
+                    if (name.indexOf('data-') === 0) {
+                        name = name.substr(5);
+                    }
                     if (attrs.indexOf(name) !== -1 && this[name + 'Changed']) {
                         this[name + 'Changed'].call(this, oldValue, newValue);
                     }
                     return changed ? changed.apply(this, arguments) : null;
                 }
             };
+        }
+
+        if (options.mixins) {
+            options.mixins.forEach(function(mixin) {
+                for (var key in mixin) {
+                    prototype[key] = Object.getOwnPropertyDescriptor(mixin, key);
+                }
+            });
+            delete options.mixins;
         }
 
         for (var key in options) {
@@ -174,3 +186,32 @@
         window[elementClass] = document.registerElement(name, elementDef);
     }
 })();
+Bosonic.CustomAttributes = {
+    hasCustomAttribute: function(name) {
+        return this.hasAttribute(name) || this._hasPrefixedAttribute(name);
+    },
+
+    getCustomAttribute: function(name) {
+        return this.getAttribute(this._getRealAttribute(name));
+    },
+
+    setCustomAttribute: function(name, value) {
+        this.setAttribute(this._getRealAttribute(name), value);
+    },
+
+    removeCustomAttribute: function(name) {
+        this.removeAttribute(this._getRealAttribute(name));
+    },
+
+    toggleCustomAttribute: function(name) {
+        this.hasCustomAttribute(name) ? this.removeCustomAttribute(name) : this.setCustomAttribute(name, '');
+    },
+
+    _hasPrefixedAttribute: function(name) {
+        return this.hasAttribute('data-' + name);
+    },
+
+    _getRealAttribute: function(name) {
+        return this._hasPrefixedAttribute(name) ? 'data-' + name : name;
+    }
+};
