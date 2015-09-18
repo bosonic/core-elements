@@ -33,6 +33,10 @@
                     this.tabIndex = 0;
                     this.setAttribute('role', this.elementRole);
                     this.setAttribute('aria-label', this.elementLabel);
+                    this.setItemsRole();
+                },
+
+                setItemsRole: function(items) {
                     this.getItems().forEach(function(item) {
                         item.setAttribute('role', this.itemsRole);
                     }, this);
@@ -42,6 +46,10 @@
                     this.addEventListener('click', this.clickHandler.bind(this), false);
                     this.addEventListener('keydown', this.keydownHandler.bind(this), false);
                     this.addEventListener('focus', this.focusHandler.bind(this), false);
+                },
+
+                childListChanged: function(removed, added, mutations) {
+                    this.setItemsRole();
                 },
 
                 selectedChanged: function(oldValue, newValue) {
