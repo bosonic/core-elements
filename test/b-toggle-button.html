@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-toggle-button</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="../demo/lib/webcomponents.js"></script>
+        <script type="text/javascript" src="../demo/lib/bosonic-runtime.js"></script>
+
+        <script src="../node_modules/web-component-tester/browser.js"></script>
+        <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
+        <script src="../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+        <link rel="import" href="../bower_components/test-fixture/test-fixture.html">
+
+        <link rel="import" href="../src/b-toggle-button.html">
+    </head>
+
+    <body>
+        <test-fixture id="button">
+            <template>
+                <b-toggle-button></b-toggle-button>
+            </template>
+        </test-fixture>
+        
+        <script type="text/javascript">
+            describe("Toggle button", function() {
+                var button;
+
+                beforeEach(function() {
+                    button = fixture('button');
+                });
+
+                it("should be unchecked by default", function() {
+                    expect(button.checked).to.be.false;
+                    expect(button.value).to.be.false;
+                });
+
+                it("should be checked when toggled", function() {
+                    MockInteractions.tap(button);
+                    expect(button.checked).to.be.true;
+                    expect(button.value).to.be.true;
+                });
+
+                it("should be checked when activated", function() {
+                    button.activate();
+                    expect(button.checked).to.be.true;
+                    expect(button.value).to.be.true;
+                });
+            });
+
+            describe("Toggle button a11y", function() {
+                var button;
+
+                beforeEach(function() {
+                    button = fixture('button');
+                });
+
+                a11ySuite('button');
+            });
+        </script>
+    </body>
+</html>
