@@ -1,17 +1,22 @@
-<link rel="import" href="./b-selectable.html">
 <link rel="import" href="./b-collapsible.html">
 
-<element name="b-accordion" extends="b-selectable">
+<element name="b-accordion" attributes="selected">
     <script>
         (function(){
             Bosonic.register({
+                mixins: [Bosonic.Selection],
+
                 elementRole: 'tablist',
                 elementLabel: 'Accordion',
                 panelsRole: 'tabpanel',
                 headersRole: 'tab',
 
                 createdCallback: function() {
-                    BSelectable.prototype.createdCallback.call(this);
+                    this.handleAria();
+                    if (!this.hasAttribute('selected')) {
+                        this.selectFirst();
+                    }
+                    this.addListeners();
                 },
 
                 handleAria: function() {
@@ -29,6 +34,19 @@
                         panel.setAttribute('aria-labelledby', header.id);
                         panel.setAttribute('aria-hidden', 'true');
                     }, this);
+                },
+
+                addListeners: function() {
+                    this.addEventListener('click', this.clickHandler.bind(this), false);
+                    // this.addEventListener('keydown', this.keydownHandler.bind(this), false);
+                    // this.addEventListener('focus', this.focusHandler.bind(this), false);
+                },
+
+                clickHandler: function(e) {
+                    var itemIndex =  this.getItems().indexOf(e.target);
+                    if (itemIndex !== -1) {
+                        this.select(itemIndex);
+                    }
                 },
 
                 selectedChanged: function (oldValue, newValue) {
