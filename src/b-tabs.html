@@ -1,6 +1,4 @@
-<link rel="import" href="./b-selectable.html">
-
-<element name="b-tabs" extends="b-selectable">
+<element name="b-tabs" attributes="selected">
     <style>
         b-tabs {
             display: block;
@@ -15,6 +13,8 @@
             var HIDDEN_CLASS = 'b-tabs-hidden';
 
             Bosonic.register({
+                mixins: [Bosonic.Selection],
+
                 elementRole: 'tablist',
                 elementLabel: 'Tabs',
                 contentsRole: 'tabpanel',
@@ -22,7 +22,13 @@
 
                 createdCallback: function() {
                     this.hideAllContents();
-                    BSelectable.prototype.createdCallback.call(this);
+                    this.handleAria();
+                    if (!this.hasAttribute('selected')) {
+                        this.selectFirst();
+                    } else {
+                        this.applySelection(this.selectedItem);
+                    }
+                    this.addListeners();
                 },
 
                 handleAria: function() {
@@ -41,22 +47,42 @@
                     }, this);
                 },
 
+                addListeners: function() {
+                    this.addEventListener('click', this.clickHandler.bind(this), false);
+                    // this.addEventListener('keydown', this.keydownHandler.bind(this), false);
+                    // this.addEventListener('focus', this.focusHandler.bind(this), false);
+                },
+
+                clickHandler: function(e) {
+                    var itemIndex =  this.getItems().indexOf(e.target);
+                    if (itemIndex !== -1) {
+                        this.select(itemIndex);
+                    }
+                },
+
                 selectedChanged: function (oldValue, newValue) {
                     var oldTab = this.getTab(oldValue), 
                         newTab = this.getTab(newValue);
-                    
                     if (oldTab !== null) {
-                        oldTab.classList.remove('active');
-                        oldTab.tabIndex = -1;
-                        oldTab.setAttribute('aria-selected', 'false');
-                        this.toggleTabContent(oldTab);
+                        this.applyDeselection(oldTab);
                     }
                     if (newTab !== null) {
-                        newTab.classList.add('active');
-                        newTab.tabIndex = 0;
-                        newTab.setAttribute('aria-selected', 'true');
-                        this.toggleTabContent(newTab);
+                        this.applySelection(newTab);
                     }
+                },
+
+                applySelection: function(tab) {
+                    tab.classList.add('active');
+                    tab.tabIndex = 0;
+                    tab.setAttribute('aria-selected', 'true');
+                    this.toggleTabContent(tab);
+                },
+
+                applyDeselection: function(tab) {
+                    tab.classList.remove('active');
+                    tab.tabIndex = -1;
+                    tab.setAttribute('aria-selected', 'false');
+                    this.toggleTabContent(tab);
                 },
 
                 getTabs: function() {
