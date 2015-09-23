@@ -857,6 +857,82 @@ var HANDJS = HANDJS || {};
         return nodes;
     }
 
+    Bosonic.Base = {
+        createdCallback: function() {
+            if (this.__template) {
+                this.createShadowRoot();
+                var content = this.__template.content ? this.__template.content : getFragmentFromNode(this.__template);
+                this.shadowRoot.appendChild(document.importNode(content, true));
+                if (WebComponents.flags.shadow !== false) {
+                    scopeShadowStyles(this.shadowRoot, name);
+                }
+            }
+            var childListChanged = this.__lifecycle.childListChanged;
+            if (childListChanged) {
+                var that = this,
+                    observer = new MutationObserver(function(mutations) {
+                        var diff = processMutations(mutations);
+                        childListChanged.call(that, diff.removed, diff.added, mutations);
+                    });
+                observer.observe(this, { childList: true, subtree: true, characterData: true });
+            }
+            var created = this.__lifecycle.created;
+            return created ? created.apply(this, arguments) : null;
+        },
+
+        attachedCallback: function() {
+            var attached = this.__lifecycle.attached;
+            return attached ? attached.apply(this, arguments) : null;
+        },
+
+        detachedCallback: function() {
+            var detached = this.__lifecycle.detached;
+            return detached ? detached.apply(this, arguments) : null;
+        },
+
+        attributeChangedCallback: function(name, oldValue, newValue) {
+            if (this.__attributes) {
+                if (name.indexOf('data-') === 0) {
+                    name = name.substr(5);
+                }
+                if (this.__attributes.indexOf(name) !== -1 && this[name + 'Changed']) {
+                    this[name + 'Changed'].call(this, oldValue, newValue);
+                }
+            }
+            var changed = this.__lifecycle.attributeChanged;
+            return changed ? changed.apply(this, arguments) : null;
+        }
+    }
+
+    function extractLifecycleCallbacks(options) {
+        var callbacks = {
+            created: ['created', 'createdCallback'],
+            attached: ['attached', 'attachedCallback'],
+            detached: ['detached', 'detachedCallback'],
+            attributeChanged: ['attributeChanged', 'attributeChangedCallback'],
+            childListChanged: ['childListChanged', 'childListChangedCallback']
+        };
+        options.__lifecycle = {};
+        for (var key in callbacks) {
+            callbacks[key].forEach(function(cb) {
+                if (options[cb]) {
+                    options.__lifecycle[key] = options[cb];
+                    delete options[cb];
+                }
+            });
+        }
+        return options;
+    }
+
+    Bosonic.extend = function(prototype, api) {
+        if (prototype && api) {
+            Object.getOwnPropertyNames(api).forEach(function(n) {
+                prototype[n] = Object.getOwnPropertyDescriptor(api, n);
+            });
+        }
+        return prototype;
+    }
+
     Bosonic.register = function(options) {
         var script = document._currentScript;
         var element = script && script.parentNode ? script.parentNode : null;
@@ -876,70 +952,20 @@ var HANDJS = HANDJS || {};
 
         var template = script && script.parentNode ? script.parentNode.querySelector('template') : null;
 
-        var prototype = {};
+        options = extractLifecycleCallbacks(options);
+        if (template) options.__template = template;
+        if (attributes) options.__attributes = attributes.split(' ');
 
-        var childListChanged = options.childListChanged || options.childListChangedCallback;
-
-        var created = options.createdCallback;
-        if (created) delete options.createdCallback;
-        prototype.createdCallback = {
-            enumerable: true,
-            writable: true,
-            value: function() {
-                if (template) {
-                    this.createShadowRoot();
-                    var content = template.content ? template.content : getFragmentFromNode(template);
-                    this.shadowRoot.appendChild(document.importNode(content, true));
-                    if (WebComponents.flags.shadow !== false) {
-                        scopeShadowStyles(this.shadowRoot, name);
-                    }
-                }
-                if (childListChanged) {
-                    var that = this,
-                        observer = new MutationObserver(function(mutations) {
-                            var diff = processMutations(mutations);
-                            childListChanged.call(that, diff.removed, diff.added, mutations);
-                        });
-                    observer.observe(this, { childList: true, subtree: true, characterData: true });
-                }
-                return created ? created.apply(this, arguments) : null;
-            }
-        };
-
-        if (attributes) {
-            var changed = options.attributeChangedCallback,
-                attrs = attributes.split(' ');
-
-            if (changed) delete options.attributeChangedCallback;
-            prototype.attributeChangedCallback = {
-                enumerable: true,
-                writable: true,
-                value: function(name, oldValue, newValue) {
-                    if (name.indexOf('data-') === 0) {
-                        name = name.substr(5);
-                    }
-                    if (attrs.indexOf(name) !== -1 && this[name + 'Changed']) {
-                        this[name + 'Changed'].call(this, oldValue, newValue);
-                    }
-                    return changed ? changed.apply(this, arguments) : null;
-                }
-            };
-        }
+        var prototype = Bosonic.extend({}, Bosonic.Base);
 
         if (options.mixins) {
             options.mixins.forEach(function(mixin) {
-                for (var key in mixin) {
-                    prototype[key] = Object.getOwnPropertyDescriptor(mixin, key);
-                }
+                prototype = Bosonic.extend(prototype, mixin);
             });
             delete options.mixins;
         }
 
-        for (var key in options) {
-            if (options.hasOwnProperty(key)) {
-                prototype[key] = Object.getOwnPropertyDescriptor(options, key);
-            }
-        }
+        prototype = Bosonic.extend(prototype, options);
 
         var elementDef = {
             prototype: Object.create(window[extendeeClass].prototype, prototype)
@@ -978,5 +1004,68 @@ Bosonic.CustomAttributes = {
 
     _getRealAttribute: function(name) {
         return this._hasPrefixedAttribute(name) ? 'data-' + name : name;
+    }
+};
+Bosonic.Selection = {
+    get selectedItemIndex() {
+        return this.hasAttribute('selected') ? Number(this.getAttribute('selected')) : null;
+    },
+
+    select: function(index) {
+        if (index !== this.selectedItemIndex) {
+            this.setAttribute('selected', index);
+        }
+    },
+
+    unselect: function() {
+        if (this.hasAttribute('selected')) {
+            this.removeAttribute('selected');
+        }
+    },
+
+    selectFirst: function() {
+        if (this.getItemCount() > 0) {
+            this.select(0);
+        }
+    },
+
+    selectLast: function() {
+        if (this.getItemCount() > 0) {
+            this.select(this.getItemCount() - 1);
+        }
+    },
+
+    selectNextItem: function() {
+        if (this.selectedItemIndex === null) {
+            this.selectFirst();
+            return;
+        }
+        if (this.selectedItemIndex < this.getItemCount() - 1) {
+            this.select(this.selectedItemIndex + 1);
+        }
+    },
+
+    selectPreviousItem: function() {
+        if (this.selectedItemIndex === null) {
+            this.selectLast();
+            return;
+        }
+        if (this.selectedItemIndex > 0) {
+            this.select(this.selectedItemIndex - 1);
+        }
+    },
+
+    getItem: function(pos) {
+        return this.getItems()[pos] || null;
+    },
+
+    getItemCount: function() {
+        return this.getItems().length;
+    },
+
+    getItems: function() {
+        var target = this.getAttribute('target');
+        var nodes = target ? this.querySelectorAll(target) : this.children;
+        return Array.prototype.slice.call(nodes, 0);
     }
 };

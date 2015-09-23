@@ -35,6 +35,12 @@ module.exports = function(grunt) {
     },
 
     watch: {
+      lib: {
+        files: [
+          'node_modules/bosonic/dist/bosonic-runtime.js'
+        ],
+        tasks: ['copy:lib']
+      },
       elements: {
         files: [
           'src/*.html'
