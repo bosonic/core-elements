@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-selectable</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="../demo/lib/webcomponents.js"></script>
+        <script type="text/javascript" src="../demo/lib/bosonic-runtime.js"></script>
+
+        <script src="../node_modules/web-component-tester/browser.js"></script>
+        <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
+        <script src="../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+        <link rel="import" href="../bower_components/test-fixture/test-fixture.html">
+
+        <link rel="import" href="../src/b-selectable.html">
+    </head>
+
+    <body>
+        <test-fixture id="selectable">
+            <template>
+                <b-selectable target="li">
+                    <ul>
+                        <li>item 1</li>
+                        <li>item 2</li>
+                        <li>item 3</li>
+                        <li>item 4</li>
+                        <li>item 5</li>
+                        <li>item 6</li>
+                        <li>item 7</li>
+                    </ul>
+                </b-selectable>
+            </template>
+        </test-fixture>
+        
+        <script type="text/javascript">
+            function getItem(index) {
+                return document.querySelectorAll('b-selectable li')[index];
+            }
+
+            describe("Selectable component", function() {
+                var selectable;
+
+                beforeEach(function() {
+                    selectable = fixture('selectable');
+                });
+
+                it('should select the first item on focus', function(done) {
+                    //selectable.focus(); // doesn't work with Firefox
+                    selectable.dispatchEvent(new CustomEvent('focus', {
+                        bubbles: false,
+                        cancelable: false,
+                        detail: {}
+                    }));
+                    setTimeout(function() {
+                        expect(selectable.getAttribute('selected')).to.equal('0');
+                        done();
+                    }, 100);
+                });
+
+                it('should select the item the user tapped on', function(done) {
+                    MockInteractions.tap(getItem(2));
+                    setTimeout(function() {
+                        expect(selectable.getAttribute('selected')).to.equal('2');
+                        done();
+                    }, 100);
+                });
+
+                it('should add a CSS class to the selected item', function() {
+                    selectable.select(1);
+                    expect(getItem(1).classList.contains('b-selectable-selected')).to.be.true;
+                });
+            });
+
+            describe("Selectable component", function() {
+                var selectable;
+
+                beforeEach(function() {
+                    selectable = fixture('selectable');
+                });
+
+                a11ySuite('selectable');
+
+                it('should set the aria-selected attribute', function() {
+                    selectable.select(1);
+                    expect(getItem(1).getAttribute('aria-selected')).to.equal('true');
+                });
+            });
+        </script>
+    </body>
+</html>
