@@ -15,6 +15,8 @@
                     this.handleAria();
                     if (!this.hasAttribute('selected')) {
                         this.selectFirst();
+                    } else {
+                        this.applySelection(this.selectedItem);
                     }
                     this.addListeners();
                 },
@@ -52,19 +54,26 @@
                 selectedChanged: function (oldValue, newValue) {
                     var oldHeader = this.getHeader(oldValue), 
                         newHeader = this.getHeader(newValue);
-                    
                     if (oldHeader !== null) {
-                        oldHeader.setAttribute('aria-expanded', 'false');
-                        var oldPanel = oldHeader.nextElementSibling;
-                        oldPanel.removeAttribute('opened');
-                        oldPanel.setAttribute('aria-hidden', 'true');
+                        this.applyDeselection(oldHeader);
                     }
                     if (newHeader !== null) {
-                        newHeader.setAttribute('aria-expanded', 'true');
-                        var newPanel = newHeader.nextElementSibling;
-                        newPanel.setAttribute('opened', '');
-                        newPanel.setAttribute('aria-hidden', 'false');
+                        this.applySelection(newHeader);
                     }
+                },
+
+                applySelection: function(header) {
+                    header.setAttribute('aria-expanded', 'true');
+                    var panel = header.nextElementSibling;
+                    panel.setAttribute('opened', '');
+                    panel.setAttribute('aria-hidden', 'false');
+                },
+
+                applyDeselection: function(header) {
+                    header.setAttribute('aria-expanded', 'false');
+                    var panel = header.nextElementSibling;
+                    panel.removeAttribute('opened');
+                    panel.setAttribute('aria-hidden', 'true');
                 },
 
                 getHeaders: function() {
