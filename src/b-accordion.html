@@ -6,6 +6,15 @@
             Bosonic.register({
                 mixins: [Bosonic.Selection],
 
+                listeners: {
+                    'click': 'clickHandler'
+                },
+
+                keyBindings: {
+                    'left up': 'focusPreviousHeader',
+                    'right down': 'focusNextHeader'
+                },
+
                 elementRole: 'tablist',
                 elementLabel: 'Accordion',
                 panelsRole: 'tabpanel',
@@ -18,16 +27,15 @@
                     } else {
                         this.applySelection(this.selectedItem);
                     }
-                    this.addListeners();
                 },
 
                 handleAria: function() {
-                    this.tabIndex = 0;
                     this.setAttribute('role', this.elementRole);
                     this.setAttribute('aria-label', this.elementLabel);
                     this.setAttribute('aria-multiselectable', 'true');
 
                     this.getHeaders().forEach(function(header, index) {
+                        header.tabIndex = -1;
                         header.setAttribute('role', this.headersRole);
                         header.setAttribute('aria-expanded', 'false');
                         if (!header.id) header.id = 'accordion-header-' + index;
@@ -38,10 +46,22 @@
                     }, this);
                 },
 
-                addListeners: function() {
-                    this.addEventListener('click', this.clickHandler.bind(this), false);
-                    // this.addEventListener('keydown', this.keydownHandler.bind(this), false);
-                    // this.addEventListener('focus', this.focusHandler.bind(this), false);
+                focusNextHeader: function() {
+                    var focusedHeaderIndex = this.getFocusedHeaderIndex();
+                    if (focusedHeaderIndex < this.getItemCount() - 1) {
+                        this.focusHeader(focusedHeaderIndex + 1);
+                    }
+                },
+
+                focusPreviousHeader: function() {
+                    var focusedHeaderIndex = this.getFocusedHeaderIndex();
+                    if (focusedHeaderIndex > 0) {
+                        this.focusHeader(focusedHeaderIndex - 1);
+                    }
+                },
+
+                focusHeader: function(index) {
+                    this.getHeader(index).focus();
                 },
 
                 clickHandler: function(e) {
@@ -49,6 +69,16 @@
                     if (itemIndex !== -1) {
                         this.select(itemIndex);
                     }
+                },
+
+                getFocusedHeaderIndex: function() {
+                    var headerIndex = 0;
+                    this.getHeaders().forEach(function(header, index) {
+                        if (header === document.activeElement) {
+                            headerIndex = index;
+                        }
+                    });
+                    return headerIndex;
                 },
 
                 selectedChanged: function (oldValue, newValue) {
@@ -63,6 +93,7 @@
                 },
 
                 applySelection: function(header) {
+                    header.tabIndex = 0;
                     header.setAttribute('aria-expanded', 'true');
                     var panel = header.nextElementSibling;
                     panel.setAttribute('opened', '');
@@ -70,6 +101,7 @@
                 },
 
                 applyDeselection: function(header) {
+                    header.tabIndex = -1;
                     header.setAttribute('aria-expanded', 'false');
                     var panel = header.nextElementSibling;
                     panel.removeAttribute('opened');
