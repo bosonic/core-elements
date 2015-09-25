@@ -87,6 +87,11 @@
                     'enter space': 'toggle'
                 },
 
+                hostAttributes: {
+                    role: 'checkbox',
+                    tabindex: 0
+                },
+
                 get noCaption() {
                     return this.hasCustomAttribute('nocaption');
                 },
@@ -108,14 +113,14 @@
                 },
 
                 set checked(value) {
+                    this.toggleClass('on', value);
+                    this.toggleClass('on', value, this.shadowRoot.querySelector('.b-toggle-button'));
                     if (value) {
-                        this.shadowRoot.querySelector('.b-toggle-button').classList.add('on');
-                        this.classList.add('on');
+                        
                         this.setAttribute('aria-checked', 'true');
                         this.setCustomAttribute('checked', '');
                     } else {
-                        this.shadowRoot.querySelector('.b-toggle-button').classList.remove('on');
-                        this.classList.remove('on');
+                        
                         this.setAttribute('aria-checked', 'false');
                         this.removeCustomAttribute('checked');
                     }
@@ -126,9 +131,6 @@
                         this.shadowRoot.querySelector('.b-toggle-on').textContent = this.onCaption;
                         this.shadowRoot.querySelector('.b-toggle-off').textContent = this.offCaption;
                     }
-
-                    this.setAttribute('role', 'checkbox');
-                    this.setAttribute('tabindex', '0');
 
                     this.checked ? this.activate() : this.deactivate();
                 },
