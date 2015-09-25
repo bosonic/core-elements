@@ -116,11 +116,7 @@
                     this.toggleClass('on', value);
                     this.toggleClass('on', value, this.shadowRoot.querySelector('.b-toggle-button'));
                     this.toggleStateAttribute('aria-checked', value);
-                    if (value) {
-                        this.setCustomAttribute('checked', '');
-                    } else {
-                        this.removeCustomAttribute('checked');
-                    }
+                    this.toggleCustomAttribute('checked', value);
                 },
 
                 createdCallback: function() {
