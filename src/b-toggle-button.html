@@ -115,13 +115,10 @@
                 set checked(value) {
                     this.toggleClass('on', value);
                     this.toggleClass('on', value, this.shadowRoot.querySelector('.b-toggle-button'));
+                    this.toggleStateAttribute('aria-checked', value);
                     if (value) {
-                        
-                        this.setAttribute('aria-checked', 'true');
                         this.setCustomAttribute('checked', '');
                     } else {
-                        
-                        this.setAttribute('aria-checked', 'false');
                         this.removeCustomAttribute('checked');
                     }
                 },
@@ -131,7 +128,6 @@
                         this.shadowRoot.querySelector('.b-toggle-on').textContent = this.onCaption;
                         this.shadowRoot.querySelector('.b-toggle-off').textContent = this.offCaption;
                     }
-
                     this.checked ? this.activate() : this.deactivate();
                 },
 
