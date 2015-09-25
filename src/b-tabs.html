@@ -15,6 +15,15 @@
             Bosonic.register({
                 mixins: [Bosonic.Selection],
 
+                listeners: {
+                    'click': 'clickHandler'
+                },
+
+                keyBindings: {
+                    'left up': 'selectPreviousItem',
+                    'right down': 'selectNextItem'
+                },
+
                 elementRole: 'tablist',
                 elementLabel: 'Tabs',
                 contentsRole: 'tabpanel',
@@ -28,7 +37,6 @@
                     } else {
                         this.applySelection(this.selectedItem);
                     }
-                    this.addListeners();
                 },
 
                 handleAria: function() {
@@ -36,6 +44,7 @@
                     this.setAttribute('aria-label', this.elementLabel);
 
                     this.getTabs().forEach(function(tab, index) {
+                        tab.tabIndex = -1;
                         tab.setAttribute('role', this.tabsRole);
                         tab.setAttribute('aria-selected', 'false');
                         var content = this.getTabContent(tab);
@@ -45,12 +54,6 @@
                             content.setAttribute('role', this.contentsRole);
                         }
                     }, this);
-                },
-
-                addListeners: function() {
-                    this.addEventListener('click', this.clickHandler.bind(this), false);
-                    // this.addEventListener('keydown', this.keydownHandler.bind(this), false);
-                    // this.addEventListener('focus', this.focusHandler.bind(this), false);
                 },
 
                 clickHandler: function(e) {
@@ -67,11 +70,12 @@
                         this.applyDeselection(oldTab);
                     }
                     if (newTab !== null) {
-                        this.applySelection(newTab);
+                        this.applySelection(newTab, oldTab && oldTab.hasFocus());
                     }
                 },
 
-                applySelection: function(tab) {
+                applySelection: function(tab, mustFocus) {
+                    if (mustFocus) tab.focus();
                     tab.classList.add('active');
                     tab.tabIndex = 0;
                     tab.setAttribute('aria-selected', 'true');
@@ -142,8 +146,8 @@
     <script>
         (function(){
             Bosonic.register({
-                createdCallback: function() {
-                    this.tabIndex = -1;
+                hasFocus: function() {
+                    return this === document.activeElement;
                 }
             });
         })();
