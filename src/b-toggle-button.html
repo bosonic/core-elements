@@ -78,19 +78,14 @@
     </template>
     <script>
         (function(){
-            var KEY = {
-                ENTER: 13,
-                SPACE: 32
-            };
-
-            function keydownHandler(e) {
-                if (e.keyCode === KEY.ENTER || e.keyCode === KEY.SPACE) {
-                    this.toggle();
-                }
-            };
-
             Bosonic.register({
-                mixins: [Bosonic.CustomAttributes],
+                listeners: {
+                    'click': 'toggle'
+                },
+
+                keyBindings: {
+                    'enter space': 'toggle'
+                },
 
                 get noCaption() {
                     return this.hasCustomAttribute('nocaption');
@@ -136,9 +131,6 @@
                     this.setAttribute('tabindex', '0');
 
                     this.checked ? this.activate() : this.deactivate();
-
-                    this.addEventListener('click', this.toggle, false);
-                    this.addEventListener('keydown', keydownHandler.bind(this), false);
                 },
 
                 activate: function() {
