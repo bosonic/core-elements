@@ -61,11 +61,11 @@
 
                 createdCallback: function() {
                     this.startListener = this.start.bind(this);
-                    this.handle.addEventListener('mousedown', this.startListener, false);
+                    this.handle.addEventListener('pointerdown', this.startListener, false);
                 },
 
                 detachedCallback: function() {
-                    this.handle.removeEventListener('mousedown', this.startListener, false);
+                    this.handle.removeEventListener('pointerdown', this.startListener, false);
                 },
 
                 initContainment: function() {
@@ -97,8 +97,8 @@
                     }
                     this.moveListener = this.move.bind(this);
                     this.stopListener = this.stop.bind(this);
-                    document.addEventListener('mousemove', this.moveListener, false);
-                    document.addEventListener('mouseup', this.stopListener, false);
+                    document.addEventListener('pointermove', this.moveListener, false);
+                    document.addEventListener('pointerup', this.stopListener, false);
                 },
 
                 move: function(e) {
@@ -111,8 +111,8 @@
                 },
 
                 stop: function(e) {
-                    document.removeEventListener('mousemove', this.moveListener, false);
-                    document.removeEventListener('mouseup', this.stopListener, false);
+                    document.removeEventListener('pointermove', this.moveListener, false);
+                    document.removeEventListener('pointerup', this.stopListener, false);
                 },
 
                 refreshPreviousPosition: function(e) {
