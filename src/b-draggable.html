@@ -90,41 +90,18 @@
                     e.preventDefault();
                     // We must defer the constraints calculus to the first drag to be sure the CSS is applied to the container & target
                     if (!this.initiated) this.initContainment();
-                    this.refreshPreviousPosition(e);
+                    
                     var targetPositioning = window.getComputedStyle(this.target).position;
                     if (!targetPositioning.match(/^(?:r|a|f)/)) {
                         this.target.style.position = 'relative';
                     }
-                    this.moveListener = this.move.bind(this);
-                    this.stopListener = this.stop.bind(this);
-                    document.addEventListener('pointermove', this.moveListener, false);
-                    document.addEventListener('pointerup', this.stopListener, false);
+                    
+                    this.trackPointer(e, 'move');
                 },
 
-                move: function(e) {
-                    var diff = this.getPositionDiff(e);
-
-                    if (!this.horizontallyConstrained) this.updatePosition('left', diff.x);
-                    if (!this.verticallyConstrained) this.updatePosition('top', diff.y);
-
-                    this.refreshPreviousPosition(e);
-                },
-
-                stop: function(e) {
-                    document.removeEventListener('pointermove', this.moveListener, false);
-                    document.removeEventListener('pointerup', this.stopListener, false);
-                },
-
-                refreshPreviousPosition: function(e) {
-                    this.previousPosition = { x: e.pageX, y: e.pageY };
-                },
-
-                getPositionDiff: function(e) {
-                    var x = e.pageX,
-                        y = e.pageY,
-                        xdiff = x - this.previousPosition.x,
-                        ydiff = y - this.previousPosition.y;
-                    return { x: xdiff, y: ydiff };
+                move: function(pointerState) {
+                    if (!this.horizontallyConstrained) this.updatePosition('left', pointerState.ddx);
+                    if (!this.verticallyConstrained) this.updatePosition('top', pointerState.ddy);
                 },
 
                 getPosition: function(side) {
