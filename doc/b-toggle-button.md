@@ -3,7 +3,7 @@
   element: 'b-toggle-button',
   category: "elements",
   section: "core",
-  order: 10
+  order: 9
 }
 
 # b-toggle-button

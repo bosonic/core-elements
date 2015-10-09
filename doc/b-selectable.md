@@ -3,7 +3,7 @@
   element: 'b-selectable',
   category: "elements",
   section: "core",
-  order: 9
+  order: 20
 }
 
 # b-selectable

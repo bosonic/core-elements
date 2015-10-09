@@ -3,7 +3,7 @@
   element: 'b-draggable',
   category: "elements",
   section: "core",
-  order: 11
+  order: 21
 }
 
 # b-draggable
