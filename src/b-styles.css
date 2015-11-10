@@ -14,7 +14,7 @@ h2 {
     font-size: 1.6em;
 }
 
-.b-button, label.b-button {
+.b-button {
     font-size: 1em;
     padding: 0.75em 1.5em;
     border: 1px solid transparent;
@@ -25,6 +25,8 @@ h2 {
 }
 .b-button:active, .b-button.active {
     box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
+    background-color: color(var(--bosonic-default-color) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--bosonic-default-color) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--primary, .b-button.active {
     color: #fff;
@@ -32,35 +34,35 @@ h2 {
     border-color: color(var(--bosonic-primary-color) blackness(var(--bosonic-border-blackness)));
 }
 .b-button--primary:active, .b-button.active {
-    background-color: color(var(--bosonic-primary-color) blackness(+10%));
-    border-color: color(var(--bosonic-primary-color) blackness(+12%));
+    background-color: color(var(--bosonic-primary-color) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--bosonic-primary-color) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--success {
     color: #fff;
     background-color: var(--bosonic-success-color);
-    border-color: color(var(--bosonic-success-color) blackness(+5%));
+    border-color: color(var(--bosonic-success-color) blackness(var(--bosonic-border-blackness)));
 }
 .b-button--success:active {
-    background-color: color(var(--bosonic-success-color) blackness(+10%));
-    border-color: color(var(--bosonic-success-color) blackness(+12%));
+    background-color: color(var(--bosonic-success-color) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--bosonic-success-color) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--warning {
     color: #fff;
     background-color: var(--bosonic-warning-color);
-    border-color: color(var(--bosonic-warning-color) blackness(+5%));
+    border-color: color(var(--bosonic-warning-color) blackness(var(--bosonic-border-blackness)));
 }
 .b-button--warning:active {
-    background-color: color(var(--bosonic-warning-color) blackness(+10%));
-    border-color: color(var(--bosonic-warning-color) blackness(+12%));
+    background-color: color(var(--bosonic-warning-color) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--bosonic-warning-color) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--danger {
     color: #fff;
     background-color: var(--bosonic-danger-color);
-    border-color: color(var(--bosonic-danger-color) blackness(+5%));
+    border-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
 }
 .b-button--danger:active {
-    background-color: color(var(--bosonic-danger-color) blackness(+10%));
-    border-color: color(var(--bosonic-danger-color) blackness(+12%));
+    background-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-active-border-blackness)));
 }
 
 b-dialog-content {

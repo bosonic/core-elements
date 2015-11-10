@@ -12,7 +12,7 @@ h2 {
     font-size: 1.6em;
 }
 
-.b-button, label.b-button {
+.b-button {
     font-size: 1em;
     padding: 0.75em 1.5em;
     border: 1px solid transparent;
@@ -23,6 +23,8 @@ h2 {
 }
 .b-button:active, .b-button.active {
     box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
+    background-color: rgb(202, 202, 202);
+    border-color: rgb(198, 198, 198);
 }
 .b-button--primary, .b-button.active {
     color: #fff;
