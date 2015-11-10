@@ -1,0 +1,175 @@
+<link rel="import" href="./b-progress-bar.html">
+
+<element name="b-slider" attributes="value">
+    <template>
+        <style>:host {
+                display: inline-block;
+                width: 200px;
+                cursor: default;
+            }
+            .slider-container {
+                position: relative;
+                width: calc(100% - 16px);
+                height: 16px;
+            }
+            .slider-bar-container {
+                position: absolute;
+                top: 0;
+                left: 8px;
+                width: 100%;
+                height: 100%;
+            }
+            b-progress-bar {
+                position: absolute;
+                top: 7px;
+                left: 0px;
+                width: 100%;
+                padding: 8px 0px;
+                margin: -8px 0px;
+            }
+            .slider-knob {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 16px;
+                height: 16px;
+                background-color: red;
+                border-radius: 50%;
+            }
+            .slider-knob.dragging {
+                /* TODO: find something appropriate ;) */
+            }
+        </style>
+        <div class="slider-container">
+            <div class="slider-bar-container">
+                <b-progress-bar></b-progress-bar>
+            </div>
+            <div class="slider-knob"></div>
+        </div>
+    </template>
+    <script>
+        Bosonic.register({
+            dragging: false,
+
+            hostAttributes: {
+                role: 'slider',
+                tabindex: 0
+            },
+
+            listeners: {
+                'pointerdown': 'dragStart'
+            },
+
+            keyBindings: {
+                'left down': 'decrement',
+                'right up': 'increment',
+                'home': 'toTheMin',
+                'end': 'toTheMax'
+            },
+
+            get knob() {
+                return this.shadowRoot.querySelector('.slider-knob');
+            },
+
+            get bar() {
+                return this.shadowRoot.querySelector('b-progress-bar');
+            },
+
+            get min() {
+                return this.getCustomAttribute('min') || 0;
+            },
+
+            get max() {
+                return this.getCustomAttribute('max') || 100;
+            },
+
+            get value() {
+                return this.getAttribute('value') || this.min;
+            },
+
+            set value(val) {
+                this.setAttribute('value', val);
+            },
+
+            get ratio() {
+                return (this.max - this.min) / this.bar.offsetWidth;
+            },
+
+            get progressRatio() {
+                return 100 / this.bar.offsetWidth;
+            },
+
+            createdCallback: function() {
+                // without the setTimeout, this.bar.offsetWidth will be 0...
+                setTimeout(this.setKnobPositionFromValue.bind(this), 1);
+            },
+
+            valueChanged: function() {
+                // TODO: what to do if the user sets a value off limits?
+                if (!this.dragging) {
+                    this.setKnobPositionFromValue();
+                }
+                this.dispatchEvent(new CustomEvent('b-slider-change'));
+            },
+
+            dragStart: function(e) {
+                e.preventDefault();
+                if (e.button && e.button !== 0) return;
+                this.knob.classList.toggle('dragging');
+                this.dragging = true;
+                this.__startX = this.getKnobPosition();
+                this.trackPointer(e, 'drag', 'dragStop');
+            },
+
+            drag: function(pointerState) {
+                var newX = this.__startX + pointerState.dx,
+                    maxX = this.bar.offsetWidth;
+
+                if (newX < 0) newX = 0;
+                if (newX > maxX) newX = maxX;
+                
+                this.setKnobPosition(newX);
+                this.setValueFromKnobPosition(newX);
+            },
+
+            dragStop: function(pointerState) {
+                this.knob.classList.toggle('dragging');
+                this.dragging = false;
+            },
+
+            setValueFromKnobPosition: function(x) {
+                this.value = Math.round(x * this.ratio);
+                this.bar.value = Math.round(x * this.progressRatio);
+            },
+
+            setKnobPositionFromValue: function() {
+                this.setKnobPosition(Math.round(this.value / this.ratio));
+                this.bar.value = Math.round((this.value * this.progressRatio) / this.ratio);
+            },
+
+            setKnobPosition: function(pixelsFromLeft) {
+                this.knob.style.left = pixelsFromLeft + 'px';
+            },
+
+            getKnobPosition: function() {
+                return parseInt(this.knob.style.left.replace('px', ''));
+            },
+
+            increment: function() {
+                if (this.value < this.max) this.value++;
+            },
+
+            decrement: function() {
+                if (this.value > this.min) this.value--;
+            },
+
+            toTheMax: function() {
+                this.value = this.max;
+            },
+
+            toTheMin: function() {
+                this.value = this.min;
+            }
+        });
+    </script>
+</element>

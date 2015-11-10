@@ -1,0 +1,203 @@
+<element name="b-dialog">
+    <style>b-dialog {
+            display: block;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            height: auto;
+            z-index: 2000;
+            visibility: hidden;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        b-dialog[visible] {
+            visibility: visible;
+        }
+
+        .b-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: black;
+            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+            opacity: 0;
+            display: block;
+            transition: opacity 0.2s;
+        }
+
+        .b-overlay[opened] {
+            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+            opacity: 0.5;
+        }
+    </style>
+    <script>
+        (function(){
+            var KEY = {
+                ENTER: 13,
+                ESC: 27,
+                TAB: 9
+            };
+
+            var focusableElementsSelector ="a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]";
+
+            function getFocusableElements(container) {
+                return container.querySelectorAll(focusableElementsSelector);
+            }
+
+            function getFirstFocusableElement(container) {
+                return container.querySelector(focusableElementsSelector);
+            }
+
+            Bosonic.register({
+                attachedCallback: function() {
+                    this.tabIndex = -1;
+                    this.setAttribute('role', 'dialog');
+                    this.setAttribute('aria-hidden', 'true');
+                },
+
+                show: function() {
+                    this.setAttribute('visible', '');
+                    this.setAttribute('aria-hidden', 'false');
+                    this.keydownListener = this.onKeydown.bind(this);
+                    document.addEventListener('keydown', this.keydownListener, false);
+                    this.clickListener = this.onDialogClick.bind(this);
+                    this.addEventListener('click', this.clickListener);
+                    this.grabFocus();
+                    if (this.overlay) {
+                        this.overlay.setAttribute('opened', '');
+                    }
+                },
+
+                showModal: function() {
+                    this.appendOverlay();
+                    this.show();
+                },
+
+                appendOverlay: function() {
+                    this.overlay = document.createElement('div');
+                    this.overlay.classList.add('b-overlay');
+                    this.parentNode.appendChild(this.overlay);
+                },
+
+                grabFocus: function() {
+                    this.previouslyFocusedElement = document.querySelector(':focus');
+                    var firstFocusableElement = getFirstFocusableElement(this);
+                    if (firstFocusableElement) {
+                        firstFocusableElement.focus();
+                    } else {
+                        this.focus();
+                    }
+                },
+
+                releaseFocus: function() {
+                    if (this.previouslyFocusedElement) {
+                        this.previouslyFocusedElement.focus();
+                        this.previouslyFocusedElement = null;
+                    }
+                },
+
+                trapFocus: function(e) {
+                    var focusableElements = getFocusableElements(this),
+                        currentlyFocused = this.querySelector(':focus'),
+                        currentlyFocusedIndex = Array.prototype.indexOf.call(focusableElements, currentlyFocused),
+                        lastFocusableElementIndex = focusableElements.length - 1;
+                    
+                    if (e.shiftKey && currentlyFocusedIndex === 0) {
+                        focusableElements.item(lastFocusableElementIndex).focus();
+                        e.preventDefault();
+                    } else if (!e.shiftKey && currentlyFocusedIndex === lastFocusableElementIndex) {
+                        focusableElements.item(0).focus();
+                        e.preventDefault();
+                    }
+                },
+
+                onKeydown: function(e) {
+                    switch(e.which) {
+                        case KEY.ESC: {
+                            this.cancel();
+                            break;
+                        }
+                        case KEY.TAB: {
+                            this.trapFocus(e);
+                            break;
+                        }
+                        default:
+                            return;
+                    }
+                },
+
+                onDialogClick: function(e) {
+                    var target = e.target;
+                    while (target && target !== this) {
+                        if (target.hasAttribute && (target.hasAttribute('data-dialog-dismiss') || target.hasAttribute('dialog-dismiss'))) {
+                            this.close();
+                        }
+                        target = target.parentNode;
+                    }
+                },
+
+                hide: function() {
+                    this.releaseFocus();
+                    this.removeAttribute('visible');
+                    this.setAttribute('aria-hidden', 'true');
+                    if (this.overlay) {
+                        // TODO: needs to use 'transitionend' in order to properly transition when hiding the overlay
+                        //this.overlay.removeAttribute('opened');
+                        this.parentNode.removeChild(this.overlay);
+                        this.overlay = null;
+                    }
+                    document.removeEventListener('keydown', this.keydownListener, false);
+                    this.removeEventListener('click', this.clickListener);
+                    this.dispatchEvent(new CustomEvent('b-dialog-close'));
+                },
+
+                close: function() {
+                    this.hide();
+                },
+
+                open: function() {
+                    this.show();
+                },
+
+                cancel: function() {
+                    var doCancel = this.dispatchEvent(new CustomEvent('b-dialog-cancel', { cancelable: true }));
+                    if (doCancel) {
+                        this.hide();
+                    }
+                }
+            });
+        })();
+    </script>
+</element>
+
+<element name="b-dialog-content">
+    <style>b-dialog-content {
+            display: block;
+            position: relative;
+            margin: 0 auto;
+            color: #000;
+            background: white;
+            border: 1px solid #333;
+            border-radius: 3px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        (function(){
+            Bosonic.register({});
+        })();
+    </script>
+</element>

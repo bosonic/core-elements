@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>All together</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="lib/webcomponents.js"></script>
+        <script type="text/javascript" src="lib/bosonic-runtime.js"></script>
+
+        <link rel="import" href="lib/b-progress-bar.html">
+        <link rel="import" href="lib/b-segmented-controls.html">
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <button class="b-button b-button--primary">Primary</button>
+        <button class="b-button b-button--success">Success</button>
+        <button class="b-button b-button--warning">Warning</button>
+        <button class="b-button b-button--danger">Danger</button>
+
+        <b-segmented-controls>
+            <button class="b-button">Left</button>
+            <button class="b-button">Center</button>
+            <button class="b-button">Right</button>
+        </b-segmented-controls>
+
+        <b-segmented-controls>
+            <label class="b-button">
+                <input type="checkbox" autocomplete="off" checked> Checkbox 1
+            </label>
+            <label class="b-button">
+                <input type="checkbox" autocomplete="off"> Checkbox 2
+            </label>
+            <label class="b-button">
+                <input type="checkbox" autocomplete="off"> Checkbox 3
+            </label>
+        </b-segmented-controls>
+
+        <b-segmented-controls vertical>
+            <label class="b-button">
+                <input type="checkbox" autocomplete="off" checked> Checkbox 1
+            </label>
+            <label class="b-button">
+                <input type="checkbox" autocomplete="off"> Checkbox 2
+            </label>
+            <label class="b-button">
+                <input type="checkbox" autocomplete="off"> Checkbox 3
+            </label>
+        </b-segmented-controls>
+        
+    </body>
+</html>

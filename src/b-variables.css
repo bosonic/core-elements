@@ -1,0 +1,14 @@
+:root {
+    --bosonic-default-color: #ddd;
+    --bosonic-primary-color: #689caf;
+    --bosonic-success-color: #49a96d;
+    --bosonic-warning-color: #e67e22;
+    --bosonic-danger-color: #c13421;
+
+    --bosonic-border-radius: 4px;
+
+    --bosonic-border-blackness: +5%;
+
+
+    --b-progress-bar-color: var(--bosonic-success-color);
+}
