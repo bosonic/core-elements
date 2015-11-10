@@ -1,5 +1,6 @@
 <element name="b-segmented-controls">
     <style>
+        /* layout */
         b-segmented-controls {
             position: relative;
             display: inline-block;
@@ -10,15 +11,38 @@
             position: relative;
             float: left;
         }
-        b-segmented-controls[vertical] > button, 
-        b-segmented-controls[data-vertical] > button,
-        b-segmented-controls[vertical] > label, 
-        b-segmented-controls[data-vertical] > label {
+        b-segmented-controls[vertical] > button,
+        b-segmented-controls[vertical] > label {
             display: block;
             float: none;
-            width: 100%;
             max-width: 100%;
         }
+        /* rounded corners adjustments */
+        b-segmented-controls:not([vertical]) > button:first-child:not(:last-child),
+        b-segmented-controls:not([vertical]) > label:first-child:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        b-segmented-controls > button:not(:first-child):not(:last-child),
+        b-segmented-controls > label:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+        b-segmented-controls:not([vertical]) > button:last-child:not(:first-child),
+        b-segmented-controls:not([vertical]) > label:last-child:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        b-segmented-controls[vertical] > button:first-child:not(:last-child),
+        b-segmented-controls[vertical] > label:first-child:not(:last-child) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        b-segmented-controls[vertical] > button:last-child:not(:first-child),
+        b-segmented-controls[vertical] > label:last-child:not(:first-child) {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+        /* very basic labels & inputs styling */
         b-segmented-controls > label {
             border: 1px solid #ccc;
         }
