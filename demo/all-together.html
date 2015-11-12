@@ -13,40 +13,26 @@
     </head>
 
     <body>
+        <button class="b-button">Default</button>
         <button class="b-button b-button--primary">Primary</button>
         <button class="b-button b-button--success">Success</button>
         <button class="b-button b-button--warning">Warning</button>
         <button class="b-button b-button--danger">Danger</button>
-
-        <b-segmented-controls>
-            <button class="b-button">Left</button>
-            <button class="b-button">Center</button>
-            <button class="b-button">Right</button>
-        </b-segmented-controls>
+        <button class="b-button b-button--primary" disabled>Disabled</button>
 
         <b-segmented-controls>
             <label class="b-button">
-                <input type="checkbox" autocomplete="off" checked> Checkbox 1
+                <input type="radio" autocomplete="off" checked> Left
             </label>
             <label class="b-button">
-                <input type="checkbox" autocomplete="off"> Checkbox 2
+                <input type="radio" autocomplete="off"> Center
             </label>
             <label class="b-button">
-                <input type="checkbox" autocomplete="off"> Checkbox 3
+                <input type="radio" autocomplete="off"> Right
             </label>
         </b-segmented-controls>
 
-        <b-segmented-controls vertical>
-            <label class="b-button">
-                <input type="checkbox" autocomplete="off" checked> Checkbox 1
-            </label>
-            <label class="b-button">
-                <input type="checkbox" autocomplete="off"> Checkbox 2
-            </label>
-            <label class="b-button">
-                <input type="checkbox" autocomplete="off"> Checkbox 3
-            </label>
-        </b-segmented-controls>
+        <div class="b-spinner">Loading...</div>
         
     </body>
 </html>

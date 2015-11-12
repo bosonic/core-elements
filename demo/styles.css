@@ -15,11 +15,19 @@ h2 {
 .b-button {
     font-size: 1em;
     padding: 0.75em 1.5em;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 600;
     border: 1px solid transparent;
     border-radius: 4px;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
     background-color: #ddd;
     border-color: rgb(211, 211, 211);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+}
+.b-button[disabled] {
+    background-color: #ddd;
+    border-color: #ddd;
+    color: #bbb;
 }
 .b-button:active, .b-button.active {
     box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
@@ -61,6 +69,40 @@ h2 {
 .b-button--danger:active {
     background-color: rgb(168, 49, 33);
     border-color: rgb(163, 48, 33);
+}
+
+@keyframes b-spinner {
+  0%, 80%, 100% { 
+    box-shadow: 0 1.5em 0 -1.3em #689caf;
+  } 40% {
+    box-shadow: 0 1.5em 0 0 #689caf;
+  }
+}
+.b-spinner, .b-spinner:before, .b-spinner:after {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 100%;
+    animation: b-spinner 1.4s infinite ease-in-out both;
+}
+.b-spinner {
+    text-indent: 999em;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    top: calc(-0em - 1.5em);
+    animation-delay: -0.32s;
+}
+.b-spinner:before, .b-spinner:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+}
+.b-spinner:before {
+    left: calc(1.5em + 0.5em);
+    animation-delay: -0.16s;
+}
+.b-spinner:after {
+    left: calc(2 * 1.5em + 2 * 0.5em);
 }
 
 b-dialog-content {

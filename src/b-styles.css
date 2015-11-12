@@ -17,11 +17,19 @@ h2 {
 .b-button {
     font-size: 1em;
     padding: 0.75em 1.5em;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 600;
     border: 1px solid transparent;
     border-radius: var(--bosonic-border-radius);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
     background-color: var(--bosonic-default-color);
     border-color: color(var(--bosonic-default-color) blackness(var(--bosonic-border-blackness)));
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+}
+.b-button[disabled] {
+    background-color: var(--bosonic-default-color);
+    border-color: var(--bosonic-default-color);
+    color: #bbb;
 }
 .b-button:active, .b-button.active {
     box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
@@ -63,6 +71,40 @@ h2 {
 .b-button--danger:active {
     background-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-active-blackness)));
     border-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-active-border-blackness)));
+}
+
+@keyframes b-spinner {
+  0%, 80%, 100% { 
+    box-shadow: 0 var(--b-spinner-dots-size) 0 -1.3em var(--bosonic-primary-color);
+  } 40% {
+    box-shadow: 0 var(--b-spinner-dots-size) 0 0 var(--bosonic-primary-color);
+  }
+}
+.b-spinner, .b-spinner:before, .b-spinner:after {
+    width: var(--b-spinner-dots-size);
+    height: var(--b-spinner-dots-size);
+    border-radius: 100%;
+    animation: b-spinner 1.4s infinite ease-in-out both;
+}
+.b-spinner {
+    text-indent: 999em;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    top: calc(-0em - var(--b-spinner-dots-size));
+    animation-delay: -0.32s;
+}
+.b-spinner:before, .b-spinner:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+}
+.b-spinner:before {
+    left: calc(var(--b-spinner-dots-size) + var(--b-spinner-dots-spacing));
+    animation-delay: -0.16s;
+}
+.b-spinner:after {
+    left: calc(2 * var(--b-spinner-dots-size) + 2 * var(--b-spinner-dots-spacing));
 }
 
 b-dialog-content {
