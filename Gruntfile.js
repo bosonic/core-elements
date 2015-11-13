@@ -15,7 +15,8 @@ module.exports = function(grunt) {
       return function(tree) {
         return new Promise(function(resolve) {
           tree.match({ tag: 'style' }, function(node) {
-            postcss([ require('postcss-custom-properties') ])
+            postcss([ require('postcss-custom-properties'),
+                      require('postcss-color-function') ])
               .process(rootStyles + node.content[0] /*, { from: 'src/app.css', to: 'app.css' }*/)
               .then(function(result) {
                 node.content[0] = result.css;
@@ -113,7 +114,13 @@ module.exports = function(grunt) {
         files: [
           'src/*.html'
         ],
-        tasks: ['bosonic', 'copy:elements']
+        tasks: ['bosonic']
+      },
+      dist: {
+        files: [
+          'dist/*.html'
+        ],
+        tasks: ['copy:elements']
       },
       globalCss: {
         files: ['src/b-styles.css'],
@@ -127,7 +134,7 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('demo', ['bosonic', 'copy', 'connect', 'watch']);
+  grunt.registerTask('demo', ['bosonic', 'postcss', 'copy', 'connect', 'watch']);
 
   require('load-grunt-tasks')(grunt);
 };
