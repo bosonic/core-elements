@@ -24,6 +24,7 @@ The following variables are available for styling:
 | --b-progress-bar-color           | The color of the bar           |
 | --b-progress-bar-secondary-color | The color of the secondary bar |
 | --b-progress-bar-container-color | The color of the bar container |
+| --b-progress-bar-height          | The height of the bar          |
 
 ## API
 

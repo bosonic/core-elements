@@ -45,6 +45,7 @@
     --b-progress-bar-color: var(--bosonic-success-color);
     --b-progress-bar-secondary-color: color(var(--bosonic-success-color) lightness(+25%));
     --b-progress-bar-container-color: var(--bosonic-gray-color);
+    --b-progress-bar-height: 5px;
 
     --b-selectable-selected-color: var(--bosonic-primary-color);
 }
