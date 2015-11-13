@@ -100,8 +100,7 @@
             },
 
             createdCallback: function() {
-                // without the setTimeout, this.bar.offsetWidth will be 0...
-                setTimeout(this.setKnobPositionFromValue.bind(this), 1);
+                requestAnimationFrame(this.setKnobPositionFromValue.bind(this));
             },
 
             valueChanged: function() {
