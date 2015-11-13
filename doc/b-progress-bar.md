@@ -16,6 +16,15 @@ Progress bars can be used to display a percentage of something, like an action t
 <b-progress-bar value="50" secondary="70"></b-progress-bar>
 ```
 
+## Styling
+The following variables are available for styling:
+
+| Variable                         | Description                    |
+|----------------------------------|--------------------------------|
+| --b-progress-bar-color           | The color of the bar           |
+| --b-progress-bar-secondary-color | The color of the secondary bar |
+| --b-progress-bar-container-color | The color of the bar container |
+
 ## API
 
 ### Attributes
