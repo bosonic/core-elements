@@ -1,5 +1,5 @@
 :root {
-    --bosonic-default-color: #ddd;
+    --bosonic-gray-color: #e0e0e0;
     --bosonic-primary-color: #689caf;
     --bosonic-success-color: #49a96d;
     --bosonic-warning-color: #e67e22;
@@ -11,10 +11,40 @@
     --bosonic-border-blackness: +5%;
     --bosonic-active-border-blackness: +12%;
 
+    --bosonic-line-height-base: 1.5;
+    --bosonic-padding-base-horizontal: 1.5em;
+    --bosonic-padding-base-vertical: 0.75em;
+
+    --b-button-font-weight: 600;
+    --b-button-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-button-border-radius: var(--bosonic-border-radius);
+    --b-button-default-bg: var(--bosonic-gray-color);
+    --b-button-default-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-button-default-color: #333;
+    --b-button-disabled-color: #bbb;
+    --b-button-primary-bg: var(--bosonic-primary-color);
+    --b-button-primary-border: color(var(--bosonic-primary-color) blackness(var(--bosonic-border-blackness)));
+    --b-button-primary-color: #fff;
+    --b-button-success-bg: var(--bosonic-success-color);
+    --b-button-success-border: color(var(--bosonic-success-color) blackness(var(--bosonic-border-blackness)));
+    --b-button-success-color: #fff;
+    --b-button-warning-bg: var(--bosonic-warning-color);
+    --b-button-warning-border: color(var(--bosonic-warning-color) blackness(var(--bosonic-border-blackness)));
+    --b-button-warning-color: #fff;
+    --b-button-danger-bg: var(--bosonic-danger-color);
+    --b-button-danger-border: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
+    --b-button-danger-color: #fff;
+
+    --b-list-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-list-border-radius: var(--bosonic-border-radius);
+
+    --b-spinner-dots-color: var(--bosonic-primary-color);
     --b-spinner-dots-size: 1.5em;
     --b-spinner-dots-spacing: 0.5em;
 
     --b-progress-bar-color: var(--bosonic-success-color);
     --b-progress-bar-secondary-color: color(var(--bosonic-success-color) lightness(+25%));
-    --b-progress-bar-container-color: var(--bosonic-default-color);
+    --b-progress-bar-container-color: var(--bosonic-gray-color);
+
+    --b-selectable-selected-color: var(--bosonic-primary-color);
 }

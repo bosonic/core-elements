@@ -12,27 +12,33 @@ h2 {
     font-size: 1.6em;
 }
 
+/* FOUC prevention */
+b-segmented-controls:not(.resolved) {
+    opacity: 0;
+}
+
 .b-button {
-    font-size: 1em;
-    padding: 0.75em 1.5em;
     display: inline-block;
     vertical-align: middle;
+    padding: 0.75em 1.5em;
+    font-size: 1em;
     font-weight: 600;
+    color: #333;
+    background-color: #e0e0e0;
     border: 1px solid transparent;
     border-radius: 4px;
-    background-color: #ddd;
-    border-color: rgb(211, 211, 211);
+    border-color: rgb(214, 214, 214);
     box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
 }
 .b-button[disabled] {
-    background-color: #ddd;
-    border-color: #ddd;
     color: #bbb;
+    background-color: #e0e0e0;
+    border-color: #e0e0e0;
 }
 .b-button:active, .b-button.active {
     box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
-    background-color: rgb(202, 202, 202);
-    border-color: rgb(198, 198, 198);
+    background-color: rgb(204, 204, 204);
+    border-color: rgb(191, 191, 191);
 }
 .b-button--primary, .b-button.active {
     color: #fff;
@@ -41,7 +47,7 @@ h2 {
 }
 .b-button--primary:active, .b-button.active {
     background-color: rgb(105, 138, 150);
-    border-color: rgb(105, 134, 145);
+    border-color: rgb(105, 125, 133);
 }
 .b-button--success {
     color: #fff;
@@ -50,7 +56,7 @@ h2 {
 }
 .b-button--success:active {
     background-color: rgb(74, 143, 100);
-    border-color: rgb(74, 138, 98);
+    border-color: rgb(74, 125, 94);
 }
 .b-button--warning {
     color: #fff;
@@ -59,7 +65,7 @@ h2 {
 }
 .b-button--warning:active {
     background-color: rgb(204, 113, 33);
-    border-color: rgb(199, 111, 33);
+    border-color: rgb(186, 105, 33);
 }
 .b-button--danger {
     color: #fff;
@@ -68,10 +74,10 @@ h2 {
 }
 .b-button--danger:active {
     background-color: rgb(168, 49, 33);
-    border-color: rgb(163, 48, 33);
+    border-color: rgb(150, 47, 33);
 }
 
-@keyframes b-spinner {
+@keyframes b-spinner-dots {
   0%, 80%, 100% { 
     box-shadow: 0 1.5em 0 -1.3em #689caf;
   } 40% {
@@ -82,7 +88,7 @@ h2 {
     width: 1.5em;
     height: 1.5em;
     border-radius: 100%;
-    animation: b-spinner 1.4s infinite ease-in-out both;
+    animation: b-spinner-dots 1.4s infinite ease-in-out both;
 }
 .b-spinner {
     text-indent: 999em;
@@ -103,6 +109,30 @@ h2 {
 }
 .b-spinner:after {
     left: calc(2 * 1.5em + 2 * 0.5em);
+}
+
+.b-list {
+    margin: 0.5em 0 1em 0;
+    border: 1px solid rgb(214, 214, 214);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    list-style-type: none;
+    padding: 0;
+}
+.b-list > * {
+    background-color: #fff;
+    line-height: 1.5;
+    padding: 0.75em 1.5em;
+    margin: 0;
+    border-bottom: 1px solid rgb(214, 214, 214);
+}
+.b-list > *:last-child {
+    border-bottom: none;
+}
+
+.b-selectable-selected {
+    background-color: #689caf;
 }
 
 b-dialog-content {

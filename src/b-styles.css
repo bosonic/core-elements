@@ -14,77 +14,83 @@ h2 {
     font-size: 1.6em;
 }
 
+/* FOUC prevention */
+b-segmented-controls:not(.resolved) {
+    opacity: 0;
+}
+
 .b-button {
-    font-size: 1em;
-    padding: 0.75em 1.5em;
     display: inline-block;
     vertical-align: middle;
-    font-weight: 600;
+    padding: var(--b-button-padding);
+    font-size: 1em;
+    font-weight: var(--b-button-font-weight);
+    color: var(--b-button-default-color);
+    background-color: var(--b-button-default-bg);
     border: 1px solid transparent;
-    border-radius: var(--bosonic-border-radius);
-    background-color: var(--bosonic-default-color);
-    border-color: color(var(--bosonic-default-color) blackness(var(--bosonic-border-blackness)));
+    border-radius: var(--b-button-border-radius);
+    border-color: var(--b-button-default-border);
     box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
 }
 .b-button[disabled] {
-    background-color: var(--bosonic-default-color);
-    border-color: var(--bosonic-default-color);
-    color: #bbb;
+    color: var(--b-button-disabled-color);
+    background-color: var(--b-button-default-bg);
+    border-color: var(--b-button-default-bg);
 }
 .b-button:active, .b-button.active {
     box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
-    background-color: color(var(--bosonic-default-color) blackness(var(--bosonic-active-blackness)));
-    border-color: color(var(--bosonic-default-color) blackness(var(--bosonic-active-border-blackness)));
+    background-color: color(var(--b-button-default-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-default-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--primary, .b-button.active {
-    color: #fff;
-    background-color: var(--bosonic-primary-color);
-    border-color: color(var(--bosonic-primary-color) blackness(var(--bosonic-border-blackness)));
+    color: var(--b-button-primary-color);
+    background-color: var(--b-button-primary-bg);
+    border-color: var(--b-button-primary-border);
 }
 .b-button--primary:active, .b-button.active {
-    background-color: color(var(--bosonic-primary-color) blackness(var(--bosonic-active-blackness)));
-    border-color: color(var(--bosonic-primary-color) blackness(var(--bosonic-active-border-blackness)));
+    background-color: color(var(--b-button-primary-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-primary-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--success {
-    color: #fff;
-    background-color: var(--bosonic-success-color);
-    border-color: color(var(--bosonic-success-color) blackness(var(--bosonic-border-blackness)));
+    color: var(--b-button-success-color);
+    background-color: var(--b-button-success-bg);
+    border-color: var(--b-button-success-border);
 }
 .b-button--success:active {
-    background-color: color(var(--bosonic-success-color) blackness(var(--bosonic-active-blackness)));
-    border-color: color(var(--bosonic-success-color) blackness(var(--bosonic-active-border-blackness)));
+    background-color: color(var(--b-button-success-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-success-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--warning {
-    color: #fff;
-    background-color: var(--bosonic-warning-color);
-    border-color: color(var(--bosonic-warning-color) blackness(var(--bosonic-border-blackness)));
+    color: var(--b-button-warning-color);
+    background-color: var(--b-button-warning-bg);
+    border-color: var(--b-button-warning-border);
 }
 .b-button--warning:active {
-    background-color: color(var(--bosonic-warning-color) blackness(var(--bosonic-active-blackness)));
-    border-color: color(var(--bosonic-warning-color) blackness(var(--bosonic-active-border-blackness)));
+    background-color: color(var(--b-button-warning-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-warning-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--danger {
-    color: #fff;
-    background-color: var(--bosonic-danger-color);
-    border-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
+    color: var(--b-button-danger-color);
+    background-color: var(--b-button-danger-bg);
+    border-color: var(--b-button-danger-border);
 }
 .b-button--danger:active {
-    background-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-active-blackness)));
-    border-color: color(var(--bosonic-danger-color) blackness(var(--bosonic-active-border-blackness)));
+    background-color: color(var(--b-button-danger-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-danger-border) blackness(var(--bosonic-active-border-blackness)));
 }
 
-@keyframes b-spinner {
+@keyframes b-spinner-dots {
   0%, 80%, 100% { 
-    box-shadow: 0 var(--b-spinner-dots-size) 0 -1.3em var(--bosonic-primary-color);
+    box-shadow: 0 var(--b-spinner-dots-size) 0 -1.3em var(--b-spinner-dots-color);
   } 40% {
-    box-shadow: 0 var(--b-spinner-dots-size) 0 0 var(--bosonic-primary-color);
+    box-shadow: 0 var(--b-spinner-dots-size) 0 0 var(--b-spinner-dots-color);
   }
 }
 .b-spinner, .b-spinner:before, .b-spinner:after {
     width: var(--b-spinner-dots-size);
     height: var(--b-spinner-dots-size);
     border-radius: 100%;
-    animation: b-spinner 1.4s infinite ease-in-out both;
+    animation: b-spinner-dots 1.4s infinite ease-in-out both;
 }
 .b-spinner {
     text-indent: 999em;
@@ -105,6 +111,30 @@ h2 {
 }
 .b-spinner:after {
     left: calc(2 * var(--b-spinner-dots-size) + 2 * var(--b-spinner-dots-spacing));
+}
+
+.b-list {
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--b-list-border);
+    border-radius: var(--b-list-border-radius);
+    overflow: hidden;
+    position: relative;
+    list-style-type: none;
+    padding: 0;
+}
+.b-list > * {
+    background-color: #fff;
+    line-height: var(--bosonic-line-height-base);
+    padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    margin: 0;
+    border-bottom: 1px solid var(--b-list-border);
+}
+.b-list > *:last-child {
+    border-bottom: none;
+}
+
+.b-selectable-selected {
+    background-color: var(--b-selectable-selected-color);
 }
 
 b-dialog-content {
