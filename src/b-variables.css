@@ -14,7 +14,7 @@
     --b-spinner-dots-size: 1.5em;
     --b-spinner-dots-spacing: 0.5em;
 
-
-
     --b-progress-bar-color: var(--bosonic-success-color);
+    --b-progress-bar-secondary-color: color(var(--bosonic-success-color) lightness(+25%));
+    --b-progress-bar-container-color: var(--bosonic-default-color);
 }
