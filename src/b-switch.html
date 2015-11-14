@@ -1,6 +1,7 @@
-<element name="b-toggle-button">
+<element name="b-switch">
     <template>
-        <style>:host {
+        <style>
+            :host {
                 display: inline-block;
                 position: relative;
                 min-width: 60px;
@@ -20,7 +21,7 @@
             :host(.on) {
                 border: 1px solid #25557F;
             }
-            .b-toggle-button {
+            .b-switch-button {
                 position: absolute;
                 left: -webkit-calc(-100% + 24px);
                 left: -moz-calc(-100% + 24px);
@@ -33,13 +34,13 @@
                 white-space: nowrap;
                 transition: left 0.130s ease-out;
             }
-            .b-toggle-button.on {
+            .b-switch-button.on {
                 left: 0;
             }
-            .b-toggle-button > * {
+            .b-switch-button > * {
                 float: left;
             }
-            .b-toggle-on, .b-toggle-off {
+            .b-switch-on, .b-switch-off {
                 width: 50%;
                 height: 100%;
                 text-align: center;
@@ -47,18 +48,18 @@
                 -moz-box-sizing: border-box;
                 line-height: 24px;
             }
-            .b-toggle-on {
+            .b-switch-on {
                 padding-right: 12px;
                 background-color: #25557F;
                 color: white;
             }
-            .b-toggle-off {
+            .b-switch-off {
                 padding-left: 12px;
                 background-color: #bfbfbf;
                 /*color: #716f6f;*/
                 color: black;
             }
-            .b-toggle-thumb {
+            .b-switch-thumb {
                 position: absolute;
                 left: -webkit-calc(50% - 12px);
                 left: -moz-calc(50% - 12px);
@@ -69,10 +70,10 @@
                 background-color: white;
             }
         </style>
-        <div class="b-toggle-button">
-            <span class="b-toggle-on"></span>
-            <span class="b-toggle-thumb"></span>
-            <span class="b-toggle-off"></span>
+        <div class="b-switch-button">
+            <span class="b-switch-on"></span>
+            <span class="b-switch-thumb"></span>
+            <span class="b-switch-off"></span>
         </div>
     </template>
     <script>
@@ -113,15 +114,15 @@
 
                 set checked(value) {
                     this.toggleClass('on', value);
-                    this.toggleClass('on', value, this.shadowRoot.querySelector('.b-toggle-button'));
+                    this.toggleClass('on', value, this.shadowRoot.querySelector('.b-switch-button'));
                     this.toggleStateAttribute('aria-checked', value);
                     this.toggleCustomAttribute('checked', value);
                 },
 
                 createdCallback: function() {
                     if (!this.noCaption) {
-                        this.shadowRoot.querySelector('.b-toggle-on').textContent = this.onCaption;
-                        this.shadowRoot.querySelector('.b-toggle-off').textContent = this.offCaption;
+                        this.shadowRoot.querySelector('.b-switch-on').textContent = this.onCaption;
+                        this.shadowRoot.querySelector('.b-switch-off').textContent = this.offCaption;
                     }
                     this.checked ? this.activate() : this.deactivate();
                 },
