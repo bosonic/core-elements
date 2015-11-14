@@ -9,32 +9,34 @@
             }
             .slider-container {
                 position: relative;
-                width: calc(100% - 16px);
-                height: 16px;
+                width: calc(100% - 4 * 4px);
+                height: calc(4 * 4px);
             }
             .slider-bar-container {
                 position: absolute;
                 top: 0;
-                left: 8px;
+                left: calc(2 * 4px);
                 width: 100%;
                 height: 100%;
             }
             b-progress-bar {
                 position: absolute;
-                top: 7px;
+                top: calc(2 *  - 1px);
+                top: calc(2 * 4px);
                 left: 0px;
                 width: 100%;
-                padding: 8px 0px;
-                margin: -8px 0px;
+                padding: calc(2 * 4px) 0px;
+                margin: calc(0px - 2 * 4px) 0px;
             }
             .slider-knob {
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 16px;
-                height: 16px;
-                background-color: red;
+                width: calc(4 * 4px);
+                height: calc(4 * 4px);
+                background-color: rgb(214, 214, 214);
                 border-radius: 50%;
+                box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
             }
             .slider-knob.dragging {
                 /* TODO: find something appropriate ;) */

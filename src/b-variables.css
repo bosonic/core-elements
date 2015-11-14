@@ -15,9 +15,12 @@
     --bosonic-padding-base-horizontal: 1.5em;
     --bosonic-padding-base-vertical: 0.75em;
 
+    --bosonic-3d-effect: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+
     --b-button-font-weight: 600;
     --b-button-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     --b-button-border-radius: var(--bosonic-border-radius);
+    --b-button-3d-effect: var(--bosonic-3d-effect);
     --b-button-default-bg: var(--bosonic-gray-color);
     --b-button-default-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-button-default-color: #333;
@@ -44,8 +47,11 @@
 
     --b-progress-bar-color: var(--bosonic-success-color);
     --b-progress-bar-secondary-color: color(var(--bosonic-success-color) lightness(+25%));
-    --b-progress-bar-container-color: var(--bosonic-gray-color);
-    --b-progress-bar-height: 5px;
+    --b-progress-bar-container-color: color(var(--bosonic-gray-color) lightness(+5%));
+    --b-progress-bar-height: 4px;
+
+    --b-slider-knob-color: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-slider-knob-3d-effect: var(--bosonic-3d-effect);
 
     --b-selectable-selected-color: var(--bosonic-primary-color);
 }

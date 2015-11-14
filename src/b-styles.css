@@ -30,7 +30,7 @@ b-segmented-controls:not(.resolved) {
     border: 1px solid transparent;
     border-radius: var(--b-button-border-radius);
     border-color: var(--b-button-default-border);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    box-shadow: var(--b-button-3d-effect);
 }
 .b-button[disabled] {
     color: var(--b-button-disabled-color);
