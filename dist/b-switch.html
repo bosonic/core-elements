@@ -6,27 +6,21 @@
                 min-width: 60px;
                 height: 24px;
                 overflow: hidden;
-                border: 1px solid #b6b6b6;
+                border: 1px solid rgb(214, 214, 214);
                 border-radius: 2px;
-                box-shadow: inset 0px 0px 1px 0 rgba(0, 0, 0, 0.1);
                 -webkit-user-select: none;
                 -moz-user-select: none;
                 -ms-user-select: none;
-                -webkit-transition: border 0.130s ease-out;
                 transition: border 0.130s ease-out;
                 cursor: pointer;
                 font-size: 10px;
             }
             :host(.on) {
-                border: 1px solid #25557F;
+                border: 1px solid rgb(105, 148, 163);
             }
             .b-switch-button {
                 position: absolute;
-                left: -webkit-calc(-100% + 24px);
-                left: -moz-calc(-100% + 24px);
                 left: calc(-100% + 24px);
-                width: -webkit-calc(200% - 24px);
-                width: -moz-calc(200% - 24px);
                 width: calc(200% - 24px);
                 height: 100%;
                 overflow: hidden;
@@ -44,29 +38,28 @@
                 height: 100%;
                 text-align: center;
                 box-sizing: border-box;
-                -moz-box-sizing: border-box;
                 line-height: 24px;
             }
             .b-switch-on {
-                padding-right: 12px;
-                background-color: #25557F;
+                padding-right: calc(24px / 2);
+                background-color: #689caf;
                 color: white;
+                box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
             }
             .b-switch-off {
-                padding-left: 12px;
+                padding-left: calc(24px / 2);
                 background-color: #bfbfbf;
-                /*color: #716f6f;*/
                 color: black;
+                box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
             }
             .b-switch-thumb {
                 position: absolute;
-                left: -webkit-calc(50% - 12px);
-                left: -moz-calc(50% - 12px);
-                left: calc(50% - 12px);
+                left: calc(50% - 24px / 2);
                 width: 24px;
                 height: 100%;
                 border-radius: 1px;
-                background-color: white;
+                background-color: #e0e0e0;
+                box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
             }
         </style>
         <div class="b-switch-button">

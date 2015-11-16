@@ -38,7 +38,7 @@ b-segmented-controls:not(.resolved) {
     border-color: var(--b-button-default-bg);
 }
 .b-button:active, .b-button.active {
-    box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
+    box-shadow: var(--b-button-pressed-effect);
     background-color: color(var(--b-button-default-bg) blackness(var(--bosonic-active-blackness)));
     border-color: color(var(--b-button-default-border) blackness(var(--bosonic-active-border-blackness)));
 }

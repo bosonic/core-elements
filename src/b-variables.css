@@ -16,11 +16,13 @@
     --bosonic-padding-base-vertical: 0.75em;
 
     --bosonic-3d-effect: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    --bosonic-pressed-effect: 0 3px 5px rgba(0,0,0,.125) inset;
 
     --b-button-font-weight: 600;
     --b-button-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     --b-button-border-radius: var(--bosonic-border-radius);
     --b-button-3d-effect: var(--bosonic-3d-effect);
+    --b-button-pressed-effect: var(--bosonic-pressed-effect);
     --b-button-default-bg: var(--bosonic-gray-color);
     --b-button-default-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-button-default-color: #333;
@@ -54,4 +56,14 @@
     --b-slider-knob-3d-effect: var(--bosonic-3d-effect);
 
     --b-selectable-selected-color: var(--bosonic-primary-color);
+
+    --b-switch-thumb-color: var(--bosonic-gray-color);
+    --b-switch-on-bg: var(--bosonic-primary-color);
+    --b-switch-on-border: color(var(--bosonic-primary-color) blackness(var(--bosonic-border-blackness)));
+    --b-switch-off-bg: #bfbfbf;
+    --b-switch-off-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-switch-thumb-3d-effect: var(--bosonic-3d-effect);
+    --b-switch-pressed-effect: var(--bosonic-pressed-effect);
+    --b-switch-height: 24px;
+    --b-switch-border-radius: 2px;
 }

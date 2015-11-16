@@ -5,30 +5,24 @@
                 display: inline-block;
                 position: relative;
                 min-width: 60px;
-                height: 24px;
+                height: var(--b-switch-height);
                 overflow: hidden;
-                border: 1px solid #b6b6b6;
-                border-radius: 2px;
-                box-shadow: inset 0px 0px 1px 0 rgba(0, 0, 0, 0.1);
+                border: 1px solid var(--b-switch-off-border);
+                border-radius: var(--b-switch-border-radius);
                 -webkit-user-select: none;
                 -moz-user-select: none;
                 -ms-user-select: none;
-                -webkit-transition: border 0.130s ease-out;
                 transition: border 0.130s ease-out;
                 cursor: pointer;
                 font-size: 10px;
             }
             :host(.on) {
-                border: 1px solid #25557F;
+                border: 1px solid var(--b-switch-on-border);
             }
             .b-switch-button {
                 position: absolute;
-                left: -webkit-calc(-100% + 24px);
-                left: -moz-calc(-100% + 24px);
-                left: calc(-100% + 24px);
-                width: -webkit-calc(200% - 24px);
-                width: -moz-calc(200% - 24px);
-                width: calc(200% - 24px);
+                left: calc(-100% + var(--b-switch-height));
+                width: calc(200% - var(--b-switch-height));
                 height: 100%;
                 overflow: hidden;
                 white-space: nowrap;
@@ -45,29 +39,28 @@
                 height: 100%;
                 text-align: center;
                 box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                line-height: 24px;
+                line-height: var(--b-switch-height);
             }
             .b-switch-on {
-                padding-right: 12px;
-                background-color: #25557F;
+                padding-right: calc(var(--b-switch-height) / 2);
+                background-color: var(--b-switch-on-bg);
                 color: white;
+                box-shadow: var(--b-switch-pressed-effect);
             }
             .b-switch-off {
-                padding-left: 12px;
-                background-color: #bfbfbf;
-                /*color: #716f6f;*/
+                padding-left: calc(var(--b-switch-height) / 2);
+                background-color: var(--b-switch-off-bg);
                 color: black;
+                box-shadow: var(--b-switch-pressed-effect);
             }
             .b-switch-thumb {
                 position: absolute;
-                left: -webkit-calc(50% - 12px);
-                left: -moz-calc(50% - 12px);
-                left: calc(50% - 12px);
-                width: 24px;
+                left: calc(50% - var(--b-switch-height) / 2);
+                width: var(--b-switch-height);
                 height: 100%;
                 border-radius: 1px;
-                background-color: white;
+                background-color: var(--b-switch-thumb-color);
+                box-shadow: var(--b-switch-thumb-3d-effect);
             }
         </style>
         <div class="b-switch-button">

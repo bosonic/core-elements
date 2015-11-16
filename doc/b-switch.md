@@ -45,6 +45,21 @@ switch.checked = false; // deactivate the button
 
 ARIA authoring practices are automatically handled by the element. The user can use the keyboard to toggle the switch: SPACE/ENTER.
 
+## Styling
+The following variables are available for styling:
+
+| Variable                         | Description                                                  |
+|----------------------------------|--------------------------------------------------------------|
+| --b-switch-thumb-color           | The color of the "thumb" (dragged part)                      |
+| --b-switch-thumb-3d-effect       | The box-shadow applied to the thumb                          |
+| --b-switch-pressed-effect        | The box-shadow applied to the background                     |
+| --b-switch-height                | The height of the switch, used for calc. of other dimensions |
+| --b-switch-border-radius         | Obvious                                                      |
+| --b-switch-on-bg                 | The color of the background when the switch is "on"          |
+| --b-switch-on-border             | The color of the background' border when the switch is "on"  |
+| --b-switch-off-bg                | The color of the background when the switch is "off"         |
+| --b-switch-off-border            | The color of the background' border when the switch is "off" |
+
 ## API
 
 ### Attributes
