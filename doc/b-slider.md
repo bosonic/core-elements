@@ -20,6 +20,14 @@ A slider allows you to pick a numeric value by dragging a handle. Use `min` and 
 
 ARIA authoring practices are automatically applied by the element.
 
+## Styling
+The following variables are available for styling:
+
+| Variable                         | Description                        |
+|----------------------------------|------------------------------------|
+| --b-slider-knob-color            | The color of the slider's knob     |
+| --b-slider-knob-3d-effect        | The box-shadow applied to the knob |
+
 ## API
 
 ### Attributes
