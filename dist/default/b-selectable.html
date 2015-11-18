@@ -67,9 +67,13 @@
                 },
 
                 focusHandler: function(e) {
-                    if (!this.hasAttribute('selected')) {
-                        this.selectFirst();
-                    }
+                    // wait a bit so that the click handler can be called first
+                    // this handler is only for TAB use anyway
+                    setTimeout(function() {
+                        if (!this.hasAttribute('selected')) {
+                            this.selectFirst();
+                        }
+                    }.bind(this), 100);
                 },
 
                 clickHandler: function(e) {
