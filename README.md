@@ -11,7 +11,7 @@ Important: all PRs must be made against `dev` branch.
 cd core-elements
 git checkout dev
 npm install
-grunt demo
+grunt dev
 ```
 In order to work with the latest version of Bosonic's runtime, you should clone [bosonic's repo](https://github.com/bosonic/bosonic) too, checkout its `dev` branch, and npm link it:
 
