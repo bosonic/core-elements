@@ -20,73 +20,73 @@ b-segmented-controls:not(.resolved) {
 .b-button {
     display: inline-block;
     vertical-align: middle;
-    padding: 0.75em 1.5em;
+    padding: var(--b-button-padding);
     font-size: 1em;
-    font-weight: 600;
-    color: #333;
-    background-color: #e0e0e0;
+    font-weight: var(--b-button-font-weight);
+    color: var(--b-button-default-color);
+    background-color: var(--b-button-default-bg);
     border: 1px solid transparent;
-    border-radius: 4px;
-    border-color: rgb(214, 214, 214);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    border-radius: var(--b-button-border-radius);
+    border-color: var(--b-button-default-border);
+    box-shadow: var(--b-button-3d-effect);
 }
 .b-button[disabled] {
-    color: #bbb;
-    background-color: #e0e0e0;
-    border-color: #e0e0e0;
+    color: var(--b-button-disabled-color);
+    background-color: var(--b-button-default-bg);
+    border-color: var(--b-button-default-bg);
 }
 .b-button:active, .b-button.active {
-    box-shadow: 0 3px 5px rgba(0,0,0,.125) inset;
-    background-color: rgb(204, 204, 204);
-    border-color: rgb(191, 191, 191);
+    box-shadow: var(--b-button-pressed-effect);
+    background-color: color(var(--b-button-default-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-default-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--primary, .b-button.active {
-    color: #fff;
-    background-color: #689caf;
-    border-color: rgb(105, 148, 163);
+    color: var(--b-button-primary-color);
+    background-color: var(--b-button-primary-bg);
+    border-color: var(--b-button-primary-border);
 }
 .b-button--primary:active, .b-button.active {
-    background-color: rgb(105, 138, 150);
-    border-color: rgb(105, 125, 133);
+    background-color: color(var(--b-button-primary-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-primary-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--success {
-    color: #fff;
-    background-color: #49a96d;
-    border-color: rgb(74, 156, 105);
+    color: var(--b-button-success-color);
+    background-color: var(--b-button-success-bg);
+    border-color: var(--b-button-success-border);
 }
 .b-button--success:active {
-    background-color: rgb(74, 143, 100);
-    border-color: rgb(74, 125, 94);
+    background-color: color(var(--b-button-success-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-success-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--warning {
-    color: #fff;
-    background-color: #e67e22;
-    border-color: rgb(217, 119, 33);
+    color: var(--b-button-warning-color);
+    background-color: var(--b-button-warning-bg);
+    border-color: var(--b-button-warning-border);
 }
 .b-button--warning:active {
-    background-color: rgb(204, 113, 33);
-    border-color: rgb(186, 105, 33);
+    background-color: color(var(--b-button-warning-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-warning-border) blackness(var(--bosonic-active-border-blackness)));
 }
 .b-button--danger {
-    color: #fff;
-    background-color: #c13421;
-    border-color: rgb(181, 50, 33);
+    color: var(--b-button-danger-color);
+    background-color: var(--b-button-danger-bg);
+    border-color: var(--b-button-danger-border);
 }
 .b-button--danger:active {
-    background-color: rgb(168, 49, 33);
-    border-color: rgb(150, 47, 33);
+    background-color: color(var(--b-button-danger-bg) blackness(var(--bosonic-active-blackness)));
+    border-color: color(var(--b-button-danger-border) blackness(var(--bosonic-active-border-blackness)));
 }
 
 @keyframes b-spinner-dots {
   0%, 80%, 100% { 
-    box-shadow: 0 1.5em 0 -1.3em #689caf;
+    box-shadow: 0 var(--b-spinner-dots-size) 0 -1.3em var(--b-spinner-dots-color);
   } 40% {
-    box-shadow: 0 1.5em 0 0 #689caf;
+    box-shadow: 0 var(--b-spinner-dots-size) 0 0 var(--b-spinner-dots-color);
   }
 }
 .b-spinner, .b-spinner:before, .b-spinner:after {
-    width: 1.5em;
-    height: 1.5em;
+    width: var(--b-spinner-dots-size);
+    height: var(--b-spinner-dots-size);
     border-radius: 100%;
     animation: b-spinner-dots 1.4s infinite ease-in-out both;
 }
@@ -95,7 +95,7 @@ b-segmented-controls:not(.resolved) {
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    top: calc(-0em - 1.5em);
+    top: calc(-0em - var(--b-spinner-dots-size));
     animation-delay: -0.32s;
 }
 .b-spinner:before, .b-spinner:after {
@@ -104,17 +104,17 @@ b-segmented-controls:not(.resolved) {
     top: 0;
 }
 .b-spinner:before {
-    left: calc(1.5em + 0.5em);
+    left: calc(var(--b-spinner-dots-size) + var(--b-spinner-dots-spacing));
     animation-delay: -0.16s;
 }
 .b-spinner:after {
-    left: calc(2 * 1.5em + 2 * 0.5em);
+    left: calc(2 * var(--b-spinner-dots-size) + 2 * var(--b-spinner-dots-spacing));
 }
 
 .b-list {
     margin: 0.5em 0 1em 0;
-    border: 1px solid rgb(214, 214, 214);
-    border-radius: 4px;
+    border: 1px solid var(--b-list-border);
+    border-radius: var(--b-list-border-radius);
     overflow: hidden;
     position: relative;
     list-style-type: none;
@@ -122,17 +122,17 @@ b-segmented-controls:not(.resolved) {
 }
 .b-list > * {
     background-color: #fff;
-    line-height: 1.5;
-    padding: 0.75em 1.5em;
+    line-height: var(--bosonic-line-height-base);
+    padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     margin: 0;
-    border-bottom: 1px solid rgb(214, 214, 214);
+    border-bottom: 1px solid var(--b-list-border);
 }
 .b-list > *:last-child {
     border-bottom: none;
 }
 
 .b-selectable-selected {
-    background-color: #689caf;
+    background-color: var(--b-selectable-selected-color);
 }
 
 b-dialog-content {

@@ -2,56 +2,104 @@
 
 module.exports = function(grunt) {
 
-  grunt.registerMultiTask('bosonic', 'A Grunt task', function() {      
+  grunt.registerMultiTask('bosonic', 'Elements build task', function(target) {      
     var path = require('path'),
         posthtml = require('posthtml'),
         postcss = require('postcss');
 
-    var rootStyles = grunt.file.read('src/b-variables.css');
+    var done = this.async();
+
+    var variablesFile = this.data.theme + '/variables.css';
+    if (!grunt.file.exists(variablesFile)) {
+      grunt.fatal('A theme must have a `variables.css` file (' + variablesFile + ' not found)');
+    }
+
+    var themeFile = this.data.theme + '/theme.css';
+    if (!grunt.file.exists(themeFile)) {
+      grunt.fatal('A theme must have a `theme.css` file (' + themeFile + ' not found)');
+    }
+
+    var cssVariables = grunt.file.read(variablesFile),
+        themeCss = grunt.file.read(themeFile),
+        themeDest = this.data.dest + '/theme.css';
 
     var processStyleTag = function pluginName(options) {
       options = options || {};
 
       return function(tree) {
         return new Promise(function(resolve) {
-          tree.match({ tag: 'style' }, function(node) {
-            postcss([ require('postcss-custom-properties'),
-                      require('postcss-color-function') ])
-              .process(rootStyles + node.content[0] /*, { from: 'src/app.css', to: 'app.css' }*/)
-              .then(function(result) {
-                node.content[0] = result.css;
-                resolve(tree);
-              });
-            
+          var tasks = [];
+          tree.walk(function(node) {
+            if (node.tag && node.tag === 'style') {
+              tasks.push(
+                postcss([ require('postcss-custom-properties'),
+                          require('postcss-color-function') ])
+                  .process(cssVariables + node.content[0])
+                  .then(function(result) {
+                    node.content[0] = result.css;
+                  })
+              );
+            }
             return node;
+          });
+          Promise.all(tasks).then(function() {
+            resolve(tree);
+          }).catch(function(error) {
+              grunt.fatal(error);
           });
         });
       };
     };
 
+    var tasks = [];
+
     this.files.forEach(function(f) {
-      f.src.forEach(function(filepath) {
+      Array.prototype.push.apply(tasks, f.src.map(function(filepath) {
         var html = grunt.file.read(filepath);
 
-        posthtml()
+        return posthtml()
           .use(processStyleTag())
           //.use(require('posthtml-custom-elements')())
-          .process(html/*, options */)
+          .process(html)
           .then(function(result) {
             var dest = f.dest + '/' + path.basename(filepath);
             grunt.file.write(dest, result.html);
             grunt.log.writeln('File ' + dest + ' created.');
           });
-      });
+      }));
     });
+
+    tasks.push(
+      postcss([ require('postcss-import'),
+                require('postcss-custom-properties'),
+                require('postcss-color-function') ])
+        .process(themeCss, { from: themeFile })
+        .then(function(result) {
+          grunt.file.write(themeDest, result.css);
+          grunt.log.writeln('File ' + themeDest + ' created.');
+        })
+    );
+
+    Promise.all(tasks).then(function() {
+      done();
+    }).catch(function(error) {
+      if (error.name === 'CssSyntaxError') {
+        grunt.fatal(error.message + error.showSourceCode());
+      } else {
+        grunt.fatal(error);
+      }
+      done(error);
+    });
+
   });
 
   grunt.initConfig({
 
     bosonic: {
-      files: {
+      defaultTheme: {
         src: ['src/*.html'],
-        dest: 'dist'
+        theme: 'src/themes/default',
+        dest: 'dist/default'
       }
     },
 
@@ -60,55 +108,31 @@ module.exports = function(grunt) {
         options: {
           port: 8020,
           base: ['.', 'demo'],
-          hostname: '*'
+          hostname: '*',
+          keepalive: true
         }
       }
     },
 
     copy: {
-      lib: {
+      runtime: {
         expand: true,
         flatten: true,
         cwd: 'node_modules',
-        dest: 'demo/lib',
+        dest: 'dist',
         src: [
           'webcomponents.js/webcomponents.js',
           'bosonic/dist/bosonic-runtime.js'
         ]
-      },
-      elements: {
-        expand: true,
-        flatten: true,
-        cwd: 'dist',
-        dest: 'demo/lib',
-        src: '*.html'
-      }
-    },
-
-    postcss: {
-      options: {
-        processors: [
-          require('postcss-import')(),
-          require('postcss-custom-properties')(),
-          require('postcss-color-function')()
-        ]
-      },
-      dist: {
-        files: [{
-            /*expand: true,
-            cwd: 'web/css/',*/
-            src: ['src/b-styles.css'],
-            dest: 'demo/styles.css'
-        }]
       }
     },
 
     watch: {
-      lib: {
+      runtime: {
         files: [
           'node_modules/bosonic/dist/bosonic-runtime.js'
         ],
-        tasks: ['copy:lib']
+        tasks: ['copy:runtime']
       },
       elements: {
         files: [
@@ -116,25 +140,16 @@ module.exports = function(grunt) {
         ],
         tasks: ['bosonic']
       },
-      dist: {
-        files: [
-          'dist/*.html'
-        ],
-        tasks: ['copy:elements']
-      },
-      globalCss: {
-        files: ['src/b-styles.css'],
-        tasks: ['postcss']
-      },
-      varCss: {
-        files: ['src/b-variables.css'],
-        tasks: ['bosonic', 'postcss']
+      themes: {
+        files: ['src/**/*.css'],
+        tasks: ['bosonic']
       }
     }
 
   });
 
-  grunt.registerTask('demo', ['bosonic', 'postcss', 'copy', 'connect', 'watch']);
+  grunt.registerTask('dist', ['copy:runtime', 'bosonic']);
+  grunt.registerTask('dev', ['dist', 'connect', 'watch']);
 
   require('load-grunt-tasks')(grunt);
 };
