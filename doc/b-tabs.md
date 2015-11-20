@@ -1,16 +1,9 @@
-{
-  title: 'Tabs',
-  element: 'b-tabs',
-  category: "elements",
-  section: "core",
-  order: 3
-}
-
-# b-tabs
-
-`<b-tabs>` wraps a list of `<b-tab>` elements: each `<b-tab>` must have a `for` attribute targeting an element wrapping the tab's content.
+## Example
+<div class="element-demo" id="example"></div>
 
 ## Usage
+
+`<b-tabs>` wraps a list of `<b-tab>` elements: each `<b-tab>` must have a `for` attribute targeting an element wrapping the tab's content.
 
 ``` html
 <b-tabs selected="0">
