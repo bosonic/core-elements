@@ -119,6 +119,7 @@ b-segmented-controls:not(.resolved) {
     position: relative;
     list-style-type: none;
     padding: 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 .b-list > * {
     background-color: #fff;
@@ -126,13 +127,24 @@ b-segmented-controls:not(.resolved) {
     padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     margin: 0;
     border-bottom: 1px solid var(--b-list-border);
+    vertical-align: middle;
+    white-space: nowrap;
 }
 .b-list > *:last-child {
     border-bottom: none;
 }
+.b-list .b-icon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
 
 .b-selectable-selected {
     background-color: var(--b-selectable-selected-color);
+    color: #fff;
+    box-shadow: var(--bosonic-3d-effect);
 }
 
 b-dialog-content {
