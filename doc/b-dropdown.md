@@ -17,6 +17,18 @@ Basically, a `<b-dropdown>` element wraps a button and an unordered list into a 
 </b-dropdown>
 ```
 
+## Styling
+The following variables are available for styling:
+
+| Variable                         | Description                            |
+|----------------------------------|----------------------------------------|
+| --b-dropdown-border              | The border of the dropdown...          |
+| --b-dropdown-border-radius       |                                        |
+| --b-dropdown-shadow              | The box-shadow of the dropdown         |
+| --b-dropdown-item-font-size      |                                        |
+| --b-dropdown-item-padding        |                                        |
+| --b-dropdown-item-hover-bg       | The background color of a hovered item |
+
 ## API
 
 ### Methods
