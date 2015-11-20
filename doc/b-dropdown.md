@@ -1,12 +1,5 @@
-{
-  title: 'Dropdowns',
-  element: 'b-dropdown',
-  category: "elements",
-  section: "core",
-  order: 2
-}
-
-# b-dropdown
+## Example
+<div class="element-demo" id="example"></div>
 
 ## Usage
 
@@ -16,10 +9,10 @@ Basically, a `<b-dropdown>` element wraps a button and an unordered list into a 
 <b-dropdown>
     <button>Dropdown</button>
     <ul>
-        <li>plain text</li>
-        <li><a href="#">link item</a></li>
+        <li><a href="#">Some action</a></li>
+        <li><a href="#">Yet another action</a></li>
         <hr />
-        <li><a href="#">separated link</a></li>
+        <li><a href="#">What else?</a></li>
     </ul>
 </b-dropdown>
 ```

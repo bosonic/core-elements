@@ -16,35 +16,29 @@
         <style>
             b-dropdown {
                 float: left;
-                margin-left: 2px;
-            }
-            b-dropdown button {
-                margin: 0;
-                padding-right: 5px;
-            }
-            b-dropdown button:after {
-                padding-left: 10px;
-                content:'\25BE';
+                margin-right: 20px;
             }
         </style>
 
-        <b-dropdown id="first">
-            <button>Dropdown 1</button>
-            <ul>
-                <li>plain text</li>
-                <li><a href="#">link item</a></li>
-                <hr />
-                <li><a href="#">separated link</a></li>
-            </ul>
-        </b-dropdown>
+        <div class="element-demo" id="example">
+            <b-dropdown id="first">
+                <button class="b-button b-button--primary">Dropdown</button>
+                <ul>
+                    <li><a href="#">Some action</a></li>
+                    <li><a href="#">Yet another action</a></li>
+                    <hr />
+                    <li><a href="#">What else?</a></li>
+                </ul>
+            </b-dropdown>
+        </div>
         
         <b-dropdown id="second">
-            <button>Dropdown 2</button>
+            <button class="b-button b-button--primary">Dropdown #2</button>
             <ul>
-                <li>plain text</li>
-                <li><a href="#">link item</a></li>
+                <li><a href="#">Some action</a></li>
+                <li><a href="#">Yet another action</a></li>
                 <hr />
-                <li><a href="#">separated link</a></li>
+                <li><a href="#">What else?</a></li>
             </ul>
         </b-dropdown>
     </body>
