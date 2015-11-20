@@ -5,12 +5,17 @@
     --bosonic-warning-color: #e67e22;
     --bosonic-danger-color: #c13421;
 
+    --bosonic-default-font-color: black;
+
     --bosonic-active-blackness: +10%;
 
     --bosonic-border-radius: 2px;
     --bosonic-border-blackness: +5%;
     --bosonic-active-border-blackness: +12%;
 
+    --bosonic-shadow-base: 0 1px 4px rgba(0,0,0,.1);
+
+    --bosonic-font-size-base: 1em;
     --bosonic-line-height-base: 1.5;
     --bosonic-padding-base-horizontal: 1.5em;
     --bosonic-padding-base-vertical: 0.75em;
@@ -18,6 +23,7 @@
     --bosonic-3d-effect: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
     --bosonic-pressed-effect: 0 3px 5px rgba(0,0,0,.125) inset;
 
+    --b-button-font-size: var(--bosonic-font-size-base);
     --b-button-font-weight: 600;
     --b-button-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     --b-button-border-radius: var(--bosonic-border-radius);
@@ -40,8 +46,16 @@
     --b-button-danger-border: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
     --b-button-danger-color: #fff;
 
+    --b-dropdown-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-dropdown-border-radius: var(--bosonic-border-radius);
+    --b-dropdown-shadow: var(--bosonic-shadow-base);
+    --b-dropdown-item-font-size: var(--bosonic-font-size-base);
+    --b-dropdown-item-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-dropdown-item-hover-bg: color(var(--bosonic-gray-color) lightness(+5%));
+
     --b-list-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-list-border-radius: var(--bosonic-border-radius);
+    --b-list-shadow: var(--bosonic-shadow-base);
 
     --b-spinner-dots-color: var(--bosonic-primary-color);
     --b-spinner-dots-size: 1.5em;

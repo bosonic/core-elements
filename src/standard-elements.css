@@ -21,7 +21,7 @@ b-segmented-controls:not(.resolved) {
     display: inline-block;
     vertical-align: middle;
     padding: var(--b-button-padding);
-    font-size: 1em;
+    font-size: var(--b-button-font-size);
     font-weight: var(--b-button-font-weight);
     color: var(--b-button-default-color);
     background-color: var(--b-button-default-bg);
@@ -119,7 +119,7 @@ b-segmented-controls:not(.resolved) {
     position: relative;
     list-style-type: none;
     padding: 0;
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: var(--b-list-shadow);
 }
 .b-list > * {
     background-color: #fff;

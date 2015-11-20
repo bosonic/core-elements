@@ -3,21 +3,25 @@
         b-dropdown {
             position: relative;
         }
-        b-dropdown ul {
+        b-dropdown > ul {
             display: none;
             position: absolute;
-            left: 0;
+            /*left: 0;
             top: 100%;
-            float: left;
+            float: left;*/
             list-style-type: none;
             /* for IE 10 & 11 ... */
             list-style-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
-            padding: 5px 10px;
+            padding: 0;
             margin: 0;
-            background-color: white;
             z-index: 1000;
-            border: 1px solid #ccc;
-            min-width: 140px;
+            /* minimum styling */
+            background-color: white;
+            border: var(--b-dropdown-border);
+        }
+        b-dropdown ul > li > a {
+            display: block;
+            white-space: nowrap;
         }
         b-dropdown[open] ul {
             display: block;
