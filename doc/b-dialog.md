@@ -1,14 +1,7 @@
-{
-  title: 'Dialogs & modals',
-  element: 'b-dialog',
-  category: "elements",
-  section: "core",
-  order: 1
-}
-
-# b-dialog
-
 You may not love them, but modals are sometimes requested by customers...
+
+## Example
+<div class="element-demo" id="example"></div>
 
 ## Usage
 

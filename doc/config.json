@@ -1,0 +1,17 @@
+{
+    "sections": [
+        {
+            "lib": "Core",
+            "elements": [
+                {
+                    "tag": "b-dialog",
+                    "title": "Dialogs & modals"
+                },
+                {
+                    "tag": "b-dropdown",
+                    "title": "Dropdowns"
+                }
+            ]
+        }
+    ]
+}
