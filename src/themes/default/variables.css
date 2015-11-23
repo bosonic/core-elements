@@ -13,7 +13,9 @@
     --bosonic-border-blackness: +5%;
     --bosonic-active-border-blackness: +12%;
 
-    --bosonic-shadow-base: 0 1px 4px rgba(0,0,0,.1);
+    --bosonic-shadow-light: 0 1px 4px rgba(0,0,0,.1);
+    --bosonic-shadow-medium: 0 5px 10px rgba(0,0,0,.2);
+    --bosonic-shadow-heavy: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
 
     --bosonic-font-size-base: 1em;
     --bosonic-line-height-base: 1.5;
@@ -46,19 +48,23 @@
     --b-button-danger-border: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
     --b-button-danger-color: #fff;
 
+    --b-card-shadow: var(--bosonic-shadow-medium);
+
     --b-dialog-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-dialog-border-radius: var(--bosonic-border-radius);
     --b-dialog-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-dialog-shadow: var(--bosonic-shadow-medium);
 
     --b-dropdown-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-dropdown-border-radius: var(--bosonic-border-radius);
-    --b-dropdown-shadow: var(--bosonic-shadow-base);
+    --b-dropdown-shadow: var(--bosonic-shadow-light);
     --b-dropdown-item-font-size: var(--bosonic-font-size-base);
     --b-dropdown-item-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     --b-dropdown-item-hover-bg: color(var(--bosonic-gray-color) lightness(+5%));
 
     --b-list-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-list-border-radius: var(--bosonic-border-radius);
-    --b-list-shadow: var(--bosonic-shadow-base);
+    --b-list-shadow: var(--bosonic-shadow-light);
 
     --b-spinner-dots-color: var(--bosonic-primary-color);
     --b-spinner-dots-size: 1.5em;

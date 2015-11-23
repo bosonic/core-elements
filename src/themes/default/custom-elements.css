@@ -1,3 +1,18 @@
+/* FOUC prevention */
+b-segmented-controls:not(.resolved) {
+    opacity: 0;
+}
+
+b-dialog {
+    display: block;
+    padding: var(--b-dialog-padding);
+    background: white;
+    border: var(--b-dialog-border);
+    border-radius: var(--b-dialog-border-radius);
+    text-align: center;
+    box-shadow: var(--b-dialog-shadow);
+}
+
 b-dropdown > button:after {
     padding-left: 10px;
     content:'\25BE';
