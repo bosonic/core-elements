@@ -12,11 +12,6 @@ h2 {
     font-size: 1.6em;
 }
 
-/* FOUC prevention */
-b-segmented-controls:not(.resolved) {
-    opacity: 0;
-}
-
 .b-button {
     display: inline-block;
     vertical-align: middle;
@@ -167,12 +162,6 @@ b-segmented-controls:not(.resolved) {
     box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
 }
 
-b-dialog-content {
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
-}
-
 .b-flash-message-close {
     float:right;
     opacity:.4;
@@ -243,6 +232,23 @@ b-tab.active {
 .draggable-content {
     padding: 10px;
 }
+/* FOUC prevention */
+b-segmented-controls:not(.resolved) {
+    opacity: 0;
+}
+
+/*b-dialog {
+    display: block;
+    color: #000;
+    background: white;
+    border: 1px solid #333;
+    border-radius: 3px;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+}*/
+
 b-dropdown > button:after {
     padding-left: 10px;
     content:'\25BE';
@@ -273,5 +279,29 @@ b-dropdown > ul > hr {
     margin: 0;
     border: 0;
     border-top: 1px solid rgb(214, 214, 214);
+}
+*[visible].fade-in {
+    opacity: 1;
+}
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+}
+*[visible].scale {
+    transform: translate(-50%, -50%) scale(1);
+}
+.scale {
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: transform 0.3s ease;
+}
+b-dialog[visible].slide-in-right,
+b-dialog[visible].slide-in-left {
+    transform: translateX(0);
+}
+b-dialog.slide-in-right {
+    transform: translateX(20%);
+}
+b-dialog.slide-in-left {
+    transform: translateX(-20%);
 }
 

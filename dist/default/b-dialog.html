@@ -7,16 +7,13 @@
             height: auto;
             z-index: 102;
             visibility: hidden;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
             box-sizing: border-box;
-            -webkit-backface-visibility: hidden;
-            -moz-backface-visibility: hidden;
             backface-visibility: hidden;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            -moz-transform: translateX(-50%) translateY(-50%);
-            -ms-transform: translateX(-50%) translateY(-50%);
             transform: translateX(-50%) translateY(-50%);
+            /* minimum styling */
+            background-color: white;
+            border: 1px solid rgb(214, 214, 214);
+            padding: 0.75em 1.5em;
         }
 
         b-dialog[visible] {
@@ -24,6 +21,7 @@
         }
 
         .b-overlay {
+            display: block;
             position: fixed;
             z-index: 101;
             top: 0;
@@ -31,14 +29,11 @@
             bottom: 0;
             left: 0;
             background: black;
-            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
             opacity: 0;
-            display: block;
             transition: opacity 0.2s;
         }
 
         .b-overlay[opened] {
-            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
             opacity: 0.5;
         }
     </style>
@@ -178,27 +173,6 @@
                     }
                 }
             });
-        })();
-    </script>
-</element>
-
-<element name="b-dialog-content">
-    <style>b-dialog-content {
-            display: block;
-            position: relative;
-            margin: 0 auto;
-            color: #000;
-            background: white;
-            border: 1px solid #333;
-            border-radius: 3px;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-    </style>
-    <script>
-        (function(){
-            Bosonic.register({});
         })();
     </script>
 </element>

@@ -46,6 +46,9 @@
     --b-button-danger-border: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
     --b-button-danger-color: #fff;
 
+    --b-dialog-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-dialog-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+
     --b-dropdown-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-dropdown-border-radius: var(--bosonic-border-radius);
     --b-dropdown-shadow: var(--bosonic-shadow-base);
