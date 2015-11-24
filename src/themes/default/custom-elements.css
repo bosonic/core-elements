@@ -5,11 +5,9 @@ b-segmented-controls:not(.resolved) {
 
 b-dialog {
     display: block;
-    padding: var(--b-dialog-padding);
     background: white;
     border: var(--b-dialog-border);
     border-radius: var(--b-dialog-border-radius);
-    text-align: center;
     box-shadow: var(--b-dialog-shadow);
 }
 

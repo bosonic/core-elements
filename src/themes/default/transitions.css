@@ -1,0 +1,54 @@
+*[transition] {
+    transition: opacity 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9), transform 0.3s ease;
+}
+*[transition~="fade-in"][visible] {
+    opacity: 1;
+}
+*[transition~="fade-in"] {
+    opacity: 0;
+}
+*[transition~="slide-in-left"] {
+    transform: translateX(-20%);
+}
+*[transition~="slide-in-right"] {
+    transform: translateX(20%);
+}
+*[transition~="slide-in-top"] {
+    transform: translateY(-20%);
+}
+*[transition~="slide-in-bottom"] {
+    transform: translateY(20%);
+}
+*[transition~="slide-in-left"][visible],
+*[transition~="slide-in-right"][visible],
+*[transition~="slide-in-top"][visible],
+*[transition~="slide-in-bottom"][visible] {
+    transform: translateX(0);
+}
+/* Some transitions must be overriden for b-dialog because of the translate(-50%, -50%) positioning "hack" */
+b-dialog[transition~="scale"][visible] {
+    transform: translate(-50%, -50%) scale(1);
+}
+b-dialog[transition~="scale"] {
+    transform: translate(-50%, -50%) scale(0.8);
+}
+b-dialog[transition~="slide-in-left"] {
+    transform: translate(-70%, -50%);
+}
+b-dialog[transition~="slide-in-right"] {
+    transform: translate(-30%, -50%);
+}
+b-dialog[transition~="slide-in-bottom"] {
+    transform: translate(-50%, -30%);
+}
+b-dialog[transition~="slide-in-top"] {
+    transform: translate(-50%, -70%);
+}
+b-dialog[transition~="slide-in-left"][visible],
+b-dialog[transition~="slide-in-right"][visible],
+b-dialog[transition~="slide-in-top"][visible],
+b-dialog[transition~="slide-in-bottom"][visible] {
+    transform: translate(-50%, -50%);
+}
+
+

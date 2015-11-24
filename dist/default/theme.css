@@ -239,11 +239,9 @@ b-segmented-controls:not(.resolved) {
 
 b-dialog {
     display: block;
-    padding: 0.75em 1.5em;
     background: white;
     border: 1px solid rgb(214, 214, 214);
     border-radius: 4px;
-    text-align: center;
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
@@ -278,28 +276,56 @@ b-dropdown > ul > hr {
     border: 0;
     border-top: 1px solid rgb(214, 214, 214);
 }
-*[visible].fade-in {
+*[transition] {
+    transition: opacity 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9), transform 0.3s ease;
+}
+*[transition~="fade-in"][visible] {
     opacity: 1;
 }
-.fade-in {
+*[transition~="fade-in"] {
     opacity: 0;
-    transition: opacity 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
 }
-*[visible].scale {
-    transform: translate(-50%, -50%) scale(1);
+*[transition~="slide-in-left"] {
+    transform: translateX(-20%);
 }
-.scale {
-    transform: translate(-50%, -50%) scale(0.9);
-    transition: transform 0.3s ease;
-}
-b-dialog[visible].slide-in-right,
-b-dialog[visible].slide-in-left {
-    transform: translateX(0);
-}
-b-dialog.slide-in-right {
+*[transition~="slide-in-right"] {
     transform: translateX(20%);
 }
-b-dialog.slide-in-left {
-    transform: translateX(-20%);
+*[transition~="slide-in-top"] {
+    transform: translateY(-20%);
+}
+*[transition~="slide-in-bottom"] {
+    transform: translateY(20%);
+}
+*[transition~="slide-in-left"][visible],
+*[transition~="slide-in-right"][visible],
+*[transition~="slide-in-top"][visible],
+*[transition~="slide-in-bottom"][visible] {
+    transform: translateX(0);
+}
+/* Some transitions must be overriden for b-dialog because of the translate(-50%, -50%) positioning "hack" */
+b-dialog[transition~="scale"][visible] {
+    transform: translate(-50%, -50%) scale(1);
+}
+b-dialog[transition~="scale"] {
+    transform: translate(-50%, -50%) scale(0.8);
+}
+b-dialog[transition~="slide-in-left"] {
+    transform: translate(-70%, -50%);
+}
+b-dialog[transition~="slide-in-right"] {
+    transform: translate(-30%, -50%);
+}
+b-dialog[transition~="slide-in-bottom"] {
+    transform: translate(-50%, -30%);
+}
+b-dialog[transition~="slide-in-top"] {
+    transform: translate(-50%, -70%);
+}
+b-dialog[transition~="slide-in-left"][visible],
+b-dialog[transition~="slide-in-right"][visible],
+b-dialog[transition~="slide-in-top"][visible],
+b-dialog[transition~="slide-in-bottom"][visible] {
+    transform: translate(-50%, -50%);
 }
 
