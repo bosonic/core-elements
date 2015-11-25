@@ -43,17 +43,9 @@
                 TAB: 9
             };
 
-            var focusableElementsSelector ="a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]";
-
-            function getFocusableElements(container) {
-                return container.querySelectorAll(focusableElementsSelector);
-            }
-
-            function getFirstFocusableElement(container) {
-                return container.querySelector(focusableElementsSelector);
-            }
-
             Bosonic.register({
+                mixins: [Bosonic.A11y],
+
                 attachedCallback: function() {
                     this.tabIndex = -1;
                     this.setAttribute('role', 'dialog');
@@ -86,7 +78,7 @@
 
                 grabFocus: function() {
                     this.previouslyFocusedElement = document.querySelector(':focus');
-                    var firstFocusableElement = getFirstFocusableElement(this);
+                    var firstFocusableElement = this.getFirstFocusableElement();
                     if (firstFocusableElement) {
                         firstFocusableElement.focus();
                     } else {
@@ -102,7 +94,7 @@
                 },
 
                 trapFocus: function(e) {
-                    var focusableElements = getFocusableElements(this),
+                    var focusableElements = this.getFocusableElements(),
                         currentlyFocused = this.querySelector(':focus'),
                         currentlyFocusedIndex = Array.prototype.indexOf.call(focusableElements, currentlyFocused),
                         lastFocusableElementIndex = focusableElements.length - 1;
