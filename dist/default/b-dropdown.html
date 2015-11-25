@@ -37,21 +37,48 @@
         }
         
         Bosonic.register({
+            mixins: [Bosonic.A11y],
+
+            hostAttributes: {
+                role: 'menu'
+            },
+
+            keyBindings: {
+                'up down': 'cycleFocus',
+                'esc': 'echap',
+                'enter': 'enter'
+            },
+
             get open() {
                 return this.hasAttribute('open');
             },
+
+            get menu() {
+                return this.querySelector('ul');
+            },
+
+            get button() {
+                return this.querySelector('button');
+            },
+
             createdCallback: function() {
                 this.initialized = false;
                 if(this.isUnderDocument()) {
                     this.init();
                 }
             },
+
             attachedCallback: function() {
                 if(!this.initialized) {
                     this.init();
                 }
             },
+
             init: function() {
+                Array.prototype.forEach.call(this.getFocusableElements(this.menu), function(focusable) {
+                    focusable.setAttribute('role', 'menuitem');
+                });
+
                 this.clickOutsideListener = this.clickOutside.bind(this);
                 var toggle = this.querySelector('button');
                 if (toggle) {
@@ -62,22 +89,69 @@
                 }
                 this.initialized = true;
             },
+
             toggle: function() {
                 this.open ? this.hide() : this.show();
             },
+
             show: function() {
                 this.setAttribute('open', '');
                 document.addEventListener('click', this.clickOutsideListener, true);
             },
+
             hide: function() {
                 this.removeAttribute('open');
                 document.removeEventListener('click', this.clickOutsideListener, true);
             },
+
+            cycleFocus: function(e) {
+                if (!this.open) {
+                    return;
+                }
+                var currentlyFocused = this.menu.querySelector(':focus');
+                if (!currentlyFocused) {
+                    this.focusFirstItem();
+                    return;
+                }
+                var focusables = this.getFocusableElements(this.menu),
+                    currentlyFocusedIndex = Array.prototype.indexOf.call(focusables, currentlyFocused),
+                    lastFocusableElementIndex = focusables.length - 1;
+                if (this.keyMatchesEvent('down', e) && currentlyFocusedIndex < lastFocusableElementIndex) {
+                    focusables[currentlyFocusedIndex + 1].focus();
+                } else if (this.keyMatchesEvent('up', e) && currentlyFocusedIndex > 0) {
+                    focusables[currentlyFocusedIndex - 1].focus();
+                }
+            },
+
+            focusFirstItem: function() {
+                var firstFocusableElement = this.getFirstFocusableElement(this.menu);
+                if (firstFocusableElement) {
+                    firstFocusableElement.focus();
+                }
+            },
+
+            enter: function(e) {
+                if (e.target === this.button) {
+                    e.preventDefault();
+                    this.show();
+                    this.focusFirstItem();
+                }
+            },
+
+            echap: function() {
+                if (!this.open) {
+                    return;
+                }
+                this.hide();
+                this.button.focus();
+            },
+
             clickOutside: function(e) {
                 if (!isChildOf(e.target, this)) {
                     this.hide();
                 }
             },
+
             isUnderDocument: function(domElement) {
                 return domElement !== undefined && (domElement === document || isUnderDocument(domElement.parentNode));
             }
