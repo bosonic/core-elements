@@ -38,8 +38,6 @@
         }
         
         Bosonic.register({
-            mixins: [Bosonic.A11y],
-
             hostAttributes: {
                 role: 'menu'
             },
@@ -62,47 +60,29 @@
                 return this.querySelector('button');
             },
 
-            createdCallback: function() {
-                this.initialized = false;
-                if(this.isUnderDocument()) {
-                    this.init();
-                }
-            },
-
             attachedCallback: function() {
-                if(!this.initialized) {
-                    this.init();
-                }
-            },
-
-            init: function() {
                 Array.prototype.forEach.call(this.getFocusableElements(this.menu), function(focusable) {
                     focusable.setAttribute('role', 'menuitem');
                 });
-
-                this.clickOutsideListener = this.clickOutside.bind(this);
-                var toggle = this.querySelector('button');
-                if (toggle) {
-                    var that = this;
-                    toggle.addEventListener('click', function(e) {
-                        that.toggle();
-                    }, false)
-                }
-                this.initialized = true;
+                this.listen(this.button, 'tap', 'toggle');
             },
 
-            toggle: function() {
+            detachedCallback: function() {
+                this.unlisten(this.button, 'tap', 'toggle');
+            },
+
+            toggle: function(e) {
                 this.open ? this.hide() : this.show();
             },
 
             show: function() {
                 this.setAttribute('open', '');
-                document.addEventListener('click', this.clickOutsideListener, true);
+                this.listen(document, 'tap', 'tapOutside');
             },
 
             hide: function() {
                 this.removeAttribute('open');
-                document.removeEventListener('click', this.clickOutsideListener, true);
+                this.unlisten(document, 'tap', 'tapOutside');
             },
 
             cycleFocus: function(e) {
@@ -147,14 +127,10 @@
                 this.button.focus();
             },
 
-            clickOutside: function(e) {
+            tapOutside: function(e) {
                 if (!isChildOf(e.target, this)) {
                     this.hide();
                 }
-            },
-
-            isUnderDocument: function(domElement) {
-                return domElement !== undefined && (domElement === document || isUnderDocument(domElement.parentNode));
             }
         });
     </script>
