@@ -60,12 +60,11 @@
                 },
 
                 createdCallback: function() {
-                    this.startListener = this.start.bind(this);
-                    this.handle.addEventListener('pointerdown', this.startListener, false);
+                    this.listen(this.handle, 'track', 'handleTrack');
                 },
 
                 detachedCallback: function() {
-                    this.handle.removeEventListener('pointerdown', this.startListener, false);
+                    this.unlisten(this.handle, 'track', 'handleTrack');
                 },
 
                 initContainment: function() {
@@ -86,8 +85,20 @@
                     this.initiated = true;
                 },
 
-                start: function(e) {
+                handleTrack: function(e) {
                     e.preventDefault();
+                    var state = e.detail.state;
+                    switch(state) {
+                        case 'start':
+                            this.start();
+                            break;
+                        case 'track':
+                            this.move(e.detail);
+                            break;
+                    }
+                },
+
+                start: function(e) {
                     // We must defer the constraints calculus to the first drag to be sure the CSS is applied to the container & target
                     if (!this.initiated) this.initContainment();
                     
@@ -95,13 +106,11 @@
                     if (!targetPositioning.match(/^(?:r|a|f)/)) {
                         this.target.style.position = 'relative';
                     }
-                    
-                    this.trackPointer(e, 'move');
                 },
 
-                move: function(pointerState) {
-                    if (!this.horizontallyConstrained) this.updatePosition('left', pointerState.ddx);
-                    if (!this.verticallyConstrained) this.updatePosition('top', pointerState.ddy);
+                move: function(detail) {
+                    if (!this.horizontallyConstrained) this.updatePosition('left', detail.ddx);
+                    if (!this.verticallyConstrained) this.updatePosition('top', detail.ddy);
                 },
 
                 getPosition: function(side) {

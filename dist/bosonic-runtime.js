@@ -1,6 +1,6 @@
 (function() {
 /*!
- * PEP v0.3.0 | https://github.com/jquery/PEP
+ * PEP v0.4.1-pre | https://github.com/jquery/PEP
  * Copyright jQuery Foundation and other contributors | http://jquery.org/license
  */
 (function (global, factory) {
@@ -10,63 +10,149 @@
 }(this, function () { 'use strict';
 
   /**
-   * This module implements an map of pointer states
+   * This is the constructor for new PointerEvents.
+   *
+   * New Pointer Events must be given a type, and an optional dictionary of
+   * initialization properties.
+   *
+   * Due to certain platform requirements, events returned from the constructor
+   * identify as MouseEvents.
+   *
+   * @constructor
+   * @param {String} inType The type of the event to create.
+   * @param {Object} [inDict] An optional dictionary of initial event properties.
+   * @return {Event} A new PointerEvent of type `inType`, initialized with properties from `inDict`.
    */
-  var USE_MAP = window.Map && window.Map.prototype.forEach;
-  var POINTERS_FN = function(){ return this.size; };
-  function PointerMap() {
-    if (USE_MAP) {
-      var m = new Map();
-      m.pointers = POINTERS_FN;
-      return m;
-    } else {
-      this.keys = [];
-      this.values = [];
+  var MOUSE_PROPS = [
+    'bubbles',
+    'cancelable',
+    'view',
+    'detail',
+    'screenX',
+    'screenY',
+    'clientX',
+    'clientY',
+    'ctrlKey',
+    'altKey',
+    'shiftKey',
+    'metaKey',
+    'button',
+    'relatedTarget',
+    'pageX',
+    'pageY'
+  ];
+
+  var MOUSE_DEFAULTS = [
+    false,
+    false,
+    null,
+    null,
+    0,
+    0,
+    0,
+    0,
+    false,
+    false,
+    false,
+    false,
+    0,
+    null,
+    0,
+    0
+  ];
+
+  function PointerEvent(inType, inDict) {
+    inDict = inDict || Object.create(null);
+
+    var e = document.createEvent('Event');
+    e.initEvent(inType, inDict.bubbles || false, inDict.cancelable || false);
+
+    // define inherited MouseEvent properties
+    // skip bubbles and cancelable since they're set above in initEvent()
+    for (var i = 2, p; i < MOUSE_PROPS.length; i++) {
+      p = MOUSE_PROPS[i];
+      e[p] = inDict[p] || MOUSE_DEFAULTS[i];
     }
+    e.buttons = inDict.buttons || 0;
+
+    // Spec requires that pointers without pressure specified use 0.5 for down
+    // state and 0 for up state.
+    var pressure = 0;
+    if (inDict.pressure) {
+      pressure = inDict.pressure;
+    } else {
+      pressure = e.buttons ? 0.5 : 0;
+    }
+
+    // add x/y properties aliased to clientX/Y
+    e.x = e.clientX;
+    e.y = e.clientY;
+
+    // define the properties of the PointerEvent interface
+    e.pointerId = inDict.pointerId || 0;
+    e.width = inDict.width || 0;
+    e.height = inDict.height || 0;
+    e.pressure = pressure;
+    e.tiltX = inDict.tiltX || 0;
+    e.tiltY = inDict.tiltY || 0;
+    e.pointerType = inDict.pointerType || '';
+    e.hwTimestamp = inDict.hwTimestamp || 0;
+    e.isPrimary = inDict.isPrimary || false;
+    return e;
   }
 
-  PointerMap.prototype = {
-    set: function(inId, inEvent) {
-      var i = this.keys.indexOf(inId);
-      if (i > -1) {
-        this.values[i] = inEvent;
-      } else {
-        this.keys.push(inId);
-        this.values.push(inEvent);
+  var _PointerEvent = PointerEvent;
+
+  /**
+   * This module implements a map of pointer states
+   */
+  var USE_MAP = window.Map && window.Map.prototype.forEach;
+  var PointerMap = USE_MAP ? Map : SparseArrayMap;
+
+  function SparseArrayMap() {
+    this.array = [];
+    this.size = 0;
+  }
+
+  SparseArrayMap.prototype = {
+    set: function(k, v) {
+      if (v === undefined) {
+        return this.delete(k);
+      }
+      if (!this.has(k)) {
+        this.size++;
+      }
+      this.array[k] = v;
+    },
+    has: function(k) {
+      return this.array[k] !== undefined;
+    },
+    delete: function(k) {
+      if (this.has(k)) {
+        delete this.array[k];
+        this.size--;
       }
     },
-    has: function(inId) {
-      return this.keys.indexOf(inId) > -1;
-    },
-    'delete': function(inId) {
-      var i = this.keys.indexOf(inId);
-      if (i > -1) {
-        this.keys.splice(i, 1);
-        this.values.splice(i, 1);
-      }
-    },
-    get: function(inId) {
-      var i = this.keys.indexOf(inId);
-      return this.values[i];
+    get: function(k) {
+      return this.array[k];
     },
     clear: function() {
-      this.keys.length = 0;
-      this.values.length = 0;
+      this.array.length = 0;
+      this.size = 0;
     },
+
     // return value, key, map
     forEach: function(callback, thisArg) {
-      this.values.forEach(function(v, i) {
-        callback.call(thisArg, v, this.keys[i], this);
+      return this.array.forEach(function(v, k) {
+        callback.call(thisArg, v, k, this);
       }, this);
-    },
-    pointers: function() {
-      return this.keys.length;
     }
   };
 
   var _pointermap = PointerMap;
 
   var CLONE_PROPS = [
+
     // MouseEvent
     'bubbles',
     'cancelable',
@@ -82,8 +168,10 @@
     'metaKey',
     'button',
     'relatedTarget',
+
     // DOM Level 3
     'buttons',
+
     // PointerEvent
     'pointerId',
     'width',
@@ -94,6 +182,7 @@
     'pointerType',
     'hwTimestamp',
     'isPrimary',
+
     // event instance
     'type',
     'target',
@@ -105,6 +194,7 @@
   ];
 
   var CLONE_DEFAULTS = [
+
     // MouseEvent
     false,
     false,
@@ -120,8 +210,10 @@
     false,
     0,
     null,
+
     // DOM Level 3
     0,
+
     // PointerEvent
     0,
     0,
@@ -132,6 +224,7 @@
     '',
     0,
     false,
+
     // event instance
     '',
     null,
@@ -160,6 +253,7 @@
     pointermap: new _pointermap(),
     eventMap: Object.create(null),
     captureInfo: Object.create(null),
+
     // Scope objects for native events.
     // This exists for ease of testing.
     eventSources: Object.create(null),
@@ -188,6 +282,7 @@
     register: function(element) {
       var l = this.eventSourceList.length;
       for (var i = 0, es; (i < l) && (es = this.eventSourceList[i]); i++) {
+
         // call eventsource register
         es.register.call(es, element);
       }
@@ -195,13 +290,21 @@
     unregister: function(element) {
       var l = this.eventSourceList.length;
       for (var i = 0, es; (i < l) && (es = this.eventSourceList[i]); i++) {
+
         // call eventsource register
         es.unregister.call(es, element);
       }
     },
     contains: /*scope.external.contains || */function(container, contained) {
-      return container.contains(contained);
+      try {
+        return container.contains(contained);
+      } catch (ex) {
+
+        // most likely: https://bugzilla.mozilla.org/show_bug.cgi?id=208427
+        return false;
+      }
     },
+
     // EVENTS
     down: function(inEvent) {
       inEvent.bubbles = true;
@@ -247,8 +350,10 @@
         this.enter(event);
       }
     },
+
     // LISTENER LOGIC
     eventHandler: function(inEvent) {
+
       // This is used to prevent multiple dispatch of pointerevents from
       // platform events. This can happen when two elements in different scopes
       // are set up to create pointer events, which is relevant to Shadow DOM.
@@ -262,12 +367,14 @@
       }
       inEvent._handledByPE = true;
     },
+
     // set up event listeners
     listen: function(target, events) {
       events.forEach(function(e) {
         this.addEvent(target, e);
       }, this);
     },
+
     // remove event listeners
     unlisten: function(target, events) {
       events.forEach(function(e) {
@@ -280,6 +387,7 @@
     removeEvent: /*scope.external.removeEvent || */function(target, eventName) {
       target.removeEventListener(eventName, this.boundHandler);
     },
+
     // EVENT CREATION AND TRACKING
     /**
      * Creates a new Event of type `inType`, based on the information in
@@ -290,17 +398,19 @@
      * @return {Event} A PointerEvent of type `inType`
      */
     makeEvent: function(inType, inEvent) {
+
       // relatedTarget must be null if pointer is captured
       if (this.captureInfo[inEvent.pointerId]) {
         inEvent.relatedTarget = null;
       }
-      var e = new PointerEvent(inType, inEvent);
+      var e = new _PointerEvent(inType, inEvent);
       if (inEvent.preventDefault) {
         e.preventDefault = inEvent.preventDefault;
       }
       e._target = e._target || inEvent.target;
       return e;
     },
+
     // make and dispatch an event in one call
     fireEvent: function(inType, inEvent) {
       var e = this.makeEvent(inType, inEvent);
@@ -314,10 +424,12 @@
      *    properties.
      */
     cloneEvent: function(inEvent) {
-      var eventCopy = Object.create(null), p;
+      var eventCopy = Object.create(null);
+      var p;
       for (var i = 0; i < CLONE_PROPS.length; i++) {
         p = CLONE_PROPS[i];
         eventCopy[p] = inEvent[p] || CLONE_DEFAULTS[i];
+
         // Work around SVGInstanceElement shadow tree
         // Return the <use> element that is represented by the instance for Safari, Chrome, IE.
         // This is the behavior implemented by Firefox.
@@ -327,6 +439,7 @@
           }
         }
       }
+
       // keep the semantics of preventDefault
       if (inEvent.preventDefault) {
         eventCopy.preventDefault = function() {
@@ -336,6 +449,7 @@
       return eventCopy;
     },
     getTarget: function(inEvent) {
+
       // if pointer capture is set, route all events for the specified pointerId
       // to the capture target
       return this.captureInfo[inEvent.pointerId] || inEvent._target;
@@ -413,8 +527,9 @@
       return os;
     },
     allShadows: function(element) {
-      var shadows = [], s = this.shadow(element);
-      while(s) {
+      var shadows = [];
+      var s = this.shadow(element);
+      while (s) {
         shadows.push(s);
         s = this.olderShadow(s);
       }
@@ -423,41 +538,51 @@
     searchRoot: function(inRoot, x, y) {
       if (inRoot) {
         var t = inRoot.elementFromPoint(x, y);
-        var st, sr, os;
+        var st, sr;
+
         // is element a shadow host?
         sr = this.targetingShadow(t);
         while (sr) {
+
           // find the the element inside the shadow root
           st = sr.elementFromPoint(x, y);
           if (!st) {
+
             // check for older shadows
             sr = this.olderShadow(sr);
           } else {
+
             // shadowed element may contain a shadow root
             var ssr = this.targetingShadow(st);
             return this.searchRoot(ssr, x, y) || st;
           }
         }
+
         // light dom element is the target
         return t;
       }
     },
     owner: function(element) {
       var s = element;
+
       // walk up until you hit the shadow root or document
       while (s.parentNode) {
         s = s.parentNode;
       }
+
       // the owner element is expected to be a Document or ShadowRoot
-      if (s.nodeType != Node.DOCUMENT_NODE && s.nodeType != Node.DOCUMENT_FRAGMENT_NODE) {
+      if (s.nodeType !== Node.DOCUMENT_NODE && s.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
         s = document;
       }
       return s;
     },
     findTarget: function(inEvent) {
-      var x = inEvent.clientX, y = inEvent.clientY;
+      var x = inEvent.clientX;
+      var y = inEvent.clientY;
+
       // if the listener is in the shadow root, it is much faster to start there
       var s = this.owner(inEvent.target);
+
       // if x, y is not in this root, fall back to document search
       if (!s.elementFromPoint(x, y)) {
         s = document;
@@ -498,6 +623,7 @@
 
   Installer.prototype = {
     watchSubtree: function(target) {
+
       // Only watch scopes that can target find, as these are top-level.
       // Otherwise we can see duplicate additions and removals that add noise.
       //
@@ -505,7 +631,7 @@
       // a removal without an insertion when a node is redistributed among
       // shadows. Since it all ends up correct in the document, watching only
       // the document will yield the correct mutations to watch.
-      if (targeting.canTarget(target)) {
+      if (this.observer && targeting.canTarget(target)) {
         this.observer.observe(target, OBSERVER_INIT);
       }
     },
@@ -538,6 +664,7 @@
     concatLists: function(accum, list) {
       return accum.concat(toArray(list));
     },
+
     // register all touch-action = none nodes on document load
     installOnLoad: function() {
       document.addEventListener('readystatechange', function() {
@@ -550,10 +677,13 @@
       return n.nodeType === Node.ELEMENT_NODE;
     },
     flattenMutationTree: function(inNodes) {
+
       // find children with touch-action
       var tree = map(inNodes, this.findElements, this);
+
       // make sure the added nodes are accounted for
       tree.push(filter(inNodes, this.isElement));
+
       // flatten the list
       return tree.reduce(this.concatLists, []);
     },
@@ -572,107 +702,7 @@
     }
   };
 
-  if (!MO) {
-    Installer.prototype.watchSubtree = function(){
-      console.warn('PointerEventsPolyfill: MutationObservers not found, touch-action will not be dynamically detected');
-    };
-  }
-
   var installer = Installer;
-
-  /**
-   * This is the constructor for new PointerEvents.
-   *
-   * New Pointer Events must be given a type, and an optional dictionary of
-   * initialization properties.
-   *
-   * Due to certain platform requirements, events returned from the constructor
-   * identify as MouseEvents.
-   *
-   * @constructor
-   * @param {String} inType The type of the event to create.
-   * @param {Object} [inDict] An optional dictionary of initial event properties.
-   * @return {Event} A new PointerEvent of type `inType` and initialized with properties from `inDict`.
-   */
-  var MOUSE_PROPS = [
-    'bubbles',
-    'cancelable',
-    'view',
-    'detail',
-    'screenX',
-    'screenY',
-    'clientX',
-    'clientY',
-    'ctrlKey',
-    'altKey',
-    'shiftKey',
-    'metaKey',
-    'button',
-    'relatedTarget',
-    'pageX',
-    'pageY'
-  ];
-
-  var MOUSE_DEFAULTS = [
-    false,
-    false,
-    null,
-    null,
-    0,
-    0,
-    0,
-    0,
-    false,
-    false,
-    false,
-    false,
-    0,
-    null,
-    0,
-    0
-  ];
-
-  function _PointerEvent__PointerEvent(inType, inDict) {
-    inDict = inDict || Object.create(null);
-
-    var e = document.createEvent('Event');
-    e.initEvent(inType, inDict.bubbles || false, inDict.cancelable || false);
-
-    // define inherited MouseEvent properties
-    // skip bubbles and cancelable since they're set above in initEvent()
-    for(var i = 2, p; i < MOUSE_PROPS.length; i++) {
-      p = MOUSE_PROPS[i];
-      e[p] = inDict[p] || MOUSE_DEFAULTS[i];
-    }
-    e.buttons = inDict.buttons || 0;
-
-    // Spec requires that pointers without pressure specified use 0.5 for down
-    // state and 0 for up state.
-    var pressure = 0;
-    if (inDict.pressure) {
-      pressure = inDict.pressure;
-    } else {
-      pressure = e.buttons ? 0.5 : 0;
-    }
-
-    // add x/y properties aliased to clientX/Y
-    e.x = e.clientX;
-    e.y = e.clientY;
-
-    // define the properties of the PointerEvent interface
-    e.pointerId = inDict.pointerId || 0;
-    e.width = inDict.width || 0;
-    e.height = inDict.height || 0;
-    e.pressure = pressure;
-    e.tiltX = inDict.tiltX || 0;
-    e.tiltY = inDict.tiltY || 0;
-    e.pointerType = inDict.pointerType || '';
-    e.hwTimestamp = inDict.hwTimestamp || 0;
-    e.isPrimary = inDict.isPrimary || false;
-    return e;
-  }
-
-  var _PointerEvent = _PointerEvent__PointerEvent;
 
   function shadowSelector(v) {
     return 'body /shadow-deep/ ' + selector(v);
@@ -697,9 +727,10 @@
     }
   ];
   var styles = '';
+
   // only install stylesheet if the browser has touch action support
-  var head = document.head;
   var hasNativePE = window.PointerEvent || window.MSPointerEvent;
+
   // only add shadow selectors if shadowdom is supported
   var hasShadowRoot = !window.ShadowDOMPolyfill && document.head.createShadowRoot;
 
@@ -726,14 +757,16 @@
   }
 
   var mouse__pointermap = _dispatcher.pointermap;
+
   // radius around touchend that swallows mouse events
   var DEDUP_DIST = 25;
 
-  var WHICH_TO_BUTTONS = [0, 1, 4, 2];
+  // left, middle, right, back, forward
+  var BUTTON_TO_BUTTONS = [1, 4, 2, 8, 16];
 
   var HAS_BUTTONS = false;
   try {
-    HAS_BUTTONS = new MouseEvent('test', {buttons: 1}).buttons === 1;
+    HAS_BUTTONS = new MouseEvent('test', { buttons: 1 }).buttons === 1;
   } catch (e) {}
 
   // handler block for native mouse events
@@ -754,13 +787,17 @@
       _dispatcher.unlisten(target, this.events);
     },
     lastTouches: [],
+
     // collide with the global mouse listener
     isEventSimulatedFromTouch: function(inEvent) {
       var lts = this.lastTouches;
-      var x = inEvent.clientX, y = inEvent.clientY;
+      var x = inEvent.clientX;
+      var y = inEvent.clientY;
       for (var i = 0, l = lts.length, t; i < l && (t = lts[i]); i++) {
+
         // simulated mouse events will be swallowed near a primary touchend
-        var dx = Math.abs(x - t.x), dy = Math.abs(y - t.y);
+        var dx = Math.abs(x - t.x);
+        var dy = Math.abs(y - t.y);
         if (dx <= DEDUP_DIST && dy <= DEDUP_DIST) {
           return true;
         }
@@ -768,6 +805,7 @@
     },
     prepareEvent: function(inEvent) {
       var e = _dispatcher.cloneEvent(inEvent);
+
       // forward mouse preventDefault
       var pd = e.preventDefault;
       e.preventDefault = function() {
@@ -777,49 +815,75 @@
       e.pointerId = this.POINTER_ID;
       e.isPrimary = true;
       e.pointerType = this.POINTER_TYPE;
-      if (!HAS_BUTTONS) {
-        e.buttons = WHICH_TO_BUTTONS[e.which] || 0;
-      }
       return e;
+    },
+    prepareButtonsForMove: function(e, inEvent) {
+      var p = mouse__pointermap.get(this.POINTER_ID);
+      e.buttons = p ? p.buttons : 0;
+      inEvent.buttons = e.buttons;
     },
     mousedown: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
-        var p = mouse__pointermap.has(this.POINTER_ID);
-        // TODO(dfreedman) workaround for some elements not sending mouseup
-        // http://crbug/149091
-        if (p) {
-          this.cancel(inEvent);
-        }
+        var p = mouse__pointermap.get(this.POINTER_ID);
         var e = this.prepareEvent(inEvent);
+        if (!HAS_BUTTONS) {
+          e.buttons = BUTTON_TO_BUTTONS[e.button];
+          if (p) { e.buttons |= p.buttons; }
+          inEvent.buttons = e.buttons;
+        }
         mouse__pointermap.set(this.POINTER_ID, inEvent);
-        _dispatcher.down(e);
+        if (!p) {
+          _dispatcher.down(e);
+        } else {
+          _dispatcher.move(e);
+        }
       }
     },
     mousemove: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
         var e = this.prepareEvent(inEvent);
+        if (!HAS_BUTTONS) { this.prepareButtonsForMove(e, inEvent); }
         _dispatcher.move(e);
       }
     },
     mouseup: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
         var p = mouse__pointermap.get(this.POINTER_ID);
-        if (p && p.button === inEvent.button) {
-          var e = this.prepareEvent(inEvent);
-          _dispatcher.up(e);
+        var e = this.prepareEvent(inEvent);
+        if (!HAS_BUTTONS) {
+          var up = BUTTON_TO_BUTTONS[e.button];
+
+          // Produces wrong state of buttons in Browsers without `buttons` support
+          // when a mouse button that was pressed outside the document is released
+          // inside and other buttons are still pressed down.
+          e.buttons = p ? p.buttons & ~up : 0;
+          inEvent.buttons = e.buttons;
+        }
+        mouse__pointermap.set(this.POINTER_ID, inEvent);
+
+        // Support: Firefox <=44 only
+        // FF Ubuntu includes the lifted button in the `buttons` property on
+        // mouseup.
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1223366
+        if (e.buttons === 0 || e.buttons === BUTTON_TO_BUTTONS[e.button]) {
           this.cleanupMouse();
+          _dispatcher.up(e);
+        } else {
+          _dispatcher.move(e);
         }
       }
     },
     mouseover: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
         var e = this.prepareEvent(inEvent);
+        if (!HAS_BUTTONS) { this.prepareButtonsForMove(e, inEvent); }
         _dispatcher.enterOver(e);
       }
     },
     mouseout: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
         var e = this.prepareEvent(inEvent);
+        if (!HAS_BUTTONS) { this.prepareButtonsForMove(e, inEvent); }
         _dispatcher.leaveOut(e);
       }
     },
@@ -829,7 +893,7 @@
       this.cleanupMouse();
     },
     cleanupMouse: function() {
-      mouse__pointermap['delete'](this.POINTER_ID);
+      mouse__pointermap.delete(this.POINTER_ID);
     }
   };
 
@@ -839,12 +903,13 @@
   var findTarget = targeting.findTarget.bind(targeting);
   var allShadows = targeting.allShadows.bind(targeting);
   var touch__pointermap = _dispatcher.pointermap;
-  var touchMap = Array.prototype.map.call.bind(Array.prototype.map);
+
   // This should be long enough to ignore compat mouse events made by touch
   var DEDUP_TIMEOUT = 2500;
   var CLICK_COUNT_TIMEOUT = 200;
   var ATTRIB = 'touch-action';
   var INSTALLER;
+
   // The presence of touch event handlers blocks scrolling, and so we must be careful to
   // avoid adding handlers unnecessarily.  Chrome plans to add a touch-action-delay property
   // (crbug.com/329559) to address this, and once we have that we can opt-in to a simpler
@@ -871,6 +936,7 @@
       if (HAS_TOUCH_ACTION_DELAY) {
         _dispatcher.unlisten(target, this.events);
       } else {
+
         // TODO(dfreedman): is it worth it to disconnect the MO?
       }
     },
@@ -880,6 +946,7 @@
       if (st) {
         el._scrollType = st;
         _dispatcher.listen(el, this.events);
+
         // set touch-action on shadows as well
         allShadows(el).forEach(function(s) {
           s._scrollType = st;
@@ -890,6 +957,7 @@
     elementRemoved: function(el) {
       el._scrollType = undefined;
       _dispatcher.unlisten(el, this.events);
+
       // remove touch-action from shadow
       allShadows(el).forEach(function(s) {
         s._scrollType = undefined;
@@ -900,6 +968,7 @@
       var a = el.getAttribute(ATTRIB);
       var st = this.touchActionToScrollType(a);
       var oldSt = this.touchActionToScrollType(oldValue);
+
       // simply update scrollType if listeners are already established
       if (st && oldSt) {
         el._scrollType = st;
@@ -937,10 +1006,11 @@
       return this.firstTouch === inTouch.identifier;
     },
     setPrimaryTouch: function(inTouch) {
+
       // set primary touch if there no pointers, or the only pointer is the mouse
-      if (touch__pointermap.pointers() === 0 || (touch__pointermap.pointers() === 1 && touch__pointermap.has(1))) {
+      if (touch__pointermap.size === 0 || (touch__pointermap.size === 1 && touch__pointermap.has(1))) {
         this.firstTouch = inTouch.identifier;
-        this.firstXY = {X: inTouch.clientX, Y: inTouch.clientY};
+        this.firstXY = { X: inTouch.clientX, Y: inTouch.clientY };
         this.scrolling = false;
         this.cancelResetClickCount();
       }
@@ -976,7 +1046,8 @@
     touchToPointer: function(inTouch) {
       var cte = this.currentTouchEvent;
       var e = _dispatcher.cloneEvent(inTouch);
-      // Spec specifies that pointerId 1 is reserved for Mouse.
+
+      // We reserve pointerId 1 for Mouse.
       // Touch identifiers can start at 0.
       // Add 2 to the touch identifier for compatibility.
       var id = e.pointerId = inTouch.identifier + 2;
@@ -986,11 +1057,12 @@
       e.detail = this.clickCount;
       e.button = 0;
       e.buttons = this.typeToButtons(cte.type);
-      e.width = inTouch.webkitRadiusX || inTouch.radiusX || 0;
-      e.height = inTouch.webkitRadiusY || inTouch.radiusY || 0;
-      e.pressure = inTouch.webkitForce || inTouch.force || 0.5;
+      e.width = inTouch.radiusX || inTouch.webkitRadiusX || 0;
+      e.height = inTouch.radiusY || inTouch.webkitRadiusY || 0;
+      e.pressure = inTouch.force || inTouch.webkitForce || 0.5;
       e.isPrimary = this.isPrimaryTouch(inTouch);
       e.pointerType = this.POINTER_TYPE;
+
       // forward touch preventDefaults
       var self = this;
       e.preventDefault = function() {
@@ -1008,6 +1080,7 @@
         inFunction.call(this, this.touchToPointer(t));
       }
     },
+
     // For single axis scrollers, determines whether the element should emit
     // pointer events or behave as a scroller
     shouldScroll: function(inEvent) {
@@ -1015,18 +1088,22 @@
         var ret;
         var scrollAxis = inEvent.currentTarget._scrollType;
         if (scrollAxis === 'none') {
+
           // this element is a touch-action: none, should never scroll
           ret = false;
         } else if (scrollAxis === 'XY') {
+
           // this element should always scroll
           ret = true;
         } else {
           var t = inEvent.changedTouches[0];
+
           // check the intended scroll axis, and other axis
           var a = scrollAxis;
           var oa = scrollAxis === 'Y' ? 'X' : 'Y';
           var da = Math.abs(t['client' + a] - this.firstXY[a]);
           var doa = Math.abs(t['client' + oa] - this.firstXY[oa]);
+
           // if delta in the scroll axis > delta other axis, scroll instead of
           // making events
           ret = da >= doa;
@@ -1042,6 +1119,7 @@
         }
       }
     },
+
     // In some instances, a touchstart can happen without a touchend. This
     // leaves the pointermap in a broken state.
     // Therefore, on every touchstart, we remove the touches that did not fire a
@@ -1050,11 +1128,13 @@
     // pointercancel for this "abandoned" touch
     vacuumTouches: function(inEvent) {
       var tl = inEvent.touches;
-      // pointermap.pointers() should be < tl.length here, as the touchstart has not
+
+      // pointermap.size should be < tl.length here, as the touchstart has not
       // been processed yet.
-      if (touch__pointermap.pointers() >= tl.length) {
+      if (touch__pointermap.size >= tl.length) {
         var d = [];
         touch__pointermap.forEach(function(value, key) {
+
           // Never remove pointerId == 1, which is mouse.
           // Touch identifiers are 2 smaller than their pointerId, which is the
           // index in pointermap.
@@ -1076,7 +1156,7 @@
       }
     },
     overDown: function(inPointer) {
-      var p = touch__pointermap.set(inPointer.pointerId, {
+      touch__pointermap.set(inPointer.pointerId, {
         target: inPointer.target,
         out: inPointer,
         outTarget: inPointer.target
@@ -1099,6 +1179,7 @@
     moveOverOut: function(inPointer) {
       var event = inPointer;
       var pointer = touch__pointermap.get(event.pointerId);
+
       // a finger drifted off the screen, ignore it
       if (!pointer) {
         return;
@@ -1109,12 +1190,14 @@
       if (outEvent && outTarget !== event.target) {
         outEvent.relatedTarget = event.target;
         event.relatedTarget = outTarget;
+
         // recover from retargeting by shadow
         outEvent.target = outTarget;
         if (event.target) {
           _dispatcher.leaveOut(outEvent);
           _dispatcher.enterOver(event);
         } else {
+
           // clean up case when finger leaves the screen
           event.target = outTarget;
           event.relatedTarget = null;
@@ -1146,19 +1229,22 @@
       this.cleanUpPointer(inPointer);
     },
     cleanUpPointer: function(inPointer) {
-      touch__pointermap['delete'](inPointer.pointerId);
+      touch__pointermap.delete(inPointer.pointerId);
       this.removePrimaryPointer(inPointer);
     },
+
     // prevent synth mouse events from creating pointer events
     dedupSynthMouse: function(inEvent) {
       var lts = mouse.lastTouches;
       var t = inEvent.changedTouches[0];
+
       // only the primary finger will synth mouse events
       if (this.isPrimaryTouch(t)) {
+
         // remember x/y of last touch
-        var lt = {x: t.clientX, y: t.clientY};
+        var lt = { x: t.clientX, y: t.clientY };
         lts.push(lt);
-        var fn = (function(lts, lt){
+        var fn = (function(lts, lt) {
           var i = lts.indexOf(lt);
           if (i > -1) {
             lts.splice(i, 1);
@@ -1170,13 +1256,15 @@
   };
 
   if (!HAS_TOUCH_ACTION_DELAY) {
-    INSTALLER = new installer(touchEvents.elementAdded, touchEvents.elementRemoved, touchEvents.elementChanged, touchEvents);
+    INSTALLER = new installer(touchEvents.elementAdded, touchEvents.elementRemoved,
+      touchEvents.elementChanged, touchEvents);
   }
 
   var touch = touchEvents;
 
   var ms__pointermap = _dispatcher.pointermap;
-  var HAS_BITMAP_TYPE = window.MSPointerEvent && typeof window.MSPointerEvent.MSPOINTER_TYPE_MOUSE === 'number';
+  var HAS_BITMAP_TYPE = window.MSPointerEvent &&
+    typeof window.MSPointerEvent.MSPOINTER_TYPE_MOUSE === 'number';
   var msEvents = {
     events: [
       'MSPointerDown',
@@ -1210,7 +1298,7 @@
       return e;
     },
     cleanup: function(id) {
-      ms__pointermap['delete'](id);
+      ms__pointermap.delete(id);
     },
     MSPointerDown: function(inEvent) {
       ms__pointermap.set(inEvent.pointerId, inEvent);
@@ -1252,6 +1340,7 @@
   var ms = msEvents;
 
   function platform_events__applyPolyfill() {
+
     // only activate if this platform does not have pointer events
     if (!window.PointerEvent) {
       window.PointerEvent = _PointerEvent;
@@ -1504,7 +1593,7 @@ Bosonic.register = function(options) {
 
     var prototype = extendPrototype({}, Bosonic.Base);
 
-    var features = [Bosonic.Dom, Bosonic.Events, Bosonic.A11y, Bosonic.CustomAttributes],
+    var features = [Bosonic.Dom, Bosonic.Events, Bosonic.Gestures, Bosonic.A11y, Bosonic.CustomAttributes],
         mixins = features;
 
     if (options.mixins) {
@@ -1883,24 +1972,126 @@ Bosonic.Events = {
 
 var GESTURES_FLAG = '__bosonicGestures',
     TAP_TRESHOLD = 10,
-    TRACK_TRESHOLD = 10;
+    TRACK_TRESHOLD = 10,
+    SAMPLE_INTERVAL = 25;
 
 var STATE_POSSIBLE = 'possible',
     STATE_STARTED = 'start',
     STATE_CHANGED = 'track',
     STATE_ENDED = 'end',
     STATE_RECOGNIZED = STATE_ENDED,
-    STATE_FAILED = 'fail';
+    STATE_FAILED = 'fail',
+    STATE_CANCELLED = 'cancel';
+
+var DIRECTION_NONE = 'none',
+    DIRECTION_LEFT = 'left',
+    DIRECTION_RIGHT = 'right',
+    DIRECTION_UP = 'up',
+    DIRECTION_DOWN = 'down';
+
+function inherit(base, properties) {
+    var child = Object.create(base);
+    Object.keys(properties).forEach(function(k) {
+        child[k] = properties[k];
+    });
+    return child;
+}
+
+var Recognizer = {
+    init: function(name, manager) {
+        this.state = 'possible';
+        this.name = name;
+        this.manager = manager;
+    },
+    transitionTo: function(newState, optionalDetail) {
+        this.state = newState;
+        optionalDetail = optionalDetail || {};
+        optionalDetail.state = newState;
+        if (this.shouldFire(newState)) this.manager.tryFire(this.name, optionalDetail);
+    },
+    shouldFire: function(newState) {
+        return [STATE_RECOGNIZED, STATE_STARTED, STATE_CHANGED, STATE_ENDED].indexOf(newState) !== -1;
+    }
+};
+
+var TrackRecognizer = inherit(Recognizer, {
+    maxPointers: 1,
+    down: function(pointers) {
+        pointers.ids.length === this.maxPointers ? this.transitionTo(STATE_STARTED) : this.transitionTo(STATE_FAILED);
+    },
+    move: function(pointers) {
+        if (this.state === STATE_STARTED || this.state === STATE_CHANGED) this.transitionTo(STATE_CHANGED, processDelta(pointers));
+    },
+    up: function(pointers) {
+        if (this.state === STATE_CHANGED) {
+            var detail = processDisplacement(pointers);
+            this.transitionTo(STATE_ENDED, detail);
+        } else this.transitionTo(STATE_FAILED);
+    }
+});
+
+var SwipeRecognizer = inherit(Recognizer, {
+    maxPointers: 1,
+    minDistance: 10,
+    minVelocity: 0.3,
+    down: function(pointers) {
+        pointers.ids.length === this.maxPointers ? this.transitionTo(STATE_POSSIBLE) : this.transitionTo(STATE_FAILED);
+    },
+    move: function(pointers) {},
+    up: function(pointers) {
+        var detail = processDisplacement(pointers);
+        if (this.state !== STATE_FAILED && (this.direction && detail.direction === this.direction || detail.direction !== DIRECTION_NONE)
+            && detail.distance > this.minDistance && detail.velocity > this.minVelocity) this.transitionTo(STATE_RECOGNIZED, detail);
+        else this.transitionTo(STATE_FAILED);
+    }
+});
+var SwipeLeftRecognizer = inherit(SwipeRecognizer, { direction: DIRECTION_LEFT }),
+    SwipeRightRecognizer = inherit(SwipeRecognizer, { direction: DIRECTION_RIGHT }),
+    SwipeUpRecognizer = inherit(SwipeRecognizer, { direction: DIRECTION_UP }),
+    SwipeDownRecognizer = inherit(SwipeRecognizer, { direction: DIRECTION_DOWN });
+
+var PanRecognizer = inherit(Recognizer, {
+    maxPointers: 1,
+    minDistance: 10,
+    down: function(pointers) {
+        pointers.ids.length === this.maxPointers ? this.transitionTo(STATE_POSSIBLE) : this.transitionTo(STATE_FAILED);
+    },
+    move: function(pointers) {
+        var detail = processDisplacement(pointers);
+        if (this.state === STATE_POSSIBLE && detail.distance > this.minDistance) this.transitionTo(STATE_STARTED, detail);
+        else if (this.state === STATE_STARTED || this.state === STATE_CHANGED) this.transitionTo(STATE_CHANGED, detail);
+    },
+    up: function(pointers) {
+        if (this.state === STATE_CHANGED) {
+            var detail = processDisplacement(pointers);
+            this.transitionTo(STATE_ENDED, detail);
+        } else this.transitionTo(STATE_FAILED);
+    }
+});
+var PanLeftRecognizer = inherit(PanRecognizer, { direction: DIRECTION_LEFT }),
+    PanRightRecognizer = inherit(PanRecognizer, { direction: DIRECTION_RIGHT }),
+    PanUpRecognizer = inherit(PanRecognizer, { direction: DIRECTION_UP }),
+    PanDownRecognizer = inherit(PanRecognizer, { direction: DIRECTION_DOWN });
 
 Bosonic.Gestures = {
     recognizers: {
-        
+        track: TrackRecognizer,
+        pan: PanRecognizer,
+        panLeft: PanLeftRecognizer,
+        panRight: PanRightRecognizer,
+        panUp: PanUpRecognizer,
+        panDown: PanDownRecognizer,
+        swipe: SwipeRecognizer,
+        swipeLeft: SwipeLeftRecognizer,
+        swipeRight: SwipeRightRecognizer,
+        swipeUp: SwipeUpRecognizer,
+        swipeDown: SwipeDownRecognizer
     },
 
     // Events mixin method override
     _listen: function(node, eventName, handler) {
         if (this.recognizers[eventName]) {
-            this.setupRecognizer(node, eventName);
+            this.setupGesture(node, eventName);
         }
         node.addEventListener(eventName, handler);
     },
@@ -1908,39 +2099,142 @@ Bosonic.Gestures = {
     // Events mixin method override
     _unlisten: function(node, eventName, handler) {
         if (this.recognizers[eventName]) {
-            this.teardownRecognizer(node, eventName);
+            this.teardownGesture(node, eventName);
         }
         node.removeEventListener(eventName, handler);
     },
 
-    setupRecognizer: function(node, gestureName) {
+    setupGesture: function(node, gestureName) {
         if (!node[GESTURES_FLAG]) {
-            node[GESTURES_FLAG] = {
-                recognizers: [],
-                states: {},
-                listeners: []
-            };
+            node[GESTURES_FLAG] = new GesturesManager(node);
         }
-        var descriptor = node[GESTURES_FLAG];
-        if (descriptor.recognizers.indexOf(gestureName) !== -1) return;
+        node[GESTURES_FLAG].listen(gestureName);
+    },
 
-        descriptor.recognizers.push(gestureName);
-        descriptor.states[gestureName] = { state: STATE_POSSIBLE };
+    teardownGesture: function(node, gestureName) {
+        var manager = node[GESTURES_FLAG];
+        manager.unlisten(gestureName);
+    }
+};
 
-        var recognizer = this.recognizers[gestureName];
-        recognizer.deps.forEach(function(dep) {
-            if (descriptor.listeners.indexOf(dep) === -1) {
-                node.addEventListener(dep, processRecognizers);
-                descriptor.listeners.push(dep);
+function GesturesManager(node) {
+    this.node = node;
+    this.recognizers = {};
+    this.resetPointers();
+
+    var self = this;
+    this.mainHandler = function(e) {
+        self.handleEvent(e);
+    }
+
+    this.setup();
+}
+
+GesturesManager.prototype = {
+    setup: function() {
+        // TODO: handle pointerout & pointercancel
+        this.node.setAttribute('touch-action', 'none'); // this is needed by the PE polyfill
+        this.node.addEventListener('pointerdown', this.mainHandler);
+        document.addEventListener('pointermove', this.mainHandler);
+        document.addEventListener('pointerup', this.mainHandler);
+    },
+
+    teardown: function() {
+        this.node.removeAttribute('touch-action', 'none');
+        this.node.removeEventListener('pointerdown', this.mainHandler);
+        document.removeEventListener('pointermove', this.mainHandler);
+        document.removeEventListener('pointerup', this.mainHandler);
+    },
+
+    listen: function(gestureName) {
+        var recognizer = Object.create(Bosonic.Gestures.recognizers[gestureName]);
+        recognizer.init(gestureName, this);
+        this.recognizers[gestureName] = recognizer;
+    },
+
+    unlisten: function(gestureName) {
+        delete this.recognizers[gestureName];
+    },
+
+    handleEvent: function(e) {
+        this.updatePointers(e);
+
+        // This is either a hover or the user uses more than 2 fingers
+        if (!this.pointers.changed) return;
+
+        this.recognize();
+        this.persistLastEvent();
+    },
+
+    persistLastEvent: function() {
+        this.pointers.lastEvents[this.pointers.changedIndex] = this.pointers.changed;
+
+        this.pointers.changed = null;
+        this.pointers.changedIndex = null;
+    },
+
+    updatePointers: function(e) {
+        var pointerIndex;
+
+        e.ts = Date.now();
+
+        if (e.type === 'pointerdown' && (e.button === 0 || e.pointerType !== 'mouse')) {
+            var pointerCount = this.pointers.ids.length;
+            if (pointerCount === 0) {
+                // it is the first event of a new sequence...
+                this.resetPointers();
+            } else if (pointerCount === 2) {
+                // more than 2 pointers is probably a user's mistake, ignore it
+                return;
             }
-        });
+            // store the new pointer
+            var pointerIndex = this.pointers.ids.push(e.pointerId) - 1;
+            this.pointers.firstEvents.push(e);
+        } else if (e.type === 'pointerup' || e.type === 'pointermove') {
+            var pointerIndex = this.pointers.ids.indexOf(e.pointerId);
+            if (pointerIndex < 0) {
+                // it's a pointer we don't track
+                return;
+            }
+            if (e.type === 'pointerup') this.pointers.ids.splice(pointerIndex, 1);
+        }
+
+        this.pointers.changed = e;
+        this.pointers.changedIndex = pointerIndex;
     },
 
-    teardownRecognizer: function(node, gestureName) {
-        // TODO
+    recognize: function() {
+        Object.keys(this.recognizers).forEach(function(gestureName) {
+            var recognizer = this.recognizers[gestureName];
+            
+            switch(this.pointers.changed.type) {
+                case 'pointerdown':
+                    recognizer.down(this.pointers);
+                    break;
+                case 'pointermove':
+                    recognizer.move(this.pointers);
+                    break;
+                case 'pointerup':
+                    recognizer.up(this.pointers);
+                    break;
+            }
+        }, this);
     },
 
-    fireGestureEvent: function(node, gesture, detail, originalEvent) {
+    resetPointers: function() {
+        this.pointers = {
+            ids: [],
+            firstEvents: [],
+            lastEvents: []
+        };
+    },
+
+    tryFire: function(gesture, optionalDetail) {
+        var detail = optionalDetail || {};
+        this.fire(this.node, gesture, detail, this.pointers.changed);
+    },
+
+    fire: function(node, gesture, detail, originalEvent) {
         if (originalEvent) {
             detail.originalEvent = originalEvent;
         }
@@ -1959,26 +2253,54 @@ Bosonic.Gestures = {
     }
 };
 
-function processRecognizers(e) {
-    var node = e.currentTarget,
-        descriptor = node[GESTURES_FLAG];
-
-    descriptor.recognizers.forEach(function(name) {
-        var recognizer = Bosonic.Gestures.recognizers[name],
-            callback = recognizer[e.type],
-            detail = descriptor.states[name];
-
-        if ([STATE_RECOGNIZED, STATE_FAILED, STATE_ENDED].indexOf(detail.state) !== -1) {
-            detail.state = STATE_POSSIBLE;
-        } 
-
-        callback(e, detail);
-
-        if ([STATE_RECOGNIZED, STATE_STARTED, STATE_CHANGED, STATE_ENDED].indexOf(detail.state) !== -1) {
-            Bosonic.Gestures.fireGestureEvent(node, name, detail, e);
-        } 
-    });
+function processDelta(pointers) {
+    var changed = pointers.changed,
+        first = pointers.firstEvents[pointers.changedIndex],
+        last = pointers.lastEvents[pointers.changedIndex];
+        
+    return {
+        dx: changed.clientX - first.clientX,
+        dy: changed.clientY - first.clientY,
+        dts: changed.ts - first.ts,
+        ddx: changed.clientX - last.clientX,
+        ddy: changed.clientY - last.clientY,
+        ddts: changed.ts - last.ts
+    };
 }
+
+// TODO: processInstantDisplacement (with SAMPLE_INTERVAL) so that we return "instant" velocity for pan gesture
+function processDisplacement(pointers) {
+    var delta = processDelta(pointers),
+        dx = delta.dx,
+        dy = delta.dy,
+        velx = delta.velx = Math.abs(dx) / delta.dts,
+        vely = delta.vely = Math.abs(dy) / delta.dts,
+        direction = delta.direction = getDirection(dx, dy);
+
+    delta.distance = getDistance(dx, dy, direction);
+    delta.velocity = getOverallVelocity(velx, vely, direction);
+        
+    return delta;
+}
+
+function getDirection(dx, dy) {
+    if (dx === dy) return DIRECTION_NONE;
+
+    if (Math.abs(dx) >= Math.abs(dy)) {
+        return dx < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
+    }
+    return dy < 0 ? DIRECTION_UP : DIRECTION_DOWN;
+}
+
+function getDistance(dx, dy, direction) {
+    return (direction === DIRECTION_LEFT || direction === DIRECTION_RIGHT) ? Math.abs(dx) : Math.abs(dy);
+}
+
+function getOverallVelocity(velx, vely, direction) {
+    return (direction === DIRECTION_LEFT || direction === DIRECTION_RIGHT) ? velx : vely;
+}
+
+
 Bosonic.Selection = {
     get selectedItemIndex() {
         return this.hasAttribute('selected') ? Number(this.getAttribute('selected')) : null;
