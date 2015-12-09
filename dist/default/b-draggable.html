@@ -67,6 +67,49 @@
                     this.unlisten(this.handle, 'track', 'handleTrack');
                 },
 
+                handleTrack: function(e) {
+                    e.preventDefault();
+                    var state = e.detail.state;
+                    switch(state) {
+                        case 'start':
+                            this.dragStart();
+                            break;
+                        case 'track':
+                            this.drag(e.detail);
+                            break;
+                        case 'end':
+                            this.dragStop();
+                            break;
+                    }
+                },
+
+                dragStart: function(e) {
+                    // We must defer the constraints calculus to the first drag to be sure the CSS is applied to the container & target
+                    if (!this.initiated) this.initContainment();
+                    
+                    var targetStyle = window.getComputedStyle(this.target);
+                    if (!targetStyle.position.match(/^(?:r|a|f)/)) {
+                        this.target.style.position = 'relative';
+                    }
+                    this._dragTranslation = { left: 0, top: 0 };
+                    this._startDragPosition = {
+                        left: this.parseSidePosition(targetStyle.left),
+                        top: this.parseSidePosition(targetStyle.top)
+                    };
+                },
+
+                drag: function(detail) {
+                    if (!this.horizontallyConstrained) this.updateSidePosition('left', detail.ddx);
+                    if (!this.verticallyConstrained) this.updateSidePosition('top', detail.ddy);
+                    this.translate(this._dragTranslation.left, this._dragTranslation.top);
+                },
+
+                dragStop: function() {
+                    this.fixSidePosition('left');
+                    this.fixSidePosition('top');
+                    this.transform('', this.target);
+                },
+
                 initContainment: function() {
                     if (this.contained) {
                         var contain = getComputedDimensions(this.containment),
@@ -85,53 +128,20 @@
                     this.initiated = true;
                 },
 
-                handleTrack: function(e) {
-                    e.preventDefault();
-                    var state = e.detail.state;
-                    switch(state) {
-                        case 'start':
-                            this.start();
-                            break;
-                        case 'track':
-                            this.move(e.detail);
-                            break;
-                    }
-                },
-
-                start: function(e) {
-                    // We must defer the constraints calculus to the first drag to be sure the CSS is applied to the container & target
-                    if (!this.initiated) this.initContainment();
-                    
-                    var targetStyle = window.getComputedStyle(this.target);
-                    if (!targetStyle.position.match(/^(?:r|a|f)/)) {
-                        this.target.style.position = 'relative';
-                    }
-                    this._dragTranslation = { left: 0, top: 0 };
-                    this._startDragPosition = {
-                        left: this.parsePosition(targetStyle.left),
-                        top: this.parsePosition(targetStyle.top)
-                    };
-                },
-
-                move: function(detail) {
-                    if (!this.horizontallyConstrained) this.updatePosition('left', detail.ddx);
-                    if (!this.verticallyConstrained) this.updatePosition('top', detail.ddy);
-                },
-
-                parsePosition: function(position) {
+                parseSidePosition: function(position) {
                     return position !== 'auto' ? parseInt(position.replace('px', '')) : 0;
                 },
 
-                setPosition: function(side, value) {
+                fixSidePosition: function(side) {
+                    var value = this._startDragPosition[side] + this._dragTranslation[side];
                     this.target.style[side] = value + 'px';
                 },
 
-                updatePosition: function(side, diff) {
+                updateSidePosition: function(side, diff) {
                     var currentPos = this._startDragPosition[side] + this._dragTranslation[side],
                         newPos = currentPos + diff;
                     if (!this.contained || (newPos >= this.constraints[side].min && this.constraints[side].max > newPos)) {
                         this._dragTranslation[side]+= diff;
-                        this.setPosition(side, newPos);
                     }
                 },
 
