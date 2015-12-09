@@ -58,10 +58,6 @@
                 tabindex: 0
             },
 
-            listeners: {
-                'pointerdown': 'dragStart'
-            },
-
             keyBindings: {
                 'left down': 'decrement',
                 'right up': 'increment',
@@ -103,6 +99,11 @@
 
             createdCallback: function() {
                 requestAnimationFrame(this.setKnobPositionFromValue.bind(this));
+                this.listen(this.knob, 'track', 'handleTrack');
+            },
+
+            detachedCallback: function() {
+                this.unlisten(this.knob, 'track', 'handleTrack');
             },
 
             valueChanged: function() {
@@ -113,13 +114,27 @@
                 this.dispatchEvent(new CustomEvent('b-slider-change'));
             },
 
+            handleTrack: function(e) {
+                var state = e.detail.state;
+                switch(state) {
+                    case 'start':
+                        this.dragStart(e);
+                        break;
+                    case 'track':
+                        this.drag(e.detail);
+                        break;
+                    case 'end':
+                        this.dragStop(e.detail);
+                        break;
+                }
+            },
+
             dragStart: function(e) {
                 e.preventDefault();
                 if (e.button && e.button !== 0) return;
                 this.knob.classList.toggle('dragging');
                 this.dragging = true;
                 this.__startX = this.getKnobPosition();
-                this.trackPointer(e, 'drag', 'dragStop');
             },
 
             drag: function(pointerState) {
