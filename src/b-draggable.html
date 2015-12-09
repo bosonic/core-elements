@@ -102,10 +102,15 @@
                     // We must defer the constraints calculus to the first drag to be sure the CSS is applied to the container & target
                     if (!this.initiated) this.initContainment();
                     
-                    var targetPositioning = window.getComputedStyle(this.target).position;
-                    if (!targetPositioning.match(/^(?:r|a|f)/)) {
+                    var targetStyle = window.getComputedStyle(this.target);
+                    if (!targetStyle.position.match(/^(?:r|a|f)/)) {
                         this.target.style.position = 'relative';
                     }
+                    this._dragTranslation = { left: 0, top: 0 };
+                    this._startDragPosition = {
+                        left: this.parsePosition(targetStyle.left),
+                        top: this.parsePosition(targetStyle.top)
+                    };
                 },
 
                 move: function(detail) {
@@ -113,8 +118,7 @@
                     if (!this.verticallyConstrained) this.updatePosition('top', detail.ddy);
                 },
 
-                getPosition: function(side) {
-                    var position = window.getComputedStyle(this.target)[side];
+                parsePosition: function(position) {
                     return position !== 'auto' ? parseInt(position.replace('px', '')) : 0;
                 },
 
@@ -123,11 +127,22 @@
                 },
 
                 updatePosition: function(side, diff) {
-                    var currentPos = this.getPosition(side),
+                    var currentPos = this._startDragPosition[side] + this._dragTranslation[side],
                         newPos = currentPos + diff;
                     if (!this.contained || (newPos >= this.constraints[side].min && this.constraints[side].max > newPos)) {
-                        this.setPosition(side, currentPos + diff);
+                        this._dragTranslation[side]+= diff;
+                        this.setPosition(side, newPos);
                     }
+                },
+
+                translate: function(x, y) {
+                    this.transform('translate3d(' + x +'px,' + y + 'px,0)', this.target);
+                },
+
+                transform: function(transform, node) {
+                    node = node || this;
+                    node.style.webkitTransform = transform;
+                    node.style.transform = transform;
                 }
             });
         })();
