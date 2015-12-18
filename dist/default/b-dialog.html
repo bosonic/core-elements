@@ -58,6 +58,7 @@
                     this.clickListener = this.onDialogClick.bind(this);
                     this.addEventListener('click', this.clickListener);
                     this.grabFocus();
+                    document.body.style.overflow = 'hidden';
                     if (this.overlay) {
                         this.overlay.setAttribute('opened', '');
                     }
@@ -135,6 +136,7 @@
                     this.releaseFocus();
                     this.removeAttribute('visible');
                     this.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = 'auto';
                     if (this.overlay) {
                         // TODO: needs to use 'transitionend' in order to properly transition when hiding the overlay
                         //this.overlay.removeAttribute('opened');
