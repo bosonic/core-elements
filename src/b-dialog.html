@@ -49,6 +49,14 @@
         .b-overlay[opened] {
             opacity: 0.5;
         }
+
+        .b-scrollbar-measure {
+            width: 100px;
+            height: 100px;
+            overflow: scroll;
+            position: absolute;
+            top: -9999px;
+        }
     </style>
     <script>
         (function(){
@@ -73,7 +81,7 @@
                     this.clickListener = this.onDialogClick.bind(this);
                     this.addEventListener('click', this.clickListener);
                     this.grabFocus();
-                    document.body.style.overflow = 'hidden';
+                    this.preventBackgroundScrolling();
                     if (this.overlay) {
                         this.overlay.setAttribute('opened', '');
                     }
@@ -161,6 +169,7 @@
                         this.parentNode.removeChild(this.overlay);
                         this.overlay = null;
                     }
+                    this.restoreBackgroundScrolling();
                     document.removeEventListener('keydown', this.keydownListener, false);
                     this.removeEventListener('click', this.clickListener);
                     this.dispatchEvent(new CustomEvent('b-dialog-close'));
@@ -179,6 +188,31 @@
                     if (doCancel) {
                         this.hide();
                     }
+                },
+
+                preventBackgroundScrolling: function() {
+                    this._originalBodyPad = parseInt(document.body.style.paddingRight.replace('px', '') || 0);
+                    var isBodyOverflowing = document.body.clientWidth < window.innerWidth;
+                    if (isBodyOverflowing) {
+                        this._scrollbarWidth = this.measureScrollbar();
+                        document.body.style.paddingRight = (this._originalBodyPad + this._scrollbarWidth) + 'px';
+                        document.body.style.overflow = 'hidden';
+                    }
+                },
+
+                restoreBackgroundScrolling: function() {
+                    document.body.style.paddingRight = this._originalBodyPad + 'px';
+                    document.body.style.overflow = 'auto';
+                },
+
+                // Credits to David Walsh: https://davidwalsh.name/detect-scrollbar-width
+                measureScrollbar: function() {
+                    var scrollDiv = document.createElement("div");
+                    scrollDiv.className = "b-scrollbar-measure";
+                    document.body.appendChild(scrollDiv);
+                    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+                    document.body.removeChild(scrollDiv);
+                    return scrollbarWidth;
                 }
             });
         })();
