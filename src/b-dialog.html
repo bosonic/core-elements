@@ -19,6 +19,20 @@
             visibility: visible;
         }
 
+        b-dialog > *:first-child {
+            margin-top: var(--b-dialog-padding-vertical);
+        }
+        b-dialog > * {
+            padding: 0 var(--b-dialog-padding-horizontal);
+        }
+        b-dialog > .b-dialog-buttons {
+            text-align: right;
+            padding: 0 var(--b-dialog-padding-horizontal);
+        }
+        b-dialog > *:last-child {
+            margin-bottom: var(--b-dialog-padding-vertical);
+        }
+
         .b-overlay {
             display: block;
             position: fixed;

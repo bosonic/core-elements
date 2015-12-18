@@ -18,7 +18,9 @@
         <b-dialog id="simple-dialog">
             <h3>Test</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <button class="b-button" data-dialog-dismiss>Close</button>
+            <div class="b-dialog-buttons">
+                <button class="b-button" data-dialog-dismiss>Close</button>
+            </div>
         </b-dialog>
         <script type="text/javascript">
             window.addEventListener("WebComponentsReady", function() {
@@ -42,7 +44,10 @@
             <b-dialog id="animated-dialog" transition="fade-in slide-in-top">
                 <h3>Test</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis sodales arcu, ac fermentum metus hendrerit non. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <button class="b-button" dialog-dismiss>Close</button>
+                <div class="b-dialog-buttons">
+                    <button class="b-button" data-dialog-dismiss>Close</button>
+                    <button class="b-button b-button--primary" autofocus>Action</button>
+                </div>
             </b-dialog>
             <script type="text/javascript">
                 window.addEventListener("WebComponentsReady", function() {

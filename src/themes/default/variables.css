@@ -52,7 +52,8 @@
 
     --b-dialog-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-dialog-border-radius: var(--bosonic-border-radius);
-    --b-dialog-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-dialog-padding-vertical: var(--bosonic-padding-base-vertical);
+    --b-dialog-padding-horizontal: var(--bosonic-padding-base-horizontal);
     --b-dialog-shadow: var(--bosonic-shadow-medium);
 
     --b-dropdown-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
