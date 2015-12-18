@@ -92,8 +92,11 @@
 
                 grabFocus: function() {
                     this.previouslyFocusedElement = document.querySelector(':focus');
-                    var firstFocusableElement = this.getFirstFocusableElement();
-                    if (firstFocusableElement) {
+                    var autofocusable = this.querySelector('[autofocus]'),
+                        firstFocusableElement = this.getFirstFocusableElement();
+                    if (autofocusable) {
+                        autofocusable.focus();
+                    } else if (firstFocusableElement) {
                         firstFocusableElement.focus();
                     } else {
                         this.focus();
