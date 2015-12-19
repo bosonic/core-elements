@@ -164,9 +164,11 @@
                     this.setAttribute('aria-hidden', 'true');
                     document.body.style.overflow = 'auto';
                     if (this.overlay) {
-                        // TODO: needs to use 'transitionend' in order to properly transition when hiding the overlay
-                        //this.overlay.removeAttribute('opened');
-                        this.parentNode.removeChild(this.overlay);
+                        this.transition(this.overlay, function(overlay) {
+                            overlay.removeAttribute('opened');
+                        }, function(overlay) {
+                            overlay.parentNode.removeChild(overlay);
+                        })
                         this.overlay = null;
                     }
                     this.restoreBackgroundScrolling();
