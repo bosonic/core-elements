@@ -2,13 +2,14 @@
     <template>
         <style>
             :host {
-                display: none;
                 position: absolute;
+                display: block;
                 z-index: 1000;
+                opacity: 0;
             }
 
-            :host([show]) {
-                display: block;
+            :host([visible]) {
+                opacity: 1;
             }
 
             .b-tooltip-inner {
@@ -78,7 +79,7 @@
     <script>
         (function(){
             Bosonic.register({
-                spacing: 0,
+                spacing: 5,
                 defaultPosition: 'bottom',
 
                 get position() {
@@ -111,9 +112,7 @@
                 },
 
                 applyPlacement: function() {
-                    var targetDim = this.getOuterDimensions(this.target),
-                        tipDim = this.getOuterDimensions(this),
-                        targetOffset = this.getOffset(this.target),
+                    var targetOffset = this.getOffset(this.target),
                         targetRect = this.target.getBoundingClientRect(),
                         tipRect = this.getBoundingClientRect();
 
@@ -125,29 +124,29 @@
                     switch(this.position) {
                         case 'left':
                             this.style.top = targetOffset.top + centeringOffset.height + 'px';
-                            this.style.left = targetOffset.left - tipDim.width - this.spacing + 'px';
+                            this.style.left = targetOffset.left - this.offsetWidth - this.spacing + 'px';
                             break;
                         case 'right':
                             this.style.top = targetOffset.top + centeringOffset.height + 'px';
-                            this.style.left = targetOffset.left + targetDim.width + this.spacing + 'px';
+                            this.style.left = targetOffset.left + this.target.offsetWidth + this.spacing + 'px';
                             break;
                         case 'top':
-                            this.style.top = targetOffset.top - tipDim.height - this.spacing + 'px';
+                            this.style.top = targetOffset.top - this.offsetHeight - this.spacing + 'px';
                             this.style.left = targetOffset.left + centeringOffset.width + 'px';
                             break;
                         default:
-                            this.style.top = targetOffset.top + targetDim.height + this.spacing + 'px';
+                            this.style.top = targetOffset.top + this.target.offsetHeight + this.spacing + 'px';
                             this.style.left = targetOffset.left + centeringOffset.width + 'px';
                     }
                 },
 
                 show: function() {
-                    this.setAttribute('show', '');
+                    this.setAttribute('visible', '');
                     this.applyPlacement();
                 },
 
                 hide: function() {
-                    this.removeAttribute('show');
+                    this.removeAttribute('visible');
                 },
 
                 onEnterTarget: function(evt) {
@@ -156,14 +155,6 @@
 
                 onLeaveTarget: function(evt) {
                     this.hide();
-                },
-
-                getComputedDimension: function(dim) {
-                    var computed = window.getComputedStyle(this),
-                        raw = computed[dim],
-                        value = parseInt(raw.replace('px', ''), 10);
-                    // NaN checking for IE9
-                    return isNaN(value) ? 0 : value;
                 },
 
                 // get the coordinates of the element relative to the document
@@ -180,24 +171,6 @@
                 // get the coordinates of the element relative to the parent element
                 getPosition: function(elt) {
                     throw "Not implemented yet.";
-                },
-
-                // get the current computed width & height of an element, including padding, borders and (optionally) margins
-                getOuterDimensions: function(elt, includeMargins) {
-                    var dim = this.getComputedDimension.bind(elt),
-                        rect = elt.getBoundingClientRect();
-
-                    var outer = {
-                        width: rect.width + dim('paddingLeft') + dim('paddingRight') 
-                                          + dim('borderLeftWidth') + dim('borderRightWidth'),
-                        height: rect.height + dim('paddingTop') + dim('paddingBottom') 
-                                            + dim('borderTopWidth') + dim('borderBottomWidth')
-                    };
-                    if (includeMargins === true) {
-                        outer.width = outer.width + dim('marginLeft') + dim('marginRight');
-                        outer.height = outer.height + dim('marginTop') + dim('marginBottom');
-                    }
-                    return outer;
                 }
             });
         })();
