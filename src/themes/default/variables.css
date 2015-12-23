@@ -97,8 +97,10 @@
     --b-switch-thumb-color: var(--bosonic-gray-color);
     --b-switch-on-bg: var(--bosonic-primary-color);
     --b-switch-on-border: color(var(--bosonic-primary-color) blackness(var(--bosonic-border-blackness)));
+    --b-switch-on-color: #fff;
     --b-switch-off-bg: #bfbfbf;
     --b-switch-off-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-switch-off-color: var(--bosonic-default-font-color);
     --b-switch-thumb-3d-effect: var(--bosonic-3d-effect);
     --b-switch-pressed-effect: var(--bosonic-pressed-effect);
     --b-switch-height: 24px;
