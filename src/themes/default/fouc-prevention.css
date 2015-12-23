@@ -8,3 +8,6 @@ b-tooltip:not(.resolved) {
 b-dialog:not(.resolved) {
     display: none;
 }
+b-dropdown:not(.resolved) > ul {
+    display: none;
+}

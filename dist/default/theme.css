@@ -266,6 +266,9 @@ b-tooltip:not(.resolved) {
 b-dialog:not(.resolved) {
     display: none;
 }
+b-dropdown:not(.resolved) > ul {
+    display: none;
+}
 *[transition] {
     transition: opacity 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9), transform 0.3s ease;
 }
