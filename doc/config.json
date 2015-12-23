@@ -18,6 +18,10 @@
                 {
                     "tag": "b-tooltip",
                     "title": "Tooltips"
+                },
+                {
+                    "tag": "b-accordion",
+                    "title": "Accordions"
                 }
             ]
         }

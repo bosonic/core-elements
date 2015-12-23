@@ -1,12 +1,5 @@
-{
-  title: "Accordion",
-  element: 'b-accordion',
-  category: "elements",
-  section: "core",
-  order: 6
-}
-
-# b-accordion
+## Example
+<div class="element-demo" id="example"></div>
 
 `<b-accordion>` necessitates a bit of rigor regarding to the markup, illustrated below: 
 
@@ -41,6 +34,10 @@
 ## Accessibility
 
 ARIA authoring practices are automatically handled by the element.
+
+## Styling
+
+As there are very different usecases for an accordion (standalone or in a sidebar for example), we don't embed a default styling in the component, but rather provide a set of CSS classes with the theme stylesheet. Available classes are `b-accordion`, `b-accordion-title` and `b-accordion-content`.
 
 ## API
 
