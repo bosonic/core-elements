@@ -1,11 +1,3 @@
-/* FOUC prevention */
-b-segmented-controls:not(.resolved) {
-    opacity: 0;
-}
-b-tooltip:not(.resolved) {
-    display: none;
-}
-
 b-dropdown > button:after {
     padding-left: 10px;
     content:'\25BE';
