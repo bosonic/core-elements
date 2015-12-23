@@ -22,8 +22,29 @@
     --bosonic-padding-base-horizontal: 1em;
     --bosonic-padding-base-vertical: 0.5em;
 
-    --bosonic-3d-effect: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    --bosonic-3d-effect-shadow-size: 1px;
+    --bosonic-3d-effect-shadow-color: rgba(0, 0, 0, .3);
+    --bosonic-3d-effect-shadow: 0 var(--bosonic-3d-effect-shadow-size) 0 var(--bosonic-3d-effect-shadow-color);
+    --bosonic-3d-effect-reflect-size: 1px;
+    --bosonic-3d-effect-reflect-color: rgba(255, 255, 255, .3);
+    --bosonic-3d-effect-reflect: 0 var(--bosonic-3d-effect-reflect-size) 0 var(--bosonic-3d-effect-reflect-color) inset;
+    --bosonic-3d-effect: var(--bosonic-3d-effect-shadow), var(--bosonic-3d-effect-reflect);
     --bosonic-pressed-effect: 0 3px 5px rgba(0,0,0,.125) inset;
+
+    --b-accordion-font-size: var(--bosonic-font-size-base);
+    --b-accordion-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-accordion-border-radius: var(--bosonic-border-radius);
+    --b-accordion-shadow: var(--bosonic-shadow-medium);
+    --b-accordion-title-font-size: var(--bosonic-font-size-base);
+    --b-accordion-title-font-weight: 500;
+    --b-accordion-title-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-accordion-title-bg: var(--bosonic-gray-color);
+    --b-accordion-title-color: var(--bosonic-default-font-color);
+    --b-accordion-title-3d-effect: var(--bosonic-3d-effect);
+    --b-accordion-content-bg: #fff;
+    --b-accordion-content-font-size: var(--bosonic-font-size-base);
+    --b-accordion-content-color: var(--bosonic-default-font-color);
+    --b-accordion-content-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
 
     --b-button-font-size: var(--bosonic-font-size-base);
     --b-button-font-weight: 500;

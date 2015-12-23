@@ -124,7 +124,41 @@ h2 {
 }
 .b-card-content {
     padding: 0.5em 1em;
+    margin: 1px 0 0 0;
+    font-size: 1em;
+    background-color: #fff;
+    color: #333;
+}
+
+.b-accordion {
+    display: block;
+    border: 1px solid transparent;
+    border-color: rgb(214, 214, 214);
+    border-bottom: 1px solid transparent;
+    border-radius: 2px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.b-accordion-title {
+    display: block;
+    width: 100%;
+    border: none;
+    text-align: left;
+    padding: 0.5em 1em;
     margin: 0;
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.5;
+    background-color: #e0e0e0;
+    color: #333;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
+}
+.b-accordion .b-accordion-title:not(:first-child) {
+    border-top: 1px solid transparent;
+    border-color: rgb(214, 214, 214);
+}
+.b-accordion-content {
+    padding: 0.5em 1em;
+    margin: 1px 0 0 0;
     font-size: 1em;
     background-color: #fff;
     color: #333;

@@ -124,10 +124,44 @@ h2 {
 }
 .b-card-content {
     padding: var(--b-card-content-padding);
-    margin: 0;
+    margin: var(--bosonic-3d-effect-shadow-size) 0 0 0;
     font-size: var(--b-card-content-font-size);
     background-color: var(--b-card-content-bg);
     color: var(--b-card-content-color);
+}
+
+.b-accordion {
+    display: block;
+    border: 1px solid transparent;
+    border-color: var(--b-accordion-border);
+    border-bottom: 1px solid transparent;
+    border-radius: var(--b-accordion-border-radius);
+    box-shadow: var(--b-accordion-shadow);
+}
+.b-accordion-title {
+    display: block;
+    width: 100%;
+    border: none;
+    text-align: left;
+    padding: var(--b-accordion-title-padding);
+    margin: 0;
+    font-size: var(--b-accordion-title-font-size);
+    font-weight: var(--b-accordion-title-font-weight);
+    line-height: var(--bosonic-line-height-base);
+    background-color: var(--b-accordion-title-bg);
+    color: var(--b-accordion-title-color);
+    box-shadow: var(--b-accordion-title-3d-effect);
+}
+.b-accordion .b-accordion-title:not(:first-child) {
+    border-top: 1px solid transparent;
+    border-color: var(--b-accordion-border);
+}
+.b-accordion-content {
+    padding: var(--b-accordion-content-padding);
+    margin: var(--bosonic-3d-effect-shadow-size) 0 0 0;
+    font-size: var(--b-accordion-content-font-size);
+    background-color: var(--b-accordion-content-bg);
+    color: var(--b-accordion-content-color);
 }
 
 .b-list {
