@@ -240,14 +240,6 @@ b-tooltip:not(.resolved) {
     display: none;
 }
 
-b-dialog {
-    display: block;
-    background: white;
-    border: 1px solid rgb(214, 214, 214);
-    border-radius: 2px;
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
-}
-
 b-dropdown > button:after {
     padding-left: 10px;
     content:'\25BE';

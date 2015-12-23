@@ -12,12 +12,13 @@
             /* minimum styling */
             background-color: white;
             border: 1px solid rgb(214, 214, 214);
+            /* advanced styling */
+            border-radius: 2px;
+            box-shadow: 0 5px 10px rgba(0,0,0,.2);
         }
-
         b-dialog[visible] {
             visibility: visible;
         }
-
         b-dialog > *:first-child {
             margin-top: 0.5em;
         }
@@ -31,7 +32,6 @@
         b-dialog > *:last-child {
             margin-bottom: 0.5em;
         }
-
         .b-overlay {
             display: block;
             position: fixed;
@@ -44,11 +44,9 @@
             opacity: 0;
             transition: opacity 0.2s;
         }
-
         .b-overlay[opened] {
             opacity: 0.5;
         }
-
         .b-scrollbar-measure {
             width: 100px;
             height: 100px;

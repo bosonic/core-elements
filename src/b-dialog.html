@@ -13,12 +13,13 @@
             /* minimum styling */
             background-color: white;
             border: var(--b-dialog-border);
+            /* advanced styling */
+            border-radius: var(--b-dialog-border-radius);
+            box-shadow: var(--b-dialog-shadow);
         }
-
         b-dialog[visible] {
             visibility: visible;
         }
-
         b-dialog > *:first-child {
             margin-top: var(--b-dialog-padding-vertical);
         }
@@ -32,7 +33,6 @@
         b-dialog > *:last-child {
             margin-bottom: var(--b-dialog-padding-vertical);
         }
-
         .b-overlay {
             display: block;
             position: fixed;
@@ -45,11 +45,9 @@
             opacity: 0;
             transition: opacity 0.2s;
         }
-
         .b-overlay[opened] {
             opacity: 0.5;
         }
-
         .b-scrollbar-measure {
             width: 100px;
             height: 100px;
