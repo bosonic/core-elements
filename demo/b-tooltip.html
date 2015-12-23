@@ -12,22 +12,18 @@
     </head>
 
     <body>
-        <style>
-        :root {
-            --b-tooltip-background: red;
-        }
-        </style>
         <h1>Tooltips</h1>
-        <p><strong>NB:</strong> If the tooltips appear red, it's because you're using a browser that supports CSS variables, i.e. Firefox ;)</p>
-        <div style="text-align: center">
-            <button id="btn1">Tooltip on left</button>
-            <b-tooltip for="btn1" position="left">Tooltip text</b-tooltip>
-            <button id="btn2">Tooltip on bottom</button>
-            <b-tooltip for="btn2">Tooltip text</b-tooltip>
-            <button id="btn3">Tooltip on top</button>
-            <b-tooltip for="btn3" position="top">Tooltip text</b-tooltip>
-            <button id="btn4">Tooltip on right</button>
-            <b-tooltip for="btn4" position="right">Tooltip text</b-tooltip>
+        <div class="element-demo" id="example">
+            <div style="text-align: center">
+                <button id="btn1" class="b-button">Tooltip on left</button>
+                <b-tooltip for="btn1" position="left" transition="fade-in">Tooltip text</b-tooltip>
+                <button id="btn2" class="b-button">Tooltip on bottom</button>
+                <b-tooltip for="btn2" transition="fade-in">Tooltip text</b-tooltip>
+                <button id="btn3" class="b-button">Tooltip on top</button>
+                <b-tooltip for="btn3" position="top" transition="fade-in">Tooltip text</b-tooltip>
+                <button id="btn4" class="b-button">Tooltip on right</button>
+                <b-tooltip for="btn4" position="right" transition="fade-in">Tooltip text</b-tooltip>
+            </div>
         </div>
     </body>
 </html>
