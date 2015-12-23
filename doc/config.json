@@ -30,6 +30,10 @@
                 {
                     "tag": "b-progress-bar",
                     "title": "Progress bars"
+                },
+                {
+                    "tag": "b-slider",
+                    "title": "Sliders"
                 }
             ]
         }

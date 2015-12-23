@@ -1,14 +1,7 @@
-{
-  title: 'Slider',
-  element: 'b-slider',
-  category: "elements",
-  section: "core",
-  order: 11
-}
-
-# b-slider
-
 A slider allows you to pick a numeric value by dragging a handle. Use `min` and `max` attributes to specify the range of allowed numeric values (default is 0 to 100).
+
+## Example
+<div class="element-demo" id="example"></div>
 
 ## Usage
 
