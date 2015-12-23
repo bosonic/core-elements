@@ -9,7 +9,7 @@
 
     --bosonic-active-blackness: +10%;
 
-    --bosonic-border-radius: 4px;
+    --bosonic-border-radius: 2px;
     --bosonic-border-blackness: +5%;
     --bosonic-active-border-blackness: +12%;
 
@@ -19,14 +19,14 @@
 
     --bosonic-font-size-base: 1em;
     --bosonic-line-height-base: 1.5;
-    --bosonic-padding-base-horizontal: 1.5em;
-    --bosonic-padding-base-vertical: 0.75em;
+    --bosonic-padding-base-horizontal: 1em;
+    --bosonic-padding-base-vertical: 0.5em;
 
     --bosonic-3d-effect: 0 1px 0 rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3) inset;
     --bosonic-pressed-effect: 0 3px 5px rgba(0,0,0,.125) inset;
 
     --b-button-font-size: var(--bosonic-font-size-base);
-    --b-button-font-weight: 600;
+    --b-button-font-weight: 500;
     --b-button-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
     --b-button-border-radius: var(--bosonic-border-radius);
     --b-button-3d-effect: var(--bosonic-3d-effect);
