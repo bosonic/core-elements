@@ -26,6 +26,10 @@
                 {
                     "tag": "b-segmented-controls",
                     "title": "Segmented controls"
+                },
+                {
+                    "tag": "b-progress-bar",
+                    "title": "Progress bars"
                 }
             ]
         }

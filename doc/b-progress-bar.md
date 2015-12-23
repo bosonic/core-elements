@@ -1,14 +1,8 @@
-{
-  title: "Progress bar",
-  element: 'b-progress-bar',
-  category: "elements",
-  section: "core",
-  order: 8
-}
-
-# b-progress-bar
-
 Progress bars can be used to display a percentage of something, like an action to be completed.
+
+## Example
+<div class="element-demo" id="example1"></div>
+<div class="element-demo" id="example2"></div>
 
 ## Usage
 
