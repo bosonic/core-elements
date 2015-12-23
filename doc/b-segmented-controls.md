@@ -1,14 +1,8 @@
-{
-  title: "Segmented controls",
-  element: 'b-segmented-controls',
-  category: "elements",
-  section: "core",
-  order: 10
-}
-
-# b-segmented-controls
-
 This element groups a series of controls (buttons, checkboxes or radio buttons) on a single line.
+
+## Examples
+<div class="element-demo" id="example1"></div>
+<div class="element-demo" id="example2"></div>
 
 ## Usage
 
@@ -47,6 +41,10 @@ This element groups a series of controls (buttons, checkboxes or radio buttons) 
 ## Accessibility
 
 Don't forget to provide a label to your `b-segmented-controls` element, using `aria-label` or `aria-labelledby` attributes.
+
+## Styling
+
+As `b-segmented-controls` is meant to wrap standard form controls, we don't embed a default styling in the component, apart from some general rules. Use classes from the theme stylesheet (like `b-button` on labels) to style these controls.
 
 ## API
 

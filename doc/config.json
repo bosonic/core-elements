@@ -22,6 +22,10 @@
                 {
                     "tag": "b-accordion",
                     "title": "Accordions"
+                },
+                {
+                    "tag": "b-segmented-controls",
+                    "title": "Segmented controls"
                 }
             ]
         }
