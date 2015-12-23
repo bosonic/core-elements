@@ -5,7 +5,7 @@
     --bosonic-warning-color: #e67e22;
     --bosonic-danger-color: #c13421;
 
-    --bosonic-default-font-color: black;
+    --bosonic-default-font-color: #333;
 
     --bosonic-active-blackness: +10%;
 
@@ -33,7 +33,7 @@
     --b-button-pressed-effect: var(--bosonic-pressed-effect);
     --b-button-default-bg: var(--bosonic-gray-color);
     --b-button-default-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
-    --b-button-default-color: #333;
+    --b-button-default-color: var(--bosonic-default-font-color);
     --b-button-disabled-color: #bbb;
     --b-button-primary-bg: var(--bosonic-primary-color);
     --b-button-primary-border: color(var(--bosonic-primary-color) blackness(var(--bosonic-border-blackness)));
@@ -48,7 +48,20 @@
     --b-button-danger-border: color(var(--bosonic-danger-color) blackness(var(--bosonic-border-blackness)));
     --b-button-danger-color: #fff;
 
+    --b-card-font-size: var(--bosonic-font-size-base);
+    --b-card-border: color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
+    --b-card-border-radius: var(--bosonic-border-radius);
     --b-card-shadow: var(--bosonic-shadow-medium);
+    --b-card-title-font-size: var(--bosonic-font-size-base);
+    --b-card-title-font-weight: 500;
+    --b-card-title-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-card-title-bg: var(--bosonic-gray-color);
+    --b-card-title-color: var(--bosonic-default-font-color);
+    --b-card-title-3d-effect: var(--bosonic-3d-effect);
+    --b-card-content-bg: #fff;
+    --b-card-content-font-size: var(--bosonic-font-size-base);
+    --b-card-content-color: var(--bosonic-default-font-color);
+    --b-card-content-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
 
     --b-dialog-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-dialog-border-radius: var(--bosonic-border-radius);

@@ -107,23 +107,27 @@ h2 {
 }
 
 .b-card {
-    padding: 1px;
-    border: 1px solid rgba(0,0,0,.2);
-    border-radius: 6px;
+    border: 1px solid transparent;
+    border-color: var(--b-card-border);
+    border-radius: var(--b-card-border-radius);
     box-shadow: var(--b-card-shadow);
 }
 .b-card-title {
-    padding: 8px 14px;
+    padding: var(--b-card-title-padding);
     margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.1;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ebebeb;
-    border-radius: 5px 5px 0 0;
+    font-size: var(--b-card-title-font-size);
+    font-weight: var(--b-card-title-font-weight);
+    line-height: var(--bosonic-line-height-base);
+    background-color: var(--b-card-title-bg);
+    color: var(--b-card-title-color);
+    box-shadow: var(--b-card-title-3d-effect);
 }
 .b-card-content {
-    padding: 9px 14px;
+    padding: var(--b-card-content-padding);
+    margin: 0;
+    font-size: var(--b-card-content-font-size);
+    background-color: var(--b-card-content-bg);
+    color: var(--b-card-content-color);
 }
 
 .b-list {
