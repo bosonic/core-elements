@@ -242,37 +242,6 @@ b-tooltip:not(.resolved) {
 b-dialog:not(.resolved) {
     display: none;
 }
-b-dropdown > button:after {
-    padding-left: 10px;
-    content:'\25BE';
-}
-b-dropdown > ul {
-    background-color: white;
-    border: 1px solid rgb(214, 214, 214);
-    border-radius: 2px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.1);
-    margin-top: 1px;
-    min-width: 140px;
-}
-b-dropdown > ul > li:hover {
-    background-color: rgb(237, 237, 237);
-}
-b-dropdown > ul > li > a {
-    color: black;
-    text-decoration: none;
-    font-size: 1em;
-    padding: 0.5em 1em;
-    display: block;
-    white-space: nowrap;
-}
-b-dropdown > ul > li > a:hover {
-    text-decoration: none;
-}
-b-dropdown > ul > hr {
-    margin: 0;
-    border: 0;
-    border-top: 1px solid rgb(214, 214, 214);
-}
 *[transition] {
     transition: opacity 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9), transform 0.3s ease;
 }
