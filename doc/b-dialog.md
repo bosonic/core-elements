@@ -30,6 +30,17 @@ A `<b-dialog>` is hidden by default, you must open it by calling its `show()` or
 
 `role="dialog"` and `aria-hidden="..."` attributes will be automatically added to the `<b-dialog>` element, but you must add yourself `aria-labelledby="..."` (referencing the dialog title) to the element, and `role="document"` to the dialog content. Focus "grab" will be automatically handled.
 
+## Styling
+The following variables are available for styling:
+
+| Variable                         | Description                                  |
+|----------------------------------|----------------------------------------------|
+| --b-dialog-border                |                                              |
+| --b-dialog-border-radius         |                                              |
+| --b-dialog-shadow                |                                              |
+| --b-dialog-padding-vertical      | Used for the margin of the dialog's content  |
+| --b-dialog-padding-horizontal    | The horiz. padding for all dialog's contents |
+
 ## API
 
 ### Methods
