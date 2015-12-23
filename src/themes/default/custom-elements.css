@@ -2,6 +2,9 @@
 b-segmented-controls:not(.resolved) {
     opacity: 0;
 }
+b-tooltip:not(.resolved) {
+    display: none;
+}
 
 b-dialog {
     display: block;

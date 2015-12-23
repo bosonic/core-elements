@@ -90,4 +90,8 @@
     --b-switch-pressed-effect: var(--bosonic-pressed-effect);
     --b-switch-height: 24px;
     --b-switch-border-radius: 2px;
+
+    --b-tooltip-background: rgba(0,0,0,0.8);
+    --b-tooltip-color: white;
+    --b-tooltip-shadow: var(--bosonic-shadow-medium);
 }
