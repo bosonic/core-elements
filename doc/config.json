@@ -34,6 +34,10 @@
                 {
                     "tag": "b-slider",
                     "title": "Sliders"
+                },
+                {
+                    "tag": "b-switch",
+                    "title": "Switches"
                 }
             ]
         }

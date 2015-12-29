@@ -1,12 +1,5 @@
-{
-  title: "Switch",
-  element: 'b-switch',
-  category: "elements",
-  section: "core",
-  order: 9
-}
-
-# b-switch
+## Example
+<div class="element-demo" id="example"></div>
 
 ## Usage
 
@@ -72,8 +65,8 @@ The following variables are available for styling:
 - __checked__: returns a boolean related to the state of the switch.
 
 ### Methods
--__activate()__
--__deactivate()__
--__toggle()__
+- __activate()__
+- __deactivate()__
+- __toggle()__
 
 
