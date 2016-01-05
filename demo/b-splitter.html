@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-splitter</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="dist/webcomponents.js"></script>
+        <script type="text/javascript" src="dist/bosonic-runtime.js"></script>
+
+        <link rel="import" href="dist/default/b-linear-layout.html">
+        <link rel="import" href="dist/default/b-splitter.html">
+
+        <link rel="stylesheet" href="dist/default/theme.css">
+
+        <style>
+            b-linear-layout {
+                border: 1px solid #ccc;
+                margin-bottom: 20px;
+                height: 300px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <b-linear-layout>
+            <div style="min-width: 100px; width: 200px;">Left (min: 100px)</div>
+            <b-splitter direction="left"></b-splitter>
+            <div expand style="overflow: hidden;">Right</div>
+        </b-linear-layout>
+
+        <b-linear-layout vertical>
+            <div style="height: 100px;">Up</div>
+            <b-splitter direction="up"></b-splitter>
+            <div expand style="overflow: hidden;">Down</div>
+        </b-linear-layout>
+
+        <b-linear-layout>
+            <div style="min-width: 100px; width: 200px;">Left (min: 100px)</div>
+            <b-splitter direction="left"></b-splitter>
+            <div expand>Center</div>
+            <b-splitter direction="right"></b-splitter>
+            <div style="min-width: 50px; width: 200px;">Right (min: 50px)</div>
+        </b-linear-layout>
+    </body>
+</html>

@@ -1,0 +1,141 @@
+<element name="b-linear-layout">
+    <style>
+        b-linear-layout, 
+        .layout {
+            display: -ms-flexbox; /* IE10 */
+            display: flex;
+        }
+        b-linear-layout[horizontal], 
+        .layout.horizontal {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+        b-linear-layout[vertical], 
+        .layout.vertical {
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+        b-linear-layout[horizontal-reverse], 
+        .layout.horizontal-reverse {
+            -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+        }
+        b-linear-layout[vertical-reverse], 
+        .layout.vertical-reverse {
+            -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+        }
+        b-linear-layout[wrap], 
+        .layout.wrap {
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        b-linear-layout[wrap-reverse], 
+        .layout.wrap-reverse {
+            -ms-flex-wrap: wrap-reverse;
+            flex-wrap: wrap-reverse;
+        }
+        /* alignment in cross axis */
+        b-linear-layout[align-top], 
+        b-linear-layout[align-left], 
+        b-linear-layout[align-start], 
+        .layout.align-top,
+        .layout.align-left,
+        .layout.align-start {
+            -ms-flex-align: start;
+            align-items: flex-start;
+        }
+        b-linear-layout[align-center], 
+        .layout.align-center {
+            -ms-flex-align: center;
+            align-items: center;
+        }
+        b-linear-layout[align-baseline], 
+        .layout.align-baseline {
+            -ms-flex-align: baseline;
+            align-items: baseline;
+        }
+        b-linear-layout[align-bottom], 
+        b-linear-layout[align-right], 
+        b-linear-layout[align-end], 
+        .layout.align-bottom,
+        .layout.align-right,
+        .layout.align-end {
+            -ms-flex-align: end;
+            align-items: flex-end;
+        }
+        /* alignment in main axis */
+        b-linear-layout[justify-top], 
+        b-linear-layout[justify-left], 
+        b-linear-layout[justify-start], 
+        .layout.justify-top,
+        .layout.justify-left,
+        .layout.justify-start {
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+        b-linear-layout[justify-center], 
+        .layout.justify-center {
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+        b-linear-layout[justify-around], 
+        .layout.justify-around {
+            -ms-flex-pack: around;
+            justify-content: space-around;
+        }
+        b-linear-layout[justify-between], 
+        .layout.justify-between {
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+        }
+        b-linear-layout[justify-bottom], 
+        b-linear-layout[justify-right], 
+        b-linear-layout[justify-end], 
+        .layout.justify-bottom,
+        .layout.justify-right,
+        .layout.justify-end {
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+        }
+        
+        b-linear-layout > [expand], 
+        .layout > .expand {
+            -ms-flex: 1;
+            flex: 1;
+        }
+        
+        b-linear-layout > [weight='1'], .layout > .weight-1 { flex-grow: 1; -ms-flex-positive: 1; }
+        b-linear-layout > [weight='2'], .layout > .weight-2 { flex-grow: 2; -ms-flex-positive: 2; }
+        b-linear-layout > [weight='3'], .layout > .weight-3 { flex-grow: 3; -ms-flex-positive: 3; }
+        b-linear-layout > [weight='4'], .layout > .weight-4 { flex-grow: 4; -ms-flex-positive: 4; }
+        b-linear-layout > [weight='5'], .layout > .weight-5 { flex-grow: 5; -ms-flex-positive: 5; }
+        
+        b-linear-layout > [gravity='top'], 
+        b-linear-layout > [gravity='left'],
+        b-linear-layout > [gravity='start'],
+        .layout > .gravity-top, 
+        .layout > .gravity-left,
+        .layout > .gravity-start, { 
+            align-self: flex-start;
+            -ms-flex-item-align: start;
+        }
+        b-linear-layout > [gravity='center'], 
+        .layout > .gravity-center { 
+            align-self: center;
+            -ms-flex-item-align: center;
+        }
+        b-linear-layout > [gravity='bottom'], 
+        b-linear-layout > [gravity='right'],
+        b-linear-layout > [gravity='end'],
+        .layout > .gravity-bottom,
+        .layout > .gravity-right,
+        .layout > .gravity-end { 
+            align-self: flex-end;
+            -ms-flex-item-align: end;
+        }
+    </style>
+    <script>
+        Bosonic.register({});
+    </script>
+</element>

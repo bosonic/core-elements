@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>b-linear-layout</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="dist/webcomponents.js"></script>
+        <script type="text/javascript" src="dist/bosonic-runtime.js"></script>
+
+        <link rel="import" href="dist/default/b-linear-layout.html">
+
+        <link rel="stylesheet" href="dist/default/theme.css">
+
+        <style>
+            b-linear-layout {
+                border: 1px solid #ccc;
+                margin-bottom: 20px;
+            }
+            div {
+                width: 100px;
+                height: 100px;
+                background-color: orange;
+                margin: 3px;
+                border: 1px solid #bbb;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Horizontal</h1>
+
+        <b-linear-layout>
+            <div></div>
+            <div></div>
+            <div></div>
+        </b-linear-layout>
+
+        <b-linear-layout>
+            <div expand>Expand</div>
+            <div></div>
+            <div></div>
+        </b-linear-layout>
+
+        <b-linear-layout>
+            <div expand>Expand</div>
+            <div expand weight="2">Expand / weight: 2</div>
+            <div expand>Expand</div>
+        </b-linear-layout>
+
+        <b-linear-layout style="height: 300px;">
+            <div expand gravity="top">Expand / gravity: top</div>
+            <div expand gravity="center" weight="2">Expand / weight: 2 / gravity: center</div>
+            <div expand gravity="bottom">Expand / gravity: bottom</div>
+        </b-linear-layout>
+
+        <h1>Vertical</h1>
+
+        <b-linear-layout vertical>
+            <div></div>
+            <div></div>
+            <div></div>
+        </b-linear-layout>
+
+        <b-linear-layout vertical style="height: 550px;">
+            <div expand>Expand</div>
+            <div></div>
+            <div></div>
+        </b-linear-layout>
+
+        <b-linear-layout vertical style="height: 550px;">
+            <div expand gravity="left">Expand / gravity: left</div>
+            <div expand gravity="center" weight="2">Expand / weight: 2 / gravity: center</div>
+            <div expand gravity="right">Expand / gravity: right</div>
+        </b-linear-layout>
+    </body>
+</html>

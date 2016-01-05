@@ -1,0 +1,94 @@
+<element name="b-splitter">
+    <style>
+        b-splitter {
+            display: block;
+            background-color: #ccc;
+        }
+        b-splitter[direction='right'], b-splitter[direction='left'] {
+            width: 8px;
+            cursor: col-resize;
+        }
+        b-splitter[direction='up'], b-splitter[direction='down'] {
+            height: 8px;
+            cursor: row-resize;
+        }
+    </style>
+    <script>
+        Bosonic.register({
+            listeners: {
+                'track': 'handleTrack'
+            },
+
+            get left() {
+                return this.direction === 'left';
+            },
+
+            get right() {
+                return this.direction === 'right';
+            },
+
+            get direction() {
+                return this.hasAttribute('direction') ? this.getAttribute('direction') : 'left';
+            },
+
+            get vertical() {
+                return this.left || this.right;
+            },
+
+            get up() {
+                return this.direction === 'up';
+            },
+
+            get down() {
+                return this.direction === 'down';
+            },
+
+            get horizontal() {
+                return this.up || this.down;
+            },
+            
+            createdCallback: function() {
+                this.target = this.isTargetNextElement() ? this.nextElementSibling : this.previousElementSibling;
+                this.dimension = this.horizontal ? 'height' : 'width';
+                this.minDimension = this.horizontal ? 'minHeight' : 'minWidth';
+            },
+
+            handleTrack: function(e) {
+                var state = e.detail.state;
+                switch(state) {
+                    case 'start':
+                        this.dragStart(e);
+                        break;
+                    case 'track':
+                        this.resize(e.detail);
+                        break;
+                    case 'end':
+                        this.dragStop(e.detail);
+                        break;
+                }
+            },
+            
+            dragStart: function(e) {
+                e.preventDefault();
+                this.size = parseInt(getComputedStyle(this.target)[this.dimension]);
+                this.minSize = parseInt(getComputedStyle(this.target)[this.minDimension]) || 0;
+            },
+
+            resize: function(pointerState) {
+                var absDelta = this.horizontal ? pointerState.dy : pointerState.dx,
+                    relDelta = this.isTargetNextElement() ? -absDelta : absDelta,
+                    newSize  = this.size + relDelta;
+
+                if (newSize > this.minSize) {
+                    this.target.style[this.dimension] = newSize + 'px';
+                }
+            },
+
+            dragStop: function(pointerState) {},
+
+            isTargetNextElement: function() {
+                return this.right || this.down;
+            }
+        });
+    </script>
+</element>
