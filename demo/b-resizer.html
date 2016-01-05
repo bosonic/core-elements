@@ -9,28 +9,34 @@
         <link rel="import" href="dist/default/b-resizer.html">
 
         <link rel="stylesheet" href="dist/default/theme.css">
-
-        <style>
-            body {
-                background: #eee;
-            }
-            .resizable {
-                overflow: hidden;
-                height: 200px;
-                width: 200px;
-                box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
-                background: #fff;
-                position: absolute;
-                top: 10px;
-                left: 20px;
-            }
-        </style>
     </head>
 
     <body>
-        <div class="resizable">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <b-resizer>
+        <div class="element-demo" id="example">
+            <style>
+                .resizable-container {
+                    position: relative;
+                    background: #eee;
+                    width: 100%;
+                    height: 300px;
+                }
+                .resizable {
+                    overflow: hidden;
+                    height: 200px;
+                    width: 200px;
+                    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+                    background: #fff;
+                    position: absolute;
+                    top: 10px;
+                    left: 20px;
+                }
+            </style>
+            <div class="resizable-container">
+                <div class="resizable">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <b-resizer>
+                </div>
+            </div>
         </div>
     </body>
 </html>

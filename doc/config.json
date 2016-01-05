@@ -44,6 +44,15 @@
                     "title": "Flash messages"
                 }
             ]
+        },
+        {
+            "lib": "Layout",
+            "elements": [
+                {
+                    "tag": "b-resizer",
+                    "title": "Resizer"
+                }
+            ]
         }
     ]
 }
