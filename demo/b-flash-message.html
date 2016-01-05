@@ -13,8 +13,38 @@
 
     <body>
         <h1>Flash messages</h1>
+        <div class="element-demo" id="basic-demos">
+            <button class="b-button" data-flash="top-info">Show success on top</button>
+            <button class="b-button" data-flash="bottom-warning">Show warning at bottom left</button>
+            <button class="b-button" data-flash="bottom-error">Show error at bottom right</button>
+            <script type="text/javascript">
+                window.addEventListener('WebComponentsReady', function() {
+                    var btns = document.querySelectorAll('#basic-demos button');
+                    
+                    [].forEach.call(btns, function(btn) {
+                        btn.addEventListener('pointerdown', function(e) {
+                            var flash = document.getElementById(btn.dataset.flash);
+                            flash.show();
+                        });
+                    });
+                });
+            </script>
+            <b-flash-message id="top-info" type="info" position="top" duration="2000">
+                Happiness shared sucessfully.
+                <button flash-message-dismiss class="b-flash-message-close">x</button>
+            </b-flash-message>
+            <b-flash-message id="bottom-warning" type="warning" position="bottom-left" duration="2000">
+                This is strange... <a>Retry</a>
+                <button flash-message-dismiss class="b-flash-message-close">x</button>
+            </b-flash-message>
+            <b-flash-message id="bottom-error" type="error" position="bottom-right" duration="2000">
+                Something went <strong>wrong</strong>!
+                <button flash-message-dismiss class="b-flash-message-close">x</button>
+            </b-flash-message>
+        </div>
+
         <h2>In place</h2>
-        <div id="basic-demos">
+        <div id="level-demos">
             <button class="info">Show info</button>
             <button class="success">Show success msg</button>
             <button class="warning">Show warning</button>
@@ -27,7 +57,7 @@
             <script type="text/javascript">
                 window.addEventListener('WebComponentsReady', function() {
                     var flash = document.getElementById('basic-flash'),
-                        btns = document.querySelectorAll('#basic-demos button');
+                        btns = document.querySelectorAll('#level-demos button');
                     
                     [].forEach.call(btns, function(btn) {
                         btn.addEventListener('click', function(e) {
@@ -37,11 +67,11 @@
                     });
                 });
             </script>
+            <b-flash-message id="basic-flash" type="info" duration="2000">
+                <strong>Hello, World!</strong> Not again...
+                <button flash-message-dismiss class="b-flash-message-close">x</button>
+            </b-flash-message>
         </div>
-        <b-flash-message id="basic-flash" type="info" duration="2000">
-            <strong>Hello, World!</strong> Not again...
-            <button flash-message-dismiss class="b-flash-message-close">x</button>
-        </b-flash-message>
         
         <h2>Positioned</h2>
         <div id="position-demos">

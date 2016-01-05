@@ -38,6 +38,10 @@
                 {
                     "tag": "b-switch",
                     "title": "Switches"
+                },
+                {
+                    "tag": "b-flash-message",
+                    "title": "Flash messages"
                 }
             ]
         }
