@@ -1,0 +1,66 @@
+<element name="b-resizer">
+    <style>b-resizer {
+            display: block;
+            position: absolute;
+            background-color: #ccc;
+            width: 8px;
+            height: 8px;
+            bottom: 0px;
+            right: 0px;
+            cursor: se-resize;
+        }
+    </style>
+    <script>
+        Bosonic.register({
+            listeners: {
+                'track': 'handleTrack'
+            },
+            
+            createdCallback: function() {
+                this.target = this.parentNode;
+            },
+
+            handleTrack: function(e) {
+                var state = e.detail.state;
+                switch(state) {
+                    case 'start':
+                        this.dragStart(e);
+                        break;
+                    case 'track':
+                        this.resize(e.detail);
+                        break;
+                    case 'end':
+                        this.dragStop(e.detail);
+                        break;
+                }
+            },
+            
+            dragStart: function(e) {
+                e.preventDefault();
+                var computed = getComputedStyle(this.target);
+                this.dimensions = {
+                    width: parseInt(computed.width),
+                    height: parseInt(computed.height)
+                };
+                this.minDimensions = {
+                    width: parseInt(computed.minWidth) || 0,
+                    height: parseInt(computed.minHeight) || 0
+                };
+            },
+
+            resize: function(pointerState) {
+                var newWidth = this.dimensions.width + pointerState.dx,
+                    newHeight = this.dimensions.height + pointerState.dy;
+
+                if (newWidth > this.minDimensions.width) {
+                    this.target.style.width = newWidth + 'px';
+                }
+                if (newHeight > this.minDimensions.height) {
+                    this.target.style.height = newHeight + 'px';
+                }
+            },
+
+            dragStop: function(pointerState) {}
+        });
+    </script>
+</element>
