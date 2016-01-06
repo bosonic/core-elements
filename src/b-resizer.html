@@ -8,7 +8,6 @@
             height: 8px;
             bottom: 0px;
             right: 0px;
-            cursor: se-resize;
         }
         b-resizer.dragging {
             background-color: #bbb;
@@ -41,7 +40,10 @@
             
             dragStart: function(e) {
                 e.preventDefault();
+                
                 this.classList.toggle('dragging');
+                document.body.style.cursor = 'se-resize';
+
                 var computed = getComputedStyle(this.target);
                 this.dimensions = {
                     width: parseInt(computed.width),
@@ -67,6 +69,7 @@
 
             dragStop: function(pointerState) {
                 this.classList.toggle('dragging');
+                document.body.style.cursor = '';
             }
         });
     </script>
