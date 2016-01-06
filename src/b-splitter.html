@@ -76,6 +76,7 @@
                 this.size = parseInt(getComputedStyle(this.target)[this.dimension]);
                 this.minSize = parseInt(getComputedStyle(this.target)[this.minDimension]) || 0;
                 this.classList.toggle('dragging');
+                document.body.style.cursor = this.vertical ? 'col-resize' : 'row-resize';
             },
 
             resize: function(pointerState) {
@@ -90,6 +91,7 @@
 
             dragStop: function(pointerState) {
                 this.classList.toggle('dragging');
+                document.body.style.cursor = '';
             },
 
             isTargetNextElement: function() {
