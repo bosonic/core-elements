@@ -4,6 +4,9 @@
             display: block;
             background-color: #ccc;
         }
+        b-splitter.dragging {
+            background-color: #bbb;
+        }
         b-splitter[direction='right'], b-splitter[direction='left'] {
             width: 8px;
             cursor: col-resize;
@@ -72,6 +75,7 @@
                 e.preventDefault();
                 this.size = parseInt(getComputedStyle(this.target)[this.dimension]);
                 this.minSize = parseInt(getComputedStyle(this.target)[this.minDimension]) || 0;
+                this.classList.toggle('dragging');
             },
 
             resize: function(pointerState) {
@@ -84,7 +88,9 @@
                 }
             },
 
-            dragStop: function(pointerState) {},
+            dragStop: function(pointerState) {
+                this.classList.toggle('dragging');
+            },
 
             isTargetNextElement: function() {
                 return this.right || this.down;
