@@ -49,6 +49,14 @@
             "lib": "Layout",
             "elements": [
                 {
+                    "tag": "b-linear-layout",
+                    "title": "Linear layout"
+                },
+                {
+                    "tag": "b-splitter",
+                    "title": "Splitter"
+                },
+                {
                     "tag": "b-resizer",
                     "title": "Resizer"
                 }

@@ -19,6 +19,7 @@ Will display an info flash message during 2 secs containing the string "Hello, W
 ### Attributes
 - __visible__: controls the display of the message. Valid values are `true` or `false`. By default it is set to `false`.
 - __type__: four possible values: `info`, `success`, `warning` and `error`, respectively blue, green, yellow and red. By default this attribute is set to `info`.
+- __position__: 
 - __duration__: Trigger a timeout when the message is displayed (see `show` accessor). Valid value is a number given in milliseconds.
 
 ### Methods

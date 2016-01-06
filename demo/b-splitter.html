@@ -33,14 +33,6 @@
             <div expand style="overflow: hidden;">Down</div>
         </b-linear-layout>
 
-        <b-linear-layout>
-            <div style="min-width: 100px; width: 200px;">Left (min: 100px)</div>
-            <b-splitter direction="left"></b-splitter>
-            <div expand style="overflow: hidden;">Center</div>
-            <b-splitter direction="right"></b-splitter>
-            <div style="min-width: 50px; width: 200px;">Right (min: 50px)</div>
-        </b-linear-layout>
-
         <b-linear-layout vertical>
             <div style="height: 100px;">Up</div>
             <b-splitter direction="up"></b-splitter>
@@ -48,5 +40,26 @@
             <b-splitter direction="down"></b-splitter>
             <div style="height: 100px;">Down</div>
         </b-linear-layout>
+
+        <div class="element-demo" id="demo">
+            <style>
+                .flex-container {
+                    height: 300px;
+                    border: 1px solid #ccc;
+                    display: -ms-flexbox; 
+                    display: flex; 
+                    -moz-user-select: none; 
+                    -webkit-user-select: none; 
+                    -ms-user-select: none;
+                }
+            </style>
+            <div class="flex-container">
+                <div style="min-width: 100px; width: 200px;">Left (min: 100px)</div>
+                <b-splitter direction="left"></b-splitter>
+                <div style="-ms-flex: 1; flex: 1; overflow: hidden;">Center</div>
+                <b-splitter direction="right"></b-splitter>
+                <div style="min-width: 50px; width: 200px;">Right (min: 50px)</div>
+            </div>
+        </div>
     </body>
 </html>
