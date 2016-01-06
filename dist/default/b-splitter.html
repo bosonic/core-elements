@@ -72,18 +72,34 @@
             
             dragStart: function(e) {
                 e.preventDefault();
+                
                 this.size = parseInt(getComputedStyle(this.target)[this.dimension]);
                 this.minSize = parseInt(getComputedStyle(this.target)[this.minDimension]) || 0;
+
+                var limitingSibling = this.isTargetNextElement() ? this.previousElementSibling.previousElementSibling 
+                                                                 : this.nextElementSibling.nextElementSibling;
+                if (limitingSibling) {
+                    if (this.right || this.down) {
+                        this.minPosition = limitingSibling.getBoundingClientRect()[this.right ? 'right' : 'bottom'];
+                    } else {
+                        this.maxPosition = limitingSibling.getBoundingClientRect()[this.left ? 'left' : 'top'];
+                    }
+                } else {
+                    this.maxSize = parseInt(getComputedStyle(this.target.parentNode)[this.dimension]);
+                }
+
                 this.classList.toggle('dragging');
                 document.body.style.cursor = this.vertical ? 'col-resize' : 'row-resize';
             },
 
             resize: function(pointerState) {
-                var absDelta = this.horizontal ? pointerState.dy : pointerState.dx,
+                var pos = this.horizontal ? pointerState.originalEvent.clientY : pointerState.originalEvent.clientX,
+                    absDelta = this.horizontal ? pointerState.dy : pointerState.dx,
                     relDelta = this.isTargetNextElement() ? -absDelta : absDelta,
                     newSize  = this.size + relDelta;
 
-                if (newSize > this.minSize) {
+                if (((this.maxPosition && pos < this.maxPosition) || (this.minPosition && pos > this.minPosition) || newSize < this.maxSize) 
+                    && newSize >= this.minSize) {
                     this.target.style[this.dimension] = newSize + 'px';
                 }
             },
