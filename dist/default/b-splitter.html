@@ -18,7 +18,8 @@
     <script>
         Bosonic.register({
             listeners: {
-                'track': 'handleTrack'
+                'track': 'handleTrack',
+                'focus': 'setConstraints'
             },
 
             get left() {
@@ -72,34 +73,47 @@
             
             dragStart: function(e) {
                 e.preventDefault();
-                
+                this.setConstraints();
+                this.classList.toggle('dragging');
+                document.body.style.cursor = this.vertical ? 'col-resize' : 'row-resize';
+            },
+
+            setConstraints: function() {
                 this.size = parseInt(getComputedStyle(this.target)[this.dimension]);
                 this.minSize = parseInt(getComputedStyle(this.target)[this.minDimension]) || 0;
 
                 var limitingSibling = this.isTargetNextElement() ? this.previousElementSibling.previousElementSibling 
                                                                  : this.nextElementSibling.nextElementSibling;
                 if (limitingSibling) {
-                    if (this.right || this.down) {
-                        this.minPosition = limitingSibling.getBoundingClientRect()[this.right ? 'right' : 'bottom'];
-                    } else {
-                        this.maxPosition = limitingSibling.getBoundingClientRect()[this.left ? 'left' : 'top'];
+                    var tgtRect = this.target.getBoundingClientRect(),
+                        sibRect = limitingSibling.getBoundingClientRect(),
+                        splitterSize = parseInt(getComputedStyle(this)[this.dimension]) - 1;
+
+                    switch(this.direction) {
+                        case 'left':
+                            this.maxSize = this.size + sibRect.left - tgtRect.right - splitterSize;
+                            break;
+                        case 'right':
+                            this.maxSize = this.size + tgtRect.left - sibRect.right - splitterSize;
+                            break;
+                        case 'up':
+                            this.maxSize = this.size + sibRect.top - tgtRect.bottom - splitterSize;
+                            break;
+                        case 'down':
+                            this.maxSize = this.size + tgtRect.top - sibRect.bottom - splitterSize;
+                            break;
                     }
                 } else {
                     this.maxSize = parseInt(getComputedStyle(this.target.parentNode)[this.dimension]);
                 }
-
-                this.classList.toggle('dragging');
-                document.body.style.cursor = this.vertical ? 'col-resize' : 'row-resize';
             },
 
             resize: function(pointerState) {
-                var pos = this.horizontal ? pointerState.originalEvent.clientY : pointerState.originalEvent.clientX,
-                    absDelta = this.horizontal ? pointerState.dy : pointerState.dx,
+                var absDelta = this.horizontal ? pointerState.dy : pointerState.dx,
                     relDelta = this.isTargetNextElement() ? -absDelta : absDelta,
                     newSize  = this.size + relDelta;
 
-                if (((this.maxPosition && pos < this.maxPosition) || (this.minPosition && pos > this.minPosition) || newSize < this.maxSize) 
-                    && newSize >= this.minSize) {
+                if ((this.maxSize && newSize < this.maxSize) && newSize >= this.minSize) {
                     this.target.style[this.dimension] = newSize + 'px';
                 }
             },
