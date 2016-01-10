@@ -117,7 +117,7 @@
                 this.unlisten(document, 'tap', 'tapOutside');
             },
 
-            cycleFocus: function(e) {
+            cycleFocus: function(e, key) {
                 if (!this.open) {
                     return;
                 }
@@ -129,9 +129,9 @@
                 var focusables = this.getFocusableElements(this.menu),
                     currentlyFocusedIndex = Array.prototype.indexOf.call(focusables, currentlyFocused),
                     lastFocusableElementIndex = focusables.length - 1;
-                if (this.keyMatchesEvent('down', e) && currentlyFocusedIndex < lastFocusableElementIndex) {
+                if (key === 'down' && currentlyFocusedIndex < lastFocusableElementIndex) {
                     focusables[currentlyFocusedIndex + 1].focus();
-                } else if (this.keyMatchesEvent('up', e) && currentlyFocusedIndex > 0) {
+                } else if (key === 'up' && currentlyFocusedIndex > 0) {
                     focusables[currentlyFocusedIndex - 1].focus();
                 }
             },
