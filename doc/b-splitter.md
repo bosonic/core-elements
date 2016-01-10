@@ -17,6 +17,10 @@ In the above sample, the splitter will resize the left element. Since the right 
 
 When resizing, some element's contents may overflow outside of the element, so you may need to set this element to `overflow: hidden` or `overflow: scroll` depending on your preferences.
 
+## Accessibility
+
+ARIA authoring practices are automatically handled by the element. The user can use the arrow keys to position the splitter, END to maximize, HOME to minimize.
+
 ## API
 
 ### Attributes
