@@ -23,6 +23,18 @@
                 'focus': 'setConstraints'
             },
 
+            hostAttributes: {
+                role: 'separator',
+                tabindex: 0
+            },
+
+            keyBindings: {
+                'left right': 'moveVertical',
+                'up down': 'moveHorizontal',
+                'end': 'maximize',
+                'home': 'minimize'
+            },
+
             get left() {
                 return this.direction === 'left';
             },
@@ -64,7 +76,7 @@
                         this.dragStart(e);
                         break;
                     case 'track':
-                        this.resize(e.detail);
+                        this.drag(e.detail);
                         break;
                     case 'end':
                         this.dragStop(e.detail);
@@ -77,6 +89,49 @@
                 this.setConstraints();
                 this.classList.toggle('dragging');
                 document.body.style.cursor = this.vertical ? 'col-resize' : 'row-resize';
+            },
+
+            drag: function(pointerState) {
+                var absDelta = this.horizontal ? pointerState.ddy : pointerState.ddx,
+                    relDelta = this.isTargetNextElement() ? -absDelta : absDelta;
+                    
+                this.resize(relDelta);
+            },
+
+            dragStop: function(pointerState) {
+                this.classList.toggle('dragging');
+                document.body.style.cursor = '';
+            },
+
+            moveHorizontal: function(e, key) {
+                e.preventDefault();
+                if (this.horizontal) this.resize(key === this.direction ? -1 : 1);
+            },
+
+            moveVertical: function(e, key) {
+                e.preventDefault();
+                if (this.vertical) this.resize(key === this.direction ? -1 : 1);
+            },
+
+            maximize: function(e) {
+                e.preventDefault();
+                this.resizeTo(this.maxSize - 1);
+            },
+
+            minimize: function(e) {
+                e.preventDefault();
+                this.resizeTo(this.minSize);
+            },
+
+            resize: function(delta) {
+                this.resizeTo(this.size + delta);
+            },
+
+            resizeTo: function(newSize) {
+                if ((this.maxSize && newSize < this.maxSize) && newSize >= this.minSize) {
+                    this.target.style[this.dimension] = newSize + 'px';
+                    this.size = newSize;
+                }
             },
 
             setConstraints: function() {
@@ -107,21 +162,6 @@
                 } else {
                     this.maxSize = parseInt(getComputedStyle(this.target.parentNode)[this.dimension]);
                 }
-            },
-
-            resize: function(pointerState) {
-                var absDelta = this.horizontal ? pointerState.dy : pointerState.dx,
-                    relDelta = this.isTargetNextElement() ? -absDelta : absDelta,
-                    newSize  = this.size + relDelta;
-
-                if ((this.maxSize && newSize < this.maxSize) && newSize >= this.minSize) {
-                    this.target.style[this.dimension] = newSize + 'px';
-                }
-            },
-
-            dragStop: function(pointerState) {
-                this.classList.toggle('dragging');
-                document.body.style.cursor = '';
             },
 
             isTargetNextElement: function() {
