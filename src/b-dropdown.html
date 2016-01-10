@@ -109,7 +109,9 @@
 
             show: function() {
                 this.setAttribute('open', '');
-                this.listen(document, 'tap', 'tapOutside');
+                this.async(function() {
+                    this.listen(document, 'tap', 'tapOutside');
+                }, 1);
             },
 
             hide: function() {
