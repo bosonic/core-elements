@@ -1,14 +1,7 @@
-{
-  title: 'Selectable',
-  element: 'b-selectable',
-  category: "elements",
-  section: "core",
-  order: 20
-}
-
-# b-selectable
-
 `b-selectable` is an element which allows single (for now) selection of an item in a list.
+
+## Demo
+<div class="element-demo" id="basic-demos"></div>
 
 ## Usage
 

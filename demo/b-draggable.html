@@ -13,13 +13,23 @@
 
     <body>
         <h1>Draggable</h1>
-        <div class="draggable-container">
-            <b-draggable handle=".draggable-handle" target=".draggable" containment="parent">
-                <div class="draggable">
-                    <div class="draggable-handle">Drag me !</div>
-                    <div class="draggable-content">Lorem ipsum</div>
-                </div>
-            </b-draggable>
+        <div class="element-demo" id="demo">
+            <style>
+                .draggable-container {
+                    position: relative;
+                    height: 300px;
+                    width: 250px;
+                    background: #eee;
+                }
+            </style>
+            <div class="draggable-container">
+                <b-draggable handle=".b-card-title" target=".b-card" containment="parent">
+                    <div class="b-card" style="position: absolute; top: 10px; left: 20px;">
+                        <div class="b-card-title" style="cursor: move;">Drag me !</div>
+                        <div class="b-card-content">Lorem ipsum</div>
+                    </div>
+                </b-draggable>
+            </div>
         </div>
     </body>
 </html>

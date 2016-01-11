@@ -1,14 +1,7 @@
-{
-  title: 'Draggable',
-  element: 'b-draggable',
-  category: "elements",
-  section: "core",
-  order: 21
-}
-
-# b-draggable
-
 An element which may be used to add draggable behavior to an element.
+
+## Demo
+<div class="element-demo" id="demo"></div>
 
 ## Usage
 

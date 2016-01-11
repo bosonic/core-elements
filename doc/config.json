@@ -46,6 +46,14 @@
                 {
                     "tag": "b-collapsible",
                     "title": "Collapsible"
+                },
+                {
+                    "tag": "b-draggable",
+                    "title": "Draggable"
+                },
+                {
+                    "tag": "b-selectable",
+                    "title": "Selectable"
                 }
             ]
         },
