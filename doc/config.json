@@ -5,11 +5,11 @@
             "elements": [
                 {
                     "tag": "b-dialog",
-                    "title": "Dialogs & modals"
+                    "title": "Dialog"
                 },
                 {
                     "tag": "b-dropdown",
-                    "title": "Dropdowns"
+                    "title": "Dropdown"
                 },
                 {
                     "tag": "b-tabs",
@@ -17,11 +17,11 @@
                 },
                 {
                     "tag": "b-tooltip",
-                    "title": "Tooltips"
+                    "title": "Tooltip"
                 },
                 {
                     "tag": "b-accordion",
-                    "title": "Accordions"
+                    "title": "Accordion"
                 },
                 {
                     "tag": "b-segmented-controls",
@@ -29,19 +29,23 @@
                 },
                 {
                     "tag": "b-progress-bar",
-                    "title": "Progress bars"
+                    "title": "Progress bar"
                 },
                 {
                     "tag": "b-slider",
-                    "title": "Sliders"
+                    "title": "Slider"
                 },
                 {
                     "tag": "b-switch",
-                    "title": "Switches"
+                    "title": "Switch"
                 },
                 {
                     "tag": "b-flash-message",
-                    "title": "Flash messages"
+                    "title": "Flash message"
+                },
+                {
+                    "tag": "b-collapsible",
+                    "title": "Collapsible"
                 }
             ]
         },

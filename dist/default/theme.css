@@ -116,7 +116,7 @@
     color: #333;
 }
 
-.b-accordion {
+.b-accordion, .b-collapsible {
     display: block;
     border: 1px solid transparent;
     border-color: rgb(214, 214, 214);
@@ -124,7 +124,7 @@
     border-radius: 2px;
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
-.b-accordion-title {
+.b-accordion-title, .b-collapsible-toggle {
     display: block;
     width: 100%;
     border: none;
@@ -142,7 +142,7 @@
     border-top: 1px solid transparent;
     border-color: rgb(214, 214, 214);
 }
-.b-accordion-content {
+.b-accordion-content, .b-collapsible-content {
     padding: 0.5em 1em;
     margin: 1px 0 0 0;
     font-size: 1em;
@@ -192,26 +192,7 @@
     cursor: pointer;
 }
 
-.collapsible-toggle:hover {
-    background-color: #c0392b;
-}
-.collapsible-toggle {
-    width: 100%;
-    border: none;
-    text-align: left;
-    font-weight: 700;
-    padding: 1em;
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    background-color: #e74c3c;
-    border-bottom: 1px solid #c0392b;
-    -moz-transition: background-color 0.5s ease-in-out;
-    -o-transition: background-color 0.5s ease-in-out;
-    -webkit-transition: background-color 0.5s ease-in-out;
-    transition: background-color 0.5s ease-in-out;
-}
-.collapsible-content, .tab-content {
+.tab-content {
     background-color: #eee;
     font-size: 1em;
     line-height: 1.5em;

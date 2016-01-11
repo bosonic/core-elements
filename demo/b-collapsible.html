@@ -13,22 +13,26 @@
 
     <body>
         <h1>Collapsible</h1>
-        <button class="collapsible-toggle" id="toggle-collapsible" aria-controls="collapsible" aria-expanded="false">Toggle collapsible</button>
-        <b-collapsible id="collapsible" aria-labelledby="toggle-collapsible">
-            <div class="collapsible-content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra eros id vehicula tempor. Nulla laoreet, ex malesuada tempus consequat, tortor mauris lacinia tellus, et eleifend augue quam in felis. Vestibulum vitae turpis iaculis, sollicitudin sapien vitae, fringilla sapien. Quisque interdum, diam eu molestie tempus, ante magna ornare mauris, sed aliquam quam nisi vitae diam. Pellentesque congue hendrerit ligula sit amet blandit. Integer dui enim, pretium consequat consectetur laoreet, hendrerit sed ipsum. Vestibulum et hendrerit orci. Aliquam tristique, tellus in vulputate lobortis, metus lacus sagittis metus, eu accumsan sem dolor quis sapien.
+        <div class="element-demo" id="demo">
+            <div class="b-collapsible">
+                <button class="b-collapsible-toggle" id="toggle-collapsible" aria-controls="collapsible" aria-expanded="false">Toggle collapsible</button>
+                <b-collapsible id="collapsible" aria-labelledby="toggle-collapsible">
+                    <div class="b-collapsible-content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra eros id vehicula tempor. Nulla laoreet, ex malesuada tempus consequat, tortor mauris lacinia tellus, et eleifend augue quam in felis. Vestibulum vitae turpis iaculis, sollicitudin sapien vitae, fringilla sapien. Quisque interdum, diam eu molestie tempus, ante magna ornare mauris, sed aliquam quam nisi vitae diam. Pellentesque congue hendrerit ligula sit amet blandit. Integer dui enim, pretium consequat consectetur laoreet, hendrerit sed ipsum. Vestibulum et hendrerit orci. Aliquam tristique, tellus in vulputate lobortis, metus lacus sagittis metus, eu accumsan sem dolor quis sapien.
+                    </div>
+                </b-collapsible>
             </div>
-        </b-collapsible>
-        <script type="text/javascript">
-            window.addEventListener("WebComponentsReady", function() {
-                var btn = document.getElementById('toggle-collapsible'),
-                    collapsible = document.getElementById('collapsible');
-                
-                btn.addEventListener('click', function() {
-                    collapsible.toggle();
-                    btn.setAttribute('aria-expanded', collapsible.opened ? 'true' : 'false');
-                }, false);
-            });
-        </script>
+            <script type="text/javascript">
+                window.addEventListener("WebComponentsReady", function() {
+                    var btn = document.getElementById('toggle-collapsible'),
+                        collapsible = document.getElementById('collapsible');
+                    
+                    btn.addEventListener('click', function() {
+                        collapsible.toggle();
+                        btn.setAttribute('aria-expanded', collapsible.opened ? 'true' : 'false');
+                    }, false);
+                });
+            </script>
+        </div>
     </body>
 </html>

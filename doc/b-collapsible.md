@@ -1,14 +1,7 @@
-{
-  title: 'Collapsible',
-  element: 'b-collapsible',
-  category: "elements",
-  section: "core",
-  order: 5
-}
-
-# b-collapsible
-
 You guessed it, `<b-collapsible>` creates a collapsible block of content, collapsed by default. You can set the `opened` attribute to show the content, or use its `toggle()` method. Transition duration can be specified in milliseconds with the duration attribute.
+
+## Demo
+<div class="element-demo" id="demo"></div>
 
 ## Usage
 

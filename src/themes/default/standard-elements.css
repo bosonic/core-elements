@@ -116,7 +116,7 @@
     color: var(--b-card-content-color);
 }
 
-.b-accordion {
+.b-accordion, .b-collapsible {
     display: block;
     border: 1px solid transparent;
     border-color: var(--b-accordion-border);
@@ -124,7 +124,7 @@
     border-radius: var(--b-accordion-border-radius);
     box-shadow: var(--b-accordion-shadow);
 }
-.b-accordion-title {
+.b-accordion-title, .b-collapsible-toggle {
     display: block;
     width: 100%;
     border: none;
@@ -142,7 +142,7 @@
     border-top: 1px solid transparent;
     border-color: var(--b-accordion-border);
 }
-.b-accordion-content {
+.b-accordion-content, .b-collapsible-content {
     padding: var(--b-accordion-content-padding);
     margin: var(--bosonic-3d-effect-shadow-size) 0 0 0;
     font-size: var(--b-accordion-content-font-size);
@@ -192,26 +192,7 @@
     cursor: pointer;
 }
 
-.collapsible-toggle:hover {
-    background-color: #c0392b;
-}
-.collapsible-toggle {
-    width: 100%;
-    border: none;
-    text-align: left;
-    font-weight: 700;
-    padding: 1em;
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    background-color: #e74c3c;
-    border-bottom: 1px solid #c0392b;
-    -moz-transition: background-color 0.5s ease-in-out;
-    -o-transition: background-color 0.5s ease-in-out;
-    -webkit-transition: background-color 0.5s ease-in-out;
-    transition: background-color 0.5s ease-in-out;
-}
-.collapsible-content, .tab-content {
+.tab-content {
     background-color: #eee;
     font-size: 1em;
     line-height: 1.5em;
