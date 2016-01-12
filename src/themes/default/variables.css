@@ -89,6 +89,12 @@
     --b-dialog-padding-vertical: var(--bosonic-padding-base-vertical);
     --b-dialog-padding-horizontal: var(--bosonic-padding-base-horizontal);
     --b-dialog-shadow: var(--bosonic-shadow-medium);
+    --b-dialog-title-font-size: var(--bosonic-font-size-base);
+    --b-dialog-title-font-weight: 500;
+    --b-dialog-title-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-dialog-title-bg: var(--bosonic-gray-color);
+    --b-dialog-title-color: var(--bosonic-default-font-color);
+    --b-dialog-title-3d-effect: var(--bosonic-3d-effect);
 
     --b-dropdown-border: 1px solid color(var(--bosonic-gray-color) blackness(var(--bosonic-border-blackness)));
     --b-dropdown-border-radius: var(--bosonic-border-radius);
