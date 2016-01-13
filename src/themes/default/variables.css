@@ -133,6 +133,16 @@
     --b-switch-height: 24px;
     --b-switch-border-radius: 2px;
 
+    --b-tabs-shadow: 0 3px 3px -2px rgba(0,0,0,.1);
+    --b-tabs-border-bottom: 1px solid #ddd;
+    --b-tabs-bg: #fff;
+
+    --b-tab-bar-color: var(--bosonic-primary-color);
+    --b-tab-padding: var(--bosonic-padding-base-vertical) var(--bosonic-padding-base-horizontal);
+    --b-tab-color: var(--bosonic-default-font-color);
+    --b-tab-inactive-color: color(var(--b-tab-color) lightness(+15%));
+    --b-tab-active-color: var(--b-tab-color);
+
     --b-tooltip-background: rgba(0,0,0,0.8);
     --b-tooltip-color: white;
     --b-tooltip-shadow: var(--bosonic-shadow-medium);

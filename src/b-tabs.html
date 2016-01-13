@@ -2,7 +2,9 @@
     <style>
         b-tabs {
             display: block;
-            border-bottom: 1px solid #ccc;
+            background-color: var(--b-tabs-bg-color);
+            border-bottom: var(--b-tabs-border-bottom);
+            box-shadow: var(--b-tabs-shadow);
         }
         .b-tabs-hidden {
             display: none;
@@ -127,20 +129,14 @@
         b-tab {
             display: inline-block;
             cursor: default;
-            padding: 10px;
-            margin-right: 2px;
-            margin-bottom: -1px;
-            background-color: #fff;
-            border: 1px solid transparent;
-            border-bottom-color: #ccc;
-        }
-        b-tab:hover {
-            background-color: #ddd;
+            padding: var(--b-tab-padding);
+            border-bottom: 3px solid transparent;
+            color: var(--b-tab-inactive-color);
         }
         b-tab.active {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-bottom-color: transparent;
+            border-bottom-color: var(--b-tab-bar-color);
+            font-weight: var(--b-tab-active-font-weight);
+            color: var(--b-tab-active-color);
         }
     </style>
     <script>

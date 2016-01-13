@@ -1,7 +1,9 @@
 <element name="b-tabs" attributes="selected">
     <style>b-tabs {
             display: block;
-            border-bottom: 1px solid #ccc;
+            background-color: var(--b-tabs-bg-color);
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 3px 3px -2px rgba(0,0,0,.1);
         }
         .b-tabs-hidden {
             display: none;
@@ -125,20 +127,14 @@
     <style>b-tab {
             display: inline-block;
             cursor: default;
-            padding: 10px;
-            margin-right: 2px;
-            margin-bottom: -1px;
-            background-color: #fff;
-            border: 1px solid transparent;
-            border-bottom-color: #ccc;
-        }
-        b-tab:hover {
-            background-color: #ddd;
+            padding: 0.5em 1em;
+            border-bottom: 3px solid transparent;
+            color: rgb(89, 89, 89);
         }
         b-tab.active {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-bottom-color: transparent;
+            border-bottom-color: #689caf;
+            font-weight: var(--b-tab-active-font-weight);
+            color: #333;
         }
     </style>
     <script>
