@@ -26,6 +26,19 @@
 
 ARIA authoring practices are automatically applied by the element.
 
+## Styling
+The following variables are available for styling:
+
+| Variable                         | Description                                                  |
+|----------------------------------|--------------------------------------------------------------|
+| --b-tabs-bg                      | The color of the tabs background                             |
+| --b-tabs-border-bottom           | The bottom border                                            |
+| --b-tabs-shadow                  | The box-shadow applied to the tabs container                 |
+|                                  |                                                              |
+| --b-tab-color                    | The font color of each tab                                   |
+| --b-tab-padding                  |                                                              |
+| --b-tab-bar-color                | The color of the bottom bar of the active tab                |
+
 ## API
 
 ### Attributes
