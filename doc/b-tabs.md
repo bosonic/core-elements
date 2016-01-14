@@ -1,4 +1,4 @@
-## Example
+## Demo
 <div class="element-demo" id="example"></div>
 
 ## Usage
@@ -43,6 +43,7 @@ The following variables are available for styling:
 
 ### Attributes
 - __selected__: specifies which tab is visible.
+- __apply-transition__: applies a CSS transition on the panes when switching tabs ; currently `fade-in` is the only suitable transition.
 
 
 

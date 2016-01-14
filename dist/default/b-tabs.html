@@ -5,13 +5,16 @@
             border-bottom: 1px solid #ddd;
             box-shadow: 0 3px 3px -2px rgba(0,0,0,.1);
         }
-        .b-tabs-hidden {
+        .b-tab-pane {
             display: none;
+        }
+        .b-tab-pane[active] {
+            display: block;
         }
     </style>
     <script>
         (function(){
-            var HIDDEN_CLASS = 'b-tabs-hidden';
+            var PANE_CLASS = 'b-tab-pane';
 
             Bosonic.register({
                 mixins: [Bosonic.Selection],
@@ -27,16 +30,20 @@
 
                 elementRole: 'tablist',
                 elementLabel: 'Tabs',
-                contentsRole: 'tabpanel',
+                panesRole: 'tabpanel',
                 tabsRole: 'tab',
 
+                get transitionType() {
+                    return this.getAttribute('apply-transition');
+                },
+
                 createdCallback: function() {
-                    this.hideAllContents();
+                    this.setupTabPanes();
                     this.handleAria();
                     if (!this.hasAttribute('selected')) {
                         this.selectFirst();
                     } else {
-                        this.applySelection(this.selectedItem);
+                        this.selectedChanged(null, this.selectedItemIndex);
                     }
                 },
 
@@ -48,11 +55,11 @@
                         tab.tabIndex = -1;
                         tab.setAttribute('role', this.tabsRole);
                         tab.setAttribute('aria-selected', 'false');
-                        var content = this.getTabContent(tab);
-                        if (content) {
-                            if (!content.id) content.id = 'tab-content-' + index; // should not happen...
-                            tab.setAttribute('aria-controls', content.id);
-                            content.setAttribute('role', this.contentsRole);
+                        var pane = this.getTabPane(tab);
+                        if (pane) {
+                            if (!pane.id) pane.id = 'tab-pane-' + index; // should not happen...
+                            tab.setAttribute('aria-controls', pane.id);
+                            pane.setAttribute('role', this.panesRole);
                         }
                     }, this);
                 },
@@ -67,27 +74,56 @@
                 selectedChanged: function (oldValue, newValue) {
                     var oldTab = this.getTab(oldValue), 
                         newTab = this.getTab(newValue);
-                    if (oldTab !== null) {
-                        this.applyDeselection(oldTab);
+
+                    this.switchTabs(oldTab, newTab);
+                    if (this.shouldApplyTransition() && this.hasPane(oldTab)) {
+                        this.transition(this.getTabPane(oldTab), function(pane) {
+                            pane.removeAttribute('visible');
+                        }, function() {
+                            this.switchPanes(oldTab, newTab);
+                        });
+                        return;
                     }
-                    if (newTab !== null) {
-                        this.applySelection(newTab, oldTab && oldTab.hasFocus());
-                    }
+                    this.switchPanes(oldTab, newTab);
                 },
 
-                applySelection: function(tab, mustFocus) {
+                switchTabs: function(oldTab, newTab) {
+                    if (oldTab) this.disactivateTab(oldTab);
+                    if (newTab) this.activateTab(newTab, oldTab && oldTab.hasFocus());
+                },
+
+                switchPanes: function(oldTab, newTab) {
+                    var oldPane = this.getTabPane(oldTab),
+                        newPane = this.getTabPane(newTab);
+
+                    if (oldPane) this.disactivatePane(oldPane);
+                    if (newPane) this.activatePane(newPane);
+                },
+
+                activateTab: function(tab, mustFocus) {
                     if (mustFocus) tab.focus();
                     tab.classList.add('active');
                     tab.tabIndex = 0;
                     tab.setAttribute('aria-selected', 'true');
-                    this.toggleTabContent(tab);
                 },
 
-                applyDeselection: function(tab) {
+                disactivateTab: function(tab) {
                     tab.classList.remove('active');
                     tab.tabIndex = -1;
                     tab.setAttribute('aria-selected', 'false');
-                    this.toggleTabContent(tab);
+                },
+
+                activatePane: function(pane) {
+                    pane.setAttribute('active', '');
+                    if (this.shouldApplyTransition()) {
+                        this.async(function() {
+                            pane.setAttribute('visible', '');
+                        }, 1);
+                    }
+                },
+
+                disactivatePane: function(pane) {
+                    pane.removeAttribute('active');
                 },
 
                 getTabs: function() {
@@ -98,26 +134,34 @@
                     return this.getItem(index);
                 },
 
-                hideAllContents: function() {
-                    this.getAllTabContents().forEach(function(elt) {
-                        if (elt) elt.classList.add(HIDDEN_CLASS);
-                    });
-                },
-
-                getAllTabContents: function() {
-                    return this.getTabs().map(function(tab) {
-                        return this.getTabContent(tab);
+                setupTabPanes: function() {
+                    this.getTabPanes().forEach(function(elt) {
+                        if (elt) {
+                            elt.classList.add(PANE_CLASS);
+                            if (this.shouldApplyTransition()) {
+                                elt.setAttribute('transition', this.transitionType);
+                            }
+                        }
                     }, this);
                 },
 
-                getTabContent: function(tabElt) {
-                    if (!tabElt.hasAttribute('for')) return null;
+                getTabPanes: function() {
+                    return this.getTabs().map(function(tab) {
+                       return this.getTabPane(tab);
+                    }, this);
+                },
+
+                getTabPane: function(tabElt) {
+                    if (!tabElt || !tabElt.hasAttribute('for')) return null;
                     return document.getElementById(tabElt.getAttribute('for'));
                 },
 
-                toggleTabContent: function(tabElt) {
-                    var content = this.getTabContent(tabElt);
-                    if (content) content.classList.toggle(HIDDEN_CLASS);
+                hasPane: function(tabElt) {
+                    return !!this.getTabPane(tabElt);
+                },
+
+                shouldApplyTransition: function() {
+                    return this.hasAttribute('apply-transition');
                 }
             });
         })();
