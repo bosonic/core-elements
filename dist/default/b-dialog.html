@@ -8,7 +8,8 @@
             z-index: 102;
             visibility: hidden;
             box-sizing: border-box;
-            transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+                    transform: translateX(-50%) translateY(-50%);
             /* minimum styling */
             background-color: white;
             border: 1px solid rgb(214, 214, 214);
@@ -52,6 +53,7 @@
             left: 0;
             background: black;
             opacity: 0;
+            -webkit-transition: opacity 0.2s;
             transition: opacity 0.2s;
         }
         .b-overlay[opened] {

@@ -2,6 +2,8 @@
 
 module.exports = function(grunt) {
 
+  var autoprefixer = require('autoprefixer');
+
   grunt.registerMultiTask('bosonic', 'Elements build task', function(target) {      
     var path = require('path'),
         posthtml = require('posthtml'),
@@ -32,7 +34,8 @@ module.exports = function(grunt) {
           tree.walk(function(node) {
             if (node.tag && node.tag === 'style') {
               tasks.push(
-                postcss([ require('postcss-custom-properties'),
+                postcss([ autoprefixer,
+                          require('postcss-custom-properties'),
                           require('postcss-color-function') ])
                   .process(cssVariables + node.content[0])
                   .then(function(result) {
@@ -71,6 +74,7 @@ module.exports = function(grunt) {
 
     tasks.push(
       postcss([ require('postcss-import'),
+                autoprefixer,
                 require('postcss-custom-properties'),
                 require('postcss-color-function') ])
         .process(themeCss, { from: themeFile })

@@ -115,6 +115,7 @@
 
                 activatePane: function(pane) {
                     pane.setAttribute('active', '');
+                    pane.setAttribute('aria-expanded', 'true');
                     if (this.shouldApplyTransition()) {
                         this.async(function() {
                             pane.setAttribute('visible', '');
@@ -124,6 +125,7 @@
 
                 disactivatePane: function(pane) {
                     pane.removeAttribute('active');
+                    pane.setAttribute('aria-expanded', 'false');
                 },
 
                 getTabs: function() {
